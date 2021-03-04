@@ -1,0 +1,54 @@
+---
+layout: main_layout.njk
+image: null
+---
+
+<style>
+    .post {
+        max-width: min(80%, 800px);
+        margin: 0 auto;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    .post > *:is(h1, h2, h3, h4, h5) {
+        font-size: 140%;
+    }
+
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 30px;
+    }
+
+    .post > p, .post li {
+        font-size: 14pt;
+        line-height: 1.2em;
+    }
+
+    .post li {
+        margin: 10px 0;
+    }
+
+    .post .note {
+        font-style: italic;
+    }
+    
+    @media screen and (min-width: 480px) {
+        .center {
+            text-align: center;
+            font-weight: inherit;
+            padding: 10px 0px;
+        }
+    }
+</style>
+
+<div class="post width-box">
+    <h1>{{title}}</h1>
+    {% if image !== null %}
+        <img src="{{image}}" alt="">
+    {% endif %}
+    {{ content | safe }}
+</div>

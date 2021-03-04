@@ -1,0 +1,16 @@
+---
+layout: main_layout.njk
+title: Posts
+---
+<div class="width-box">
+    <h3>Posts:</h3>
+    <ul>
+    {%- for post in collections.post -%}
+        <li>
+            <a href="{{ post.url }}">
+                {{ post.data.title }}
+            </a>
+        </li>
+    {%- endfor -%}
+    </ul>
+</div>

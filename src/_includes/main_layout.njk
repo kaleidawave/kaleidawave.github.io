@@ -1,0 +1,218 @@
+---
+title: kaleidawave
+image: null
+---
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>{{ title }}</title>
+        <meta name="title" content="{{title}}">
+        {% if image !== null %}
+            <meta property="twitter:image" content="{{image}}">
+        {% endif %}
+
+        <script>
+            if (localStorage.getItem("theme") === null) {
+                onSchemeChange();
+            }
+
+            function onSchemeChange(value = null) {
+                localStorage.setItem(
+                    "theme", 
+                    value ?? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+                );
+            }
+
+            function updateThemeClass(value = null) {
+                if (value ?? localStorage.getItem("theme") === "dark") {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                }
+            }
+
+            updateThemeClass();
+        </script>
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                font-family: 'Inter', sans-serif;
+                --text-color: black;
+                --background: white;
+                --muted-background: #f3f3f3;
+                --accent: #5332ff;
+                --muted-accent: #5c42e4;
+                font-weight: 500;
+            }
+
+            :root.dark {
+                --text-color: #e9e9e9;
+                --background: #101010;
+                --muted-background: #252525;
+                --accent: #ffd632;
+                --muted-accent: #d1a755;
+                font-weight: 300;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: var(--background, white);
+                color: var(--text-color, black);
+            }
+
+            header {
+                background-color: var(--muted-background, white);
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                height: 40px;
+                width: 100vw;
+                position: fixed;
+                top: 0;
+                font-size: 16px;
+                z-index: 100;
+            }
+
+            header > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .width-box {
+                min-width: min(80%, 800px);
+                margin: 0 auto;
+            }
+
+            header h1 {
+                font-family: Fira Code light, consolas, sans-serif;
+                font-weight: 100;
+                font-size: inherit;
+            }
+
+            header h1 > a {
+                color: var(--text-color) !important;
+            }
+
+            header nav > ul {
+                padding-left: 0;
+                display: flex;
+                list-style: none;
+            }
+
+            header nav > ul > li {
+                margin: 0 10px;
+                text-transform: lowercase;
+            }
+
+            main {
+                margin-top: 80px;
+                min-height: calc(100vh - 160px);
+            }
+
+            a {
+                color: var(--accent, white);
+                text-decoration: none;
+            }
+
+            a:visited {
+                color: var(--muted-accent, white);
+            }
+
+            code, pre {
+                background-color: var(--muted-background);
+                padding: 3px 6px;
+                border-radius: 4px;
+                font-size: 80%;
+                font-family: Fira Code light, consolas, sans-serif !important;
+                overflow-x: scroll;
+            }
+
+            footer {
+                background-color: var(--muted-background, white);
+                height: 100px;
+                display: flex;
+            }
+
+            footer > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            footer h3 {
+                font-size: 16px;
+                font-family: Fira Code light, consolas, sans-serif;
+            }
+
+            @media screen and (max-width: 480px) {
+                header {
+                    height: 115px;
+                }
+
+                main {
+                    margin-top: 150px;
+                }
+
+                header > div {
+                    flex-direction: column;
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="https://unpkg.com/prism-themes@1.5.0/themes/prism-vsc-dark-plus.css">
+    </head>
+    <body>
+        <header>
+            <div class="width-box">
+                <div class="title">
+                    <h1>
+                        <a href="/">kaleidawave.github.io</a>
+                    </h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/posts">Posts</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            {{ content | safe }}
+        </main>
+        <footer>
+            <div class="width-box">
+                <h3> 2021 @kaleidawave </h3>
+                <nav>
+                    <ul>
+                        {# TODO icons ...? #}
+                        <li><a href="https://github.com/kaleidawave">GitHub</a></li>
+                        <li><a href="https://twitter.com/home">Twitter</a></li>
+                        <li><a href="https://leetcode.com/kaleidawave/">LeetCode</a></li>
+                    </ul>
+                </nav>
+                <form>
+                    <label for="toggle-theme">Light Mode</label>
+                    <input type="checkbox" name="toggle-theme" id="toggle-theme">
+                </form>
+                <script>
+                    document.body.addEventListener("colorschemechange", () => { onSchemeChange(); });
+
+                    const themeSwitch = document.querySelector("#toggle-theme");
+                    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+
+                    themeSwitch.addEventListener("change", (ev) => {
+                        onSchemeChange(ev.target.checked);
+                        updateThemeClass(ev.target.checked);
+                    })
+                </script>
+            </div>
+        </footer>
+    </body>
+</html>
