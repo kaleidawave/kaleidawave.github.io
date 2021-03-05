@@ -12,6 +12,10 @@ image: null
         font-size: 140%;
     }
 
+    .post .date {
+        font-size: 12px;
+    }
+
     .center {
         text-align: center;
         font-weight: inherit;
@@ -48,6 +52,7 @@ image: null
 
 <div class="post width-box">
     <h1>{{title}}</h1>
+    <p class="date">Published on {{date | formatDateLong | safe}}</p>
     {% if image !== null %}
         <img src="{{image}}" alt="">
     {% endif %}

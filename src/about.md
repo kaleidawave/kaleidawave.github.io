@@ -1,4 +1,6 @@
 ---
 layout: main_layout.njk
-title: Yo
+title: kaleidawave - About
 ---
+
+I am 20 from the UK. Interested in language design, zero cost abstractions and the web. 
