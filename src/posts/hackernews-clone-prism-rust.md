@@ -62,9 +62,7 @@ When building isomorphic sites it often makes the frontend more confusing. Now t
 
 This is a common practice and can be seen on nytimes where ~75% of the home page response is the state loaded into the `window.__preloadedData` variable:
 
-```
-<script>window.__preloadedData = {"initialState":{"Article:QXJ0aWNsZTpueXQ6Ly9hcnRpY2xlLzk5YjBhYjYyLTQ0ZDItNTA4OC04ODgyLTFjYzRmMWQzMmFiNg==":{"__typename":"Article","id":"QXJ0aWNsZTpueXQ6Ly9hcnRpY2xlLzk5YjBhYjYyLTQ0ZDItNTA4OC04ODgyLTFjYzRmMWQzMmFiNg==","compatibility":{"type":"id","generated":true,"id":"$Article:QXJ0aWNsZTpueXQ6Ly9hcnRpY2xlLzk5YjBhYjYyLTQ0ZDItNTA4OC04ODgyLTFjYzRmMWQzMmFiNg==.compatibility","typename":"CompatibilityFeatures"},"archiveProperties":{"type":"id","generated":true,"id":"$Article:QXJ0aWNsZTpueXQ6Ly9hcnRpY2xlLzk5YjBhYjYyLTQ0ZDItNTA4OC04ODgyLTFjYzRmMWQzMmFiNg==.archiveProperties","typename":"ArticleArchiveProperties"},"collections@filterEmpty":[{"type":"id","generated":false,"id":"LegacyCollection:TGVnYWN5Q29sbGVjdGlvbjpueXQ6Ly9sZWdhY3ljb2xsZWN0aW9uL2FkZTI1Yzc5LWNkNDgtNTJiMC04YjAzLTA3NWI5NDc1MGU4ZA==","typename":"LegacyCollection"},{"type":"id","generated":false,"id":"LegacyCollection:TGVnYWN5Q29sbGVjdGlvbjpueXQ6Ly9sZWdhY3ljb2xsZWN0aW9uLzQxZGYzYzA0LWI0ZjEtNWQ4Ni1hYTU1LWE3MDAwNDZiYmI4Ng==","typename":"LegacyCollection"},{"type":"id","generated":false,"id":"LegacyCollection:
-```
+![](/images/new_york_times_preload_data.png)
 
 There are a few issues with this approach:
 
@@ -75,16 +73,11 @@ There are a few issues with this approach:
 
 Prism instead does something more radical. Prism’s approach ditches any sort of JSON or JS blob and the server response only sends markup:
 
-```html
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script type="module" src="/bundle.js"></script><link rel="stylesheet" href="/bundle.css"><title>Hacker News</title><meta name="description" content="Prism & Rust based HN clone"><meta property="og:description" content="Prism & Rust based HN clone"><meta property="twitter:description" content="Prism & Rust based HN clone"><meta property="og:image" content="/favicon.ico"><meta property="twitter:image" content="/favicon.ico"><meta property="og:type" content="website"><meta property="twitter:card" content="summary_large_image"></head><body><router-component><main-layout data-ssr><header><div class="yc-logo">Y</div><h1>Hacker News</h1><nav><ul><li><a href="//" class="p1bbp">best</a></li><li><a href="//top" class="p1254">top</a></li><li><a href="//new" class="ps8p">new</a></li></ul></nav><div class="right-nav"><ul><li><a href="https://github.com/kaleidawave/hackernews-prism"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li></ul></div></header><main class="p1ibf"><index-page data-ssr><ol class="ph6f"><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>It Can Happen to You</h2><span><span class="p1ejm">1520<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;mooreds"> <!---->mooreds<!----> | </a><span class="p1bm2" title="2021-03-04 00:37:45 UTC">19 hours<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26337046">373<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Beyond Meat signs global supply deals with McDonald’s, KFC and Pizza Hut</h2><span><span class="p1ejm">1075<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;adrian_mrd"> <!---->adrian_mrd<!----> | </a><span class="p1bm2" title="2021-03-02 20:04:44 UTC">2 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26319850">895<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>NASA&#x27;s Perseverance rover sends stunning images</h2><span><span class="p1ejm">998<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;astdb"> <!---->astdb<!----> | </a><span class="p1bm2" title="2021-03-03 02:09:53 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26323852">340<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Brave buys a search engine, promises no tracking, no profiling</h2><span><span class="p1ejm">890<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;samizdis"> <!---->samizdis<!----> | </a><span class="p1bm2" title="2021-03-03 14:33:06 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26328758">394<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Killing TurboTax</h2><span><span class="p1ejm">837<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;kunle"> <!---->kunle<!----> | </a><span class="p1bm2" title="2021-03-03 16:26:38 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26330584">630<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Flutter 2</h2><span><span class="p1ejm">763<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;wstrange"> <!---->wstrange<!----> | </a><span class="p1bm2" title="2021-03-03 19:09:51 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26332944">715<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>ICANN Refuses to Accredit Pirate Bay Founder Peter Sunde Due to His ‘Background’</h2><span><span class="p1ejm">720<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;input_sh"> <!---->input_sh<!----> | </a><span class="p1bm2" title="2021-03-03 10:41:57 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26326795">287<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Apple Card Disabled My iCloud, App Store, and Apple ID Accounts</h2><span><span class="p1ejm">663<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;sp332"> <!---->sp332<!----> | </a><span class="p1bm2" title="2021-03-02 01:26:15 UTC">2 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26310817">300<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Google to stop selling ads based on your specific web browsing</h2><span><span class="p1ejm">643<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;ghshephard"> <!---->ghshephard<!----> | </a><span class="p1bm2" title="2021-03-03 14:07:17 UTC">1 days<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26328428">312<!----> comments</a></span></div></story-preview></li><li><story-preview data-ssr ><div class="buttons"><button class="p1tie" disabled>&#9650;</button><button class="pwgq" disabled>&#9660;</button></div><div><h2 class="p1uto psxc" data-else>Okta to Acquire Auth0 for $6.5B</h2><span><span class="p1ejm">602<!----> points | by</span><a class="peuz" href="&#x2F;u&#x2F;lpage"> <!---->lpage<!----> | </a><span class="p1bm2" title="2021-03-03 21:04:25 UTC">23 hours<!----> ago | </span><a class="p20t0" href="&#x2F;i&#x2F;26334516">296<!----> comments</a></span></div></story-preview></li></ol></index-page></main><footer>Powered by<a href="https://github.com/kaleidawave/prism" target="_blank" rel="noopener noreferrer"> Prism</a></footer></main-layout></router-component></body></html>
-```
+![](/images/hackernews_view_source.png)
 
 But can still get the state of the application at runtime:
 
-<div class="terminal">
-    <span>JSON.stringify(document.querySelector("index-page").data)</span>
-    <span>"{"stories":[{"score":1517,"by":"mooreds","time":"2021-03-04T00:37:45.000Z","id":26337046,"descendants":373},{"score":1075,"by":"adrian_mrd","time":"2021-03-02T20:04:44.000Z","id":26319850,"descendants":895},{"score":997,"by":"astdb","time":"2021-03-03T02:09:53.000Z","id":26323852,"descendants":340},{"score":890,"by":"samizdis","time":"2021-03-03T14:33:06.000Z","id":26328758,"descendants":394},{"score":836,"by":"kunle","time":"2021-03-03T16:26:38.000Z","id":26330584,"descendants":630},{"score":763,"by":"wstrange","time":"2021-03-03T19:09:51.000Z","id":26332944,"descendants":715},{"score":720,"by":"input_sh","time":"2021-03-03T10:41:57.000Z","id":26326795,"descendants":287},{"score":663,"by":"sp332","time":"2021-03-02T01:26:15.000Z","id":26310817,"descendants":300},{"score":643,"by":"ghshephard","time":"2021-03-03T14:07:17.000Z","id":26328428,"descendants":312},{"score":602,"by":"lpage","time":"2021-03-03T21:04:25.000Z","id":26334516,"descendants":296}]}"</span>
-</div>
+![](/images/hackernews_console_data.png)
 
 So how does it do this?
 
@@ -104,13 +97,7 @@ Some of the advantages of JIT state hydration over current hydration techniques:
 - The get logic is invariant and can be cached between requests. The JSON blob is not.
 - Recreating state from the rendered markup is not a new thing. Many existing SSR sites manually write JS in the runtime script to get values. The actual HN site does this in its vote logic to where it pulls in the story id from the elements id:
 
-```js
-function vote(ev, el, how) {
-  var id = el.id.split(/_/)[1];
-  var up = $('up_' + id);
-  ...
-}
-```
+![](/images/hackernews_source_code.png)
 
 But Prism is the first to take this a step further and automate this process. This logic in `hn.js` is hand written and relies on the fact that the server rendered element's id includes the id of the post.
 
@@ -133,70 +120,7 @@ Actual HN runs on ~4kb of non compressed JS but then it is not a spa or framewor
 
 Coming back to the size, with any abstraction or automated approach there is bound to be more JS outputted than writing it out by hand. Prism automates a lot of stuff, and provides the declarative approach that exists in all other client side frameworks while keeping the bundle size very low:
 
-```html
-<template>
-    <div #html="text"></div>
-    <span class="by">by {by}</span>
-    <ul class="sub-comments" #for="const subComment of subComments">
-        <li>
-            <This $data="subComment"></This>
-        </li>
-    </ul>
-</template>
-
-<script>
-    // @useRustStatement #[derive(Clone, Debug, serde::Deserialize)]
-    export interface IComment {
-        by: string,
-        id: number,
-        @useRustStatement(`#[serde(default)]`)
-        text: string,
-        @useRustStatement(`#[serde(default)]`)
-        subComments: Array<IComment>,
-        @useRustStatement(`#[serde(default)]`)
-        kids: Array<number>
-    }
-
-    const maxCommentDepth = 3;
-
-    export class Comment extends Component<IComment> {
-        static async getComment(id: number, depth = 1) {
-            const request = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
-            const comment = await request.json();
-            if (!comment) throw Error(`Could not find comment under id ${id}`);
-            if (comment.kids && depth < maxCommentDepth) {
-                const subComments = comment.kids.slice(0, 3).map(kidID => Comment.getComment(kidID, depth + 1));
-                comment.subComments = await Promise.all(subComments);
-            } else {
-                comment.subComments = [];
-            }
-            return comment;
-        }
-    }
-</script>
-
-<style>
-    & {
-        display: block;
-        margin: 10px 0;
-    }
-
-    div {
-        font-size: 14px;
-    }
-
-    span.by {
-        display: block;
-        margin-top: 12px;
-        font-style: italic;
-        font-size: 12px;
-    }
-
-    ul.sub-comments {
-        padding-left: 24px;
-    }
-</style>
-```
+![](/images/hackernews_component_source_code.png)
 
 When HN app launches up the custom elements connected events fire and add event listeners on to the existing markup. Here the upvote and downvote buttons on the story preview are added event listeners. Prism recognizes that the server is not the client and all elements with events will be server rendered with the disable attribute (which is removed once the listener is added). Here the button click will fire the upvote method.
 
