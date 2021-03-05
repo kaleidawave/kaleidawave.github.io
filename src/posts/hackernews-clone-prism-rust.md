@@ -1,6 +1,7 @@
 ---
 layout: post.njk
 title: Hackernews Clone with Prism & Rust
+description: Building a super fast universally rendered Hackernews Clone using Prism, Rust and Actix-Web. Featuring JIT hydration
 image: /images/hackernews_banner.png
 date: 2020-11-10
 tags: post

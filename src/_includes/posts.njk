@@ -1,10 +1,33 @@
-<h3>Posts:</h3>
-<ul>
-{%- for post in collections.sortedPosts -%}
-    <li>
-        <a href="{{ post.url }}">
-            {{ post.data.title }} ({{ post.data.date | formatDateShort }})
-        </a>
-    </li>
-{%- endfor -%}
-</ul>
+<style>
+    .posts ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .posts h5 {
+        font-size: 16pt;
+        margin: 14px 0;
+    }
+
+    .posts .date {
+        font-size: 12px;
+        font-style: italic;
+    }
+</style>
+
+<div class="posts">
+    <h3>Posts:</h3>
+    <ul>
+    {%- for post in collections.sortedPosts -%}
+        <li>
+            <a href="{{ post.url }}">
+                <h5>{{ post.data.title }}</h5>
+            </a>
+            <p>{{post.data.description}}</p>
+            <span class="date">
+                {{ post.data.date | formatDateShort }}
+            </span>
+        </li>
+    {%- endfor -%}
+    </ul>
+</div>
