@@ -3,7 +3,7 @@ layout: post.njk
 title: JIT Hydration
 description: JIT hydration is a ultra efficient technique that avoids rerenders and duplicated state when building universally rendered sites
 date: 2020-11-24
-tags: post
+tags: posts
 ---
 
 What is hydration? Hydration is the act of making statically rendered markup interactive.

@@ -4,7 +4,7 @@ title: Hackernews Clone with Prism & Rust
 description: Building a super fast universally rendered Hackernews Clone using Prism, Rust and Actix-Web. Featuring JIT hydration
 image: /images/hackernews_banner.png
 date: 2020-11-10
-tags: post
+tags: posts
 ---
 
 Last week I recreated the [Hacker News site](https://news.ycombinator.com/news). It is built as a isomorphic site with a Prism compiled frontend and a Rust backend. In this post I will illustrate some of the benefits that using [Prism compiler](https://github.com/kaleidawave/prism) has on this site.

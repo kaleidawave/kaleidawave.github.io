@@ -9,6 +9,7 @@ description: writings on the things
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon">
+        <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
         
         <title>{{ title }}</title>
         <meta name="title" content="{{title}}">
@@ -24,23 +25,30 @@ description: writings on the things
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="https://kaleidawave.github.io/">
 
-        <meta property="twitter:image" content="{{image}}">
-        <meta property="og:image" content="{{image}}">
+        <meta property="twitter:image" content="https://kaleidawave.github.io{{image}}">
+        <meta property="og:image" content="https://kaleidawave.github.io{{image}}">
 
         <script>
             if (localStorage.getItem("theme") === null) {
                 onSchemeChange();
             }
 
-            function onSchemeChange(value = null) {
-                localStorage.setItem(
-                    "theme", 
-                    value ?? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-                );
+            function onSchemeChange(darkTheme = null) {
+                if (darkTheme === null) {
+                    if ("matchMedia" in window) {
+                        darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                    } else {
+                        darkTheme = false;
+                    }
+                }
+                localStorage.setItem("theme", darkTheme ? "dark" : "light");
             }
 
             function updateThemeClass(value = null) {
-                if (value ?? localStorage.getItem("theme") === "dark") {
+                if (value === null) {
+                    value = localStorage.getItem("theme") === "dark";
+                }
+                if (value) {
                     document.documentElement.classList.add("dark");
                 } else {
                     document.documentElement.classList.remove("dark");
@@ -248,8 +256,6 @@ description: writings on the things
                     <input type="checkbox" name="toggle-theme" id="toggle-theme">
                 </form>
                 <script>
-                    document.body.addEventListener("colorschemechange", (ev) => { console.log(ev); onSchemeChange(); });
-
                     const themeSwitch = document.querySelector("#toggle-theme");
                     themeSwitch.checked = localStorage.getItem("theme") !== "dark";
 

@@ -3,6 +3,10 @@ layout: main_layout.njk
 image: null
 ---
 <style>
+    .post {
+        margin: 20px 0 80px;
+    }
+
     .post img {
         width: 100%;
     }
@@ -12,7 +16,7 @@ image: null
     }
 
     .post .date {
-        font-size: 12px;
+        font-size: 12pt;
     }
 
     .center {
@@ -22,7 +26,7 @@ image: null
     }
 
     .post > p, .post li {
-        font-size: 14pt;
+        font-size: 13pt;
         line-height: 1.2em;
     }
 
@@ -34,7 +38,7 @@ image: null
         font-style: italic;
     }
     
-    @media screen and (min-width: 480px) {
+    @media screen and (max-width: 480px) {
         .center {
             text-align: center;
             font-weight: inherit;
@@ -42,14 +46,14 @@ image: null
         }
 
         .post > p, .post li {
-            font-size: 12pt;
+            font-size: 11pt;
             line-height: 1.2em;
         }
 
     }
 </style>
 
-<div class="post width-box">
+<div class="post">
     <h1>{{title}}</h1>
     <p class="date">Published on {{date | formatDateLong | safe}}</p>
     {% if image !== null %}

@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig) {
     });
 
     eleventyConfig.addCollection("sortedPosts", collectionApi => {
-        return collectionApi.getFilteredByTag("post").sort(function(a, b) {
+        return collectionApi.getFilteredByTag("posts").sort(function(a, b) {
             return b.date - a.date;
         });
     });
