@@ -81,9 +81,9 @@ JIT hydration has the effect of full hydration at a significantly lower cost on 
 
 ### Conclusion:
 
-JIT hydration sounds good on paper but it is difficult to implement. For it to work effectively there needs be more complex work done at build time. To establish where data comes from it requires compiling bindings rather than locating it at runtime. So runtime limited frameworks like React will not be able to implement such but frameworks that do some work at build time e.g. svelte or vue may be able to do something here.
+JIT hydration sounds good on paper but it is difficult to implement. For it to work effectively there needs to be more complex work done at build time. To establish where data comes from it requires compiling bindings rather than locating it at runtime. So runtime limited frameworks like React will not be able to implement such but frameworks that do some work at build time e.g. svelte or vue may be able to do something here.
 
-There are also complications as now components have a virtualized state. Also the fact that a child can have state before its parent does. To do the immediate event listeners addition without state there needs to be markers in the markup as where element are. Prism does this with a combination of classes added at build time and web components. Using these markers alleviates the need to "render" the whole application.
+There are also complications as now components have a virtualized state. Also the fact that a child can have state before its parent does. To do the immediate event listeners addition without state there needs to be markers in the markup as where elements are. Prism does this with a combination of classes added at build time and web components. Using these markers alleviates the need to "render" the whole application.
 
 There is also complexities around values that are not represented literally in the DOM. For example the `href` on the link tags are interpreted as `/i/${id}`. Prism has a limited expression reversal and here creates a `slice` expression to get the `id` value. But for more complex expressions it breaks down, especially for not 1:1 expressions where it is impossible.
 

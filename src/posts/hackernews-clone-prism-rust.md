@@ -50,12 +50,13 @@ Prism hacker news uses actix-web under the hood which is in the [top 5 fastest b
 
 For this example it doesn’t really make much of a difference as the biggest time here is making HTTP requests to the [HN api](https://github.com/HackerNews/API). A single request to the homepage takes 11 http requests with a lot of them being chained.
 
-Aside from the speed improvements it also means that if you have written your REST api in Rust that you can add SSR to your site reusing the same server and logic rather than having to rewrite server side data fetching in a new nodejs server.
+Aside from the speed improvements it also means that if you have written your REST api in Rust then you can add SSR to your site reusing the same server and logic rather than having to rewrite server side data fetching in a new nodejs server.
 
-- It is already possible to server render SPAs in other languages:
+It is already possible to server render SPAs in other languages:
+
 - Through calling directly to v8 api. This still has the overhead and isn’t fast as compiling to native. Lose strong typing. Complex to implement.
 - Rewriting in handlebars etc, this has the need to do more work. Changes to frontend markup views must be reflected in the handlebars templates. Can lead to nasty hydration issues (where the frontend logic was not expecting that result from backend)
-- Hosting SSG. Sites can be built using a JAM stack pattern where changes to data are then used to. But as said before this doesn’t really work for many sites. Especially HN where the data source is constantly changing with the stories, comments and upvotes.
+- Hosting SSG. Sites can be built using a JAM stack pattern where changes to data are then used to rebuild static markup files. But as said before this doesn’t really work for many sites. Especially HN where the data source is constantly changing with the stories, comments and upvotes.
 
 ### JIT state hydration
 
@@ -82,9 +83,9 @@ But can still get the state of the application at runtime:
 
 So how does it do this?
 
-As Prism is a compiler it knows the bindings at build time. From that it can compile in getters for each property that access the DOM. Once values are retrieved from the DOM they are cached into the component state and will act the same way as if the data was instantiated on the client.
+As Prism is a compiler it knows the bindings at build time. From that it can compile in getters for each property that accesses the DOM. Once values are retrieved from the DOM they are cached into the component state and will act the same way as if the data was instantiated on the client.
 
-The runtime does this in quite a special way as to be efficient. Getting the data is only done once that member is evaluated, rather on document / component load. JSON stringify will evaluate the whole object and evaluate every member. But in practice you may only want a specific property. If you evaluate `temp1.data.stories[2].title` it will only load in the 3rd story and from the story only the title property rather than bringing in every story and constructing the whole state (not that the getters are slow, in practice getting the state as JSON took 6ms but in applications with more than 10 stories on the home page the improvement is visible).
+The runtime does this in quite a special way as to be efficient. Getting the data is only done once that member is evaluated, rather on document / component load. If you evaluate `temp1.data.stories[2].title` it will only load in the 3rd story and from the story only the title property rather than bringing in every story and constructing the whole state (not that the getters are slow, in practice getting the state as JSON took 6ms but in applications with more than 10 stories on the home page the improvement is visible). JSON stringify will create the whole object and evaluate every member.
 
 Some of the advantages of JIT state hydration over current hydration techniques:
 
@@ -104,7 +105,7 @@ But Prism is the first to take this a step further and automate this process. Th
 
 ### Bundle size
 
-Prism is the (probably) the smallest framework out there. The JS bundle for hacker news is 12.6kb (3.5kb Gzip, 3.2kb Brotli). This is quite impressive as this includes:
+Prism is (probably) the smallest framework out there. The JS bundle for hacker news is 12.6kb (3.5kb Gzip, 3.2kb Brotli). This is quite impressive as this includes:
 
 - All the render logic for the pages
 - All the reactivity
@@ -117,7 +118,7 @@ So its not a surprise that it gets 100 on lighthouse:
 
 So I would say that Prism compiler builds the smallest bundle sizes. Its also true that 12.6kb of JavaScript is all the JS ever needed. With the JIT hydration there is no need for JS blobs or other stuff to enter the JS client runtime. So although other solutions may say they have 15kb bundle there is likely going to be a extra 10kb of JS on each request for doing state hydration.
 
-Actual HN runs on ~4kb of non compressed JS but then it is not a spa or framework built so I don’t think there is any comparison with it. On the other hand the svelte/sapper HN implementation runs on 30kb of JS (although it doesn’t seem to minified). So Prism is looking very good for small frameworks. But when it comes to these small numbers it doesn’t really matter, as long as its under 50kb of JS its pretty responsive.
+Actual HN runs on ~4kb of non compressed JS but then it is not a spa or framework built so I don’t think there is any comparison with it. On the other hand the svelte/sapper HN implementation runs on 30kb of JS (although it doesn’t seem to be minified). So Prism is looking very good for small frameworks. But when it comes to these small numbers it doesn’t really matter, as long as its under 50kb of JS its pretty responsive.
 
 Coming back to the size, with any abstraction or automated approach there is bound to be more JS outputted than writing it out by hand. Prism automates a lot of stuff, and provides the declarative approach that exists in all other client side frameworks while keeping the bundle size very low:
 
@@ -125,7 +126,7 @@ Coming back to the size, with any abstraction or automated approach there is bou
 
 When HN app launches up the custom elements connected events fire and add event listeners on to the existing markup. Here the upvote and downvote buttons on the story preview are added event listeners. Prism recognizes that the server is not the client and all elements with events will be server rendered with the disable attribute (which is removed once the listener is added). Here the button click will fire the upvote method.
 
-In the upvote method it will increment this.data.score. If the value is not already in the data cache it will be hydrated in. The increment operator will then fire a set which under the hood fires a imperative DOM call to update the view and the view will now show score + 1 points.
+In the upvote method it will increment `this.data.score`. If the value is not already in the data cache it will be hydrated in. The increment operator will then fire a set which under the hood fires a imperative DOM call to update the view and the view will now show score + 1 points.
 
 Prism also has a built in static router. Clicking on the comments anchor tag will route to that stories page. Also this is just a regular anchor tag under the hood so if the JS fails it will do a regular redirect and hit the server.
 
@@ -133,21 +134,19 @@ SPA routing has the benefits over the MPA that HN is. On a redirect it only has 
 
 <hr>
 
-This is only experimental at the moment, there is a lot of stuff hacked together in the compiler to get this to example to work. The compilation is shaky at best and only works for simple examples such as this. This is not a drop in replacement for a nextjs site. And lacks a lot of the reactivity that react, vue and svelte have to offer. However with time and improvement Prism may be a viable option.
+This is only experimental at the moment, there is a lot of stuff hacked together in the compiler to get this example to work. The compilation is shaky at best and only works for simple examples such as this. This is not a drop in replacement for a nextjs site. And lacks a lot of the reactivity that react, vue and svelte have to offer. However with time and improvement Prism may be a viable option.
 
 For now this is a proposal and a experiment to see whether there are improvements that can be made in this field and from the results of this clone it looks promising.
 
 ### Future
 
-One improvement that would improve page response times is progressive rendering. Currently the page only starts to render in on the client once the whole server response has been built. Using progressive rendering here would get the header to render in here before the backend has even hit the HN api. With each backend request the response could be immediately sent to the client to be rendered in. This would also work really well with the JIT hydration. Currently a tracked issue but there is decisions to be made of how the exposed function works with partial resolving state.
+One improvement that would improve page response times is progressive rendering. Currently the page only starts to render in on the client once the whole server response has been built. Using progressive rendering here would get the header to render in before the backend has even hit the HN api. With each backend request the response could be immediately sent to the client to be rendered in. This would also work really well with the JIT hydration. Currently a tracked issue but there is decisions to be made of how the exposed function works with partial resolving state.
 
 With the addition of Rust to the target outputs for Prism it proves that there is the ability to construct SSR functions for other languages. The addition took less than 2 weeks to implement and a lot of that was opening up the pipeline to be less language oriented (and a lot of wrangling with Rust’s memory safety model). There is a opportunity to add support for more languages if this is a beneficial feature but I think the Rust implementation needs to be scrutinized and tightened up before that happens.
 
 This clone is also missing a number of features from the actual version that I would still like to implement. But I only spun this example up in a week and before that I had no experience with Rust. Also during development Prism was missing a few features such as recursive components (used for the comments) and unsafe html (HN text field includes raw HTML) so I added them for 1.3.0
 
 For now you can clone the clone and try it out here: [kaleidawave/hackernews-prism](https://github.com/kaleidawave/hackernews-prism)
-
-A clone of Hackernews built with Prism, Rust and Actix-web. Built using the Hackernews REST API. Inspired by [svelte/hn.svelte.dev](https://github.com/sveltejs/hn.svelte.dev)
 
 For a JS based isomorphic site there is [kaleidawave/prism-ssr-demo](https://github.com/kaleidawave/prism-ssr-demo) and can be run without downloading anything through [replit](https://repl.it/github/kaleidawave/prism-ssr-demo)
 
