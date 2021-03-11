@@ -1,7 +1,11 @@
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+
 module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(syntaxHighlight);
+
     eleventyConfig.addPassthroughCopy("images");
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
@@ -37,15 +41,15 @@ module.exports = function (eleventyConfig) {
     });
 
     eleventyConfig.addCollection("sortedPosts", collectionApi => {
-        return collectionApi.getFilteredByTag("posts").sort(function(a, b) {
+        return collectionApi.getFilteredByTag("posts").sort(function (a, b) {
             return b.date - a.date;
         });
     });
 
     eleventyConfig.addNunjucksFilter(
-       "formatDateShort", 
+        "formatDateShort",
         value => `${value.getDate()}/${value.getMonth()}/${value.getFullYear()}`
-    ); 
+    );
 
     return {
         dir: {
