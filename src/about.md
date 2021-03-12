@@ -4,3 +4,7 @@ title: kaleidawave - About
 ---
 
 I am 20 from the UK. Interested in language design, zero cost abstractions and the web. 
+
+### Other Links:
+
+- [{% icon "codepen" %} Codepen](https://codepen.io/kaleidawave)

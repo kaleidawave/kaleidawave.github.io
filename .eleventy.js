@@ -2,6 +2,7 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const simpleIcons = require("simple-icons");
 
 module.exports = function (eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
@@ -50,6 +51,15 @@ module.exports = function (eleventyConfig) {
         "formatDateShort",
         value => `${value.getDate()}/${value.getMonth()}/${value.getFullYear()}`
     );
+
+    eleventyConfig.addShortcode("icon", function (iconName) {
+        const icon = simpleIcons.get(iconName);
+        if (!icon) {
+            throw Error(`Simple icon does not have ${iconName}`);
+        }
+        const svg = icon.svg;
+        return "<svg class=\"icon\"".concat(svg.slice(4));
+    });
 
     return {
         dir: {
