@@ -24,9 +24,11 @@
                 <h5>{{ post.data.title }}</h5>
             </a>
             <p>{{post.data.description}}</p>
+            {% if post.data.date %}
             <span class="date">
                 {{ post.data.date | formatDateShort }}
             </span>
+            {% endif %}
         </li>
     {%- endfor -%}
     </ul>

@@ -104,8 +104,10 @@ image: null
 
 <div class="post">
     <h1>{{title}}</h1>
-    <p class="date">Published on {{date | formatDateLong | safe}}</p>
-    {% if image !== null %}
+    {% if date %}
+        <p class="date">Published on {{date | formatDateLong | safe}}</p>
+    {% endif %}
+    {% if image %}
         <img src="{{image}}" alt="">
     {% endif %}
     {{ content | safe }}

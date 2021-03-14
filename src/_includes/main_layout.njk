@@ -10,6 +10,7 @@ description: writings on the things
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon">
         <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
+        <meta name="referrer" content="no-referrer-when-downgrade">
         <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"kaleidawave",utcoffset:"0"}))};sessionStorage.setItem("_swa","1");</script>
         
         <title>{{ title }}</title>
@@ -70,22 +71,22 @@ description: writings on the things
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
         <style>
             :root {
-                font-family: 'Inter', sans-serif;
+                font-family: "Inter", sans-serif;
+                font-weight: 500;
                 --text-color: black;
                 --background: white;
                 --muted-background: #f3f3f3;
                 --accent: #5332ff;
                 --muted-accent: #5c42e4;
-                font-weight: 500;
             }
 
             :root.dark {
+                font-weight: 300;
                 --text-color: #e9e9e9;
                 --background: #101010;
                 --muted-background: #252525;
                 --accent: #ffd632;
                 --muted-accent: #d1a755;
-                font-weight: 300;
             }
 
             body {

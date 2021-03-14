@@ -6,7 +6,7 @@ const simpleIcons = require("simple-icons");
 
 module.exports = function (eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
-
+    eleventyConfig.setUseGitIgnore(false);
     eleventyConfig.addPassthroughCopy("images");
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
