@@ -63,7 +63,7 @@ And this is working quite well here on my [hacker news clone](http://40.115.126.
 
 It is compiled with Prism and all the rendered data can be JIT hydrated in while none of the payloads send any sort of JS(ON) state blobs. 
 
-You can read more about [the hacker news clone on Medium](https://kaleidawave.medium.com/hacker-news-clone-with-prism-rust-b4c681fe07af)
+You can read more about the Hackernews clone [here](/posts/hackernews-clone-prism-rust)
 
 JIT hydration has the effect of full hydration at a significantly lower cost on client than full or partial hydration.
 
