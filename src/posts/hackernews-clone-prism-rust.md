@@ -9,7 +9,7 @@ tags: posts
 
 Last week I recreated the [Hacker News site](https://news.ycombinator.com/news). It is built as a isomorphic site with a Prism compiled frontend and a Rust backend. In this post I will illustrate some of the benefits that using [Prism compiler](https://github.com/kaleidawave/prism) has on this site.
 
-### Isomorphic sites with a Rust backend
+<h3 id="rust">Isomorphic sites with a Rust backend</h3>
 
 Currently most sites are client side rendered apps built with a framework. Client side frameworks make development easier by using a more declarative programming style. Using the client runtime can add more reactive interactions without going back to the network. Client side frameworks make SPA’s easier to develop.
 
@@ -58,13 +58,13 @@ It is already possible to server render SPAs in other languages:
 - Rewriting in handlebars etc, this has the need to do more work. Changes to frontend markup views must be reflected in the handlebars templates. Can lead to nasty hydration issues (where the frontend logic was not expecting that result from backend)
 - Hosting SSG. Sites can be built using a JAM stack pattern where changes to data are then used to rebuild static markup files. But as said before this doesn’t really work for many sites. Especially HN where the data source is constantly changing with the stories, comments and upvotes.
 
-### JIT state hydration
+<h3 id="jit-state-hydration">JIT state hydration</h3>
 
 When building isomorphic sites it often makes the frontend more confusing. Now the frontend it is not the start of the world and there is existing markup. The biggest issue from this is booting up state on the frontend. With both server and client rendered DOM the view is the same but the JS state is not there on server responses. Getting the state in JS by doing a data fetch is not good as it may be out of sync with what the server content is. So the approach used by most SSR frameworks is to send down a JSON or JS blob in a script tag that contains the JS object used to generate the markup response.
 
 This is a common practice and can be seen on nytimes where ~75% of the home page response is the state loaded into the `window.__preloadedData` variable:
 
-![](/images/new_york_times_preload_data.png)
+{% image "/images/new_york_times_preload_data.png", "lots of json" %}
 
 There are a few issues with this approach:
 
@@ -190,7 +190,7 @@ Prism is (probably) the smallest framework out there. The JS bundle for hacker n
 
 So its not a surprise that it gets 100 on lighthouse:
 
-![](/images/hackernews_lighthouse.png)
+{% image "/images/hackernews_lighthouse.png", "100 100 100" %}
 
 So I would say that Prism compiler builds the smallest bundle sizes. Its also true that 12.6kb of JavaScript is all the JS ever needed. With the JIT hydration there is no need for JS blobs or other stuff to enter the JS client runtime. So although other solutions may say they have 15kb bundle there is likely going to be a extra 10kb of JS on each request for doing state hydration.
 

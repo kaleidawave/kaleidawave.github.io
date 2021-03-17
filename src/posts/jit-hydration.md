@@ -14,7 +14,7 @@ So how do frameworks add event listeners to the existing markup?
 
 Many frameworks work of a render-to-hydrate system. The rendering identifies where the elements with listeners are. And from knowing their position they can attach to existing markup. To render the application first requires state. For example with React:
 
-![react hydration](https://dev-to-uploads.s3.amazonaws.com/i/okd0z2f1p9eug5od0esc.gif)
+<img src="https://dev-to-uploads.s3.amazonaws.com/i/okd0z2f1p9eug5od0esc.gif" alt="react hydration">
 
 (Something like that I think)
 
@@ -26,13 +26,32 @@ Standard client side rendered sites would make a http request to the backend api
 
 So the solution a lot of frameworks use is to send the data down as a JSON blob with the request.
 
-![double data](https://dev-to-uploads.s3.amazonaws.com/i/xf1k2jb3eno87otpjeyf.png)
+```html/6,15
+<head>
+    <script>
+        window.__data__ = JSON.parse(`
+            {
+                "articles": [
+                    {
+                        "title": "Tips for performant TypeScript"
+                    }
+                ]
+            }
+        `);
+    </script>
+</head>
+<body>
+    ...
+    <h1>Tips for performant TypeScript</h1>
+    ...
+</body>
+```
 
 [And this is bad because the data is effectively sent down twice](https://youtu.be/CQaDl9Fu0W0?t=365)
 
 There is also the fact JSON is difficult to work with due to its difficult to represent complex types such as `Date` and other things like cyclic references etc. Also that some JSON blobs are quite large especially if there are long lists of objects. And using raw JS object literals can be slow [due to the way they are parsed](https://www.youtube.com/watch?v=ff4fgQxPaO0). 
 
-Additionally some parts of this object where not used in the render and so will not be needed in the re-render. In a large number of cases this object contains more data than was needed. There can be [work done with Proxies](https://twitter.com/slightlylate/status/1309975133067509760) to trim leaf nodes but there doesn't seem to be any automatic approaches.
+Additionally some parts of this object were not used in the render and so will not be needed in the re-render. In a large number of cases this object contains more data than was needed. There can be [work done with Proxies](https://twitter.com/slightlylate/status/1309975133067509760) to trim leaf nodes but there doesn't seem to be any automatic approaches.
 
 Time to interactive can be slow because the whole state has to be parsed, evaluated and the application rendered before a single event listener has been added.
 
@@ -40,14 +59,14 @@ The slow hydration problem also occurs for static site generation as well. Any s
 
 This issue is something framework authors and developers are aware of and actively working on:
 
-- [Evan You, Creator or vue](https://twitter.com/youyuxi/status/1274834284826763265)
+- [Evan You, Creator of vue](https://twitter.com/youyuxi/status/1274834284826763265)
 - [Google post on issue](https://developers.google.com/web/updates/2019/02/rendering-on-the-web#rehydration-issues)
 
 [Partial hydration](https://medium.com/@luke_schmuke/how-we-achieved-the-best-web-performance-with-partial-hydration-20fab9c808d5#94ad) is one technique that is being considered. Using partial hydration in a react app you split up the application so there are multiple react sources. Instead of a single `React.hydrate` call there are multiple invocations under some components. This way you can prioritize reactive elements and ignore static elements. See popular rfc from these frameworks; [svelte](https://github.com/sveltejs/svelte/issues/4308), [react](https://github.com/facebook/react/pull/14717), [angular](https://github.com/angular/angular/issues/13446).
 
 But most implementations seems quite manual to implement. It also seems difficult to how this plays out with what is a static element and what needs to be reactive. 
 
-### But today I'll introduce a different approach: ~ JIT Hydration
+<h3 id="jit-hydration">But today I'll introduce a different approach: JIT state hydration</h3>
 
 The ideal hydration would be prioritizing adding event listeners above everything. The only need for state at hydration is for generating the vdom for matching up event listeners. But we could do something at build time to mark elements with events and at runtime add the events without knowing there position and existence in the tree.
 
@@ -55,11 +74,11 @@ State still needs to be hydrated to be accessible at the JS runtime. But to prev
 
 And this is what I have written into my own framework [Prism](https://github.com/kaleidawave/prism). One of the features is JIT hydration:
 
-![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/tdqgpuufndw3hfke8s6z.gif)
+<img src="https://dev-to-uploads.s3.amazonaws.com/i/tdqgpuufndw3hfke8s6z.gif" alt="">
 
 And this is working quite well here on my [hacker news clone](http://40.115.126.159/)
 
-![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/q9hgel93n4ebai7ez42b.gif)
+<img src="https://dev-to-uploads.s3.amazonaws.com/i/q9hgel93n4ebai7ez42b.gif" alt="">
 
 It is compiled with Prism and all the rendered data can be JIT hydrated in while none of the payloads send any sort of JS(ON) state blobs. 
 
@@ -67,7 +86,7 @@ You can read more about the Hackernews clone [here](/posts/hackernews-clone-pris
 
 JIT hydration has the effect of full hydration at a significantly lower cost on client than full or partial hydration.
 
-### So what are the benefits of JIT hydration:
+<h3 id="benefits">So what are the benefits of JIT hydration?</h3>
 
 - Prioritizes adding events, does not need state to add event listeners
 - State loading is deferred until needed

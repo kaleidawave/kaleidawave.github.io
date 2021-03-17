@@ -3,6 +3,9 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const simpleIcons = require("simple-icons");
+const imageSize = require("image-size")
+const videoSize = require("get-video-dimensions");
+const path = require("path");
 
 module.exports = function (eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
@@ -59,6 +62,16 @@ module.exports = function (eleventyConfig) {
         }
         const svg = icon.svg;
         return "<svg class=\"icon\"".concat(svg.slice(4));
+    });
+
+    eleventyConfig.addShortcode("image", function (src, alt) {
+        const {height, width} = imageSize(path.join(__dirname, src));
+        return `<img src="${src}" alt="${alt}" width="${width}" height="${height}">`;
+    });
+
+    eleventyConfig.addShortcode("video", async function (src) {
+        const {height, width} = await videoSize(src);
+        return `<video src="${src}" width="${width}" height="${height}"></video>`;
     });
 
     return {

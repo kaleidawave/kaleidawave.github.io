@@ -9,9 +9,10 @@ image: null
         flex-direction: column;
     }
 
-    .post img, .post pre {
+    .post img, .post video, .post pre {
         width: 110%;
         align-self: center;
+        height: auto;
     }
 
     .post svg.icon {
@@ -108,7 +109,7 @@ image: null
         <p class="date">Published on {{date | formatDateLong | safe}}</p>
     {% endif %}
     {% if image %}
-        <img src="{{image}}" alt="">
+        {% image image, "" %}
     {% endif %}
     {{ content | safe }}
 </div>

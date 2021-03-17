@@ -1,0 +1,7 @@
+---
+permalink: /sitemap.txt
+eleventyExcludeFromCollections: true
+origin: kaleidawave.github.io
+---
+{% for page in collections.all %}https://{{origin}}{{page.url}}
+{% endfor %}
