@@ -2,7 +2,7 @@
 layout: post.njk
 title: Hackernews Clone with Prism & Rust
 description: Building a super fast universally rendered Hackernews Clone using Prism, Rust and Actix-Web. Featuring JIT hydration
-image: /images/hackernews_banner.png
+image: /media/hackernews_banner.png
 date: 2020-11-10
 tags: posts
 ---
@@ -64,7 +64,7 @@ When building isomorphic sites it often makes the frontend more confusing. Now t
 
 This is a common practice and can be seen on nytimes where ~75% of the home page response is the state loaded into the `window.__preloadedData` variable:
 
-{% image "/images/new_york_times_preload_data.png", "lots of json" %}
+{% image "/media/new_york_times_preload_data.png", "lots of json" %}
 
 There are a few issues with this approach:
 
@@ -190,7 +190,7 @@ Prism is (probably) the smallest framework out there. The JS bundle for hacker n
 
 So its not a surprise that it gets 100 on lighthouse:
 
-{% image "/images/hackernews_lighthouse.png", "100 100 100" %}
+{% image "/media/hackernews_lighthouse.png", "100 100 100" %}
 
 So I would say that Prism compiler builds the smallest bundle sizes. Its also true that 12.6kb of JavaScript is all the JS ever needed. With the JIT hydration there is no need for JS blobs or other stuff to enter the JS client runtime. So although other solutions may say they have 15kb bundle there is likely going to be a extra 10kb of JS on each request for doing state hydration.
 

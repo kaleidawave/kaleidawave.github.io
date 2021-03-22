@@ -8,7 +8,7 @@ description: writings on the things
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
         <meta name="referrer" content="no-referrer-when-downgrade">
         <!-- counter.dev Analytics -->
@@ -32,8 +32,8 @@ description: writings on the things
         <meta property="twitter:url" content="https://kaleidawave.github.io/">
 
         {% if image === null %} 
-            <meta property="twitter:image" content="https://kaleidawave.github.io/images/banner.jpg">
-            <meta property="og:image" content="https://kaleidawave.github.io/images/banner.jpg">
+            <meta property="twitter:image" content="https://kaleidawave.github.io/media/banner.jpg">
+            <meta property="og:image" content="https://kaleidawave.github.io/media/banner.jpg">
         {% elif image.startsWith("/") %}
             <meta property="twitter:image" content="https://kaleidawave.github.io{{image}}">
             <meta property="og:image" content="https://kaleidawave.github.io{{image}}">
@@ -70,6 +70,14 @@ description: writings on the things
             }
 
             updateThemeClass();
+            
+            window.addEventListener("hashchange", () => {
+                window.scrollBy(0, -100);
+            }, false);
+
+            if (location.hash) {
+                window.onload = () => { window.scrollBy(0, -100); }
+            }
         </script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
@@ -116,12 +124,30 @@ description: writings on the things
                 left: 0;
                 z-index: 100;
             }
+    
+            strong {
+                font-weight: 400;
+            }
+
+            em {
+                position: relative;
+                left: -2px;
+            }
 
             header > div {
                 width: 100% !important;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+            }
+
+            ul {
+                margin: 0px;
+                padding-left: 20px;
+            }
+
+            main {
+                margin: 20px 0 80px;
             }
 
             .width-box {
@@ -135,7 +161,7 @@ description: writings on the things
                 margin-right: 4px;
                 fill: var(--muted-accent);
                 position: relative;
-                top: 2px;
+                top: 3px;
             }
 
             header h1 {
@@ -180,7 +206,6 @@ description: writings on the things
 
             code, pre {
                 background-color: var(--muted-background);
-                padding: 3px 6px;
                 border-radius: 4px;
                 font-size: 80%;
                 font-family: Fira Code light, consolas, monospace !important;
@@ -240,7 +265,7 @@ description: writings on the things
                     <h1>
                         <a href="/">kaleidawave.github.io</a>
                     </h1>
-                    <img src="/images/icon.png" alt="">
+                    <img src="/media/icon.png" alt="">
                 </div>
                 <nav>
                     <ul>

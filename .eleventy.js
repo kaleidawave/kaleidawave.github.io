@@ -10,7 +10,8 @@ const path = require("path");
 module.exports = function (eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
     eleventyConfig.setUseGitIgnore(false);
-    eleventyConfig.addPassthroughCopy("images");
+    eleventyConfig.addPassthroughCopy("media");
+    eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
         const day = days[value.getDay()];
@@ -52,7 +53,7 @@ module.exports = function (eleventyConfig) {
 
     eleventyConfig.addNunjucksFilter(
         "formatDateShort",
-        value => `${value.getDate()}/${value.getMonth()}/${value.getFullYear()}`
+        value => `${value.getDate()}/${value.getMonth()+1}/${value.getFullYear()}`
     );
 
     eleventyConfig.addShortcode("icon", function (iconName) {
@@ -64,14 +65,16 @@ module.exports = function (eleventyConfig) {
         return "<svg class=\"icon\"".concat(svg.slice(4));
     });
 
+    // Images and videos are wrapped in `div` to avoid markdown plugin wanting to wrap them in `p` tags
+
     eleventyConfig.addShortcode("image", function (src, alt) {
         const {height, width} = imageSize(path.join(__dirname, src));
-        return `<img src="${src}" alt="${alt}" width="${width}" height="${height}">`;
+        return `<div style="display: contents;"><img src="${src}" alt="${alt}" width="${width}" height="${height}"></div>`;
     });
 
     eleventyConfig.addShortcode("video", async function (src) {
-        const {height, width} = await videoSize(src);
-        return `<video src="${src}" width="${width}" height="${height}"></video>`;
+        const {height, width} = await videoSize(path.join(__dirname, src));
+        return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
     });
 
     return {

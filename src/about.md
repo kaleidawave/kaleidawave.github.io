@@ -8,3 +8,4 @@ I am 20 from the UK. Interested in language design, zero cost abstractions and t
 ### Other Links:
 
 - [{% icon "codepen" %} Codepen](https://codepen.io/kaleidawave)
+- [{% icon "stackoverflow" %} Stack Overflow](https://stackoverflow.com/users/10048799/kaleidawave)

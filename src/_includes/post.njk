@@ -1,12 +1,23 @@
 ---
 layout: main_layout.njk
 image: null
+includeImage: true
 ---
 <style>
     .post {
-        margin: 20px 0 80px;
         display: flex;
         flex-direction: column;
+    }
+
+    .post > p, .post li {
+        font-size: 17px;
+        line-height: 1.5em;
+        margin: 10px 0;
+    }
+
+    .post > *:is(h1, h2, h3, h4, h5) {
+        font-size: 120%;
+        margin: 10pt 0;
     }
 
     .post img, .post video, .post pre {
@@ -15,53 +26,63 @@ image: null
         height: auto;
     }
 
+    .post video, .post img {
+        margin: 20px 0;
+    }
+
     .post svg.icon {
-        height: 16pt;
+        height: 1em;
         fill: var(--text-color);
     }
 
     .post pre {
-        font-size: 14px;
+        font-size: 0.9em;
         max-height: 80vh;
-        overflow-x: hidden;
     }
 
-    pre code {
+    .post pre code {
         white-space: break-spaces !important;
         overflow-x: hidden;
     }
 
-    .post .qoute {
+    .post .quote {
         font-style: italic;
     }
 
-    .post .qoute::before {
+    .post .quote::before {
         content: "\"";
     }
 
-    .post .qoute::after {
+    .post .quote::after {
         content: "\"";
     }
 
-    .post > *:is(h1, h2, h3, h4, h5) {
-        font-size: 140%;
+    .post *[role="caption"] {
+        font-size: 14px;
+        margin: 6px 0 20px;
+        padding: 6px;
+        text-align: center;
+        font-weight: normal;
+        opacity: 0.8;
     }
 
     .post .date {
-        font-size: 12pt;
+        margin-top: 0;
+        font-size: 11pt;
         font-family: monospace;
     }
 
-    .center {
+    .post hr {
+        width: 100%;
+        margin: 30px auto;
+        border: none;
+        border-top: 1px solid white;
+    }
+
+    .post .center {
         text-align: center;
         font-weight: inherit;
         padding: 10px 30px;
-    }
-
-    .post > p, .post li {
-        font-size: 14pt;
-        line-height: 1.4em;
-        margin: 12px 0;
     }
 
     .post li {
@@ -70,6 +91,12 @@ image: null
 
     .post .note {
         font-style: italic;
+        font-size: 12pt;
+        opacity: 0.8;
+    }
+
+    *:is(h1, h2, h3, h4, h5, h6, p, li) > code {
+        padding: 3px 6px; 
     }
 
     .post mark {
@@ -79,6 +106,31 @@ image: null
         border-left: 4px solid var(--accent);
         margin-left: -4px;
         color: white;
+    }
+
+    /* For footnotes */
+    .post a[href^="#foot"] {
+        font-family: monospace;
+        position: relative;
+        top: -5px;
+        left: 2px;
+    }
+
+    .post #footnotes ~ * {
+        font-size: 14px;
+        opacity: 0.8;
+        margin: 4px 0;
+        width: 100%;
+    }
+
+    .callout {
+        margin-top: 18px;
+        padding: 20px;
+        font-size: 15pt;
+        font-weight: bold;
+        background-color: var(--muted-background);
+        border-radius: 16px;
+        border: 3px solid var(--muted-accent);
     }
     
     @media screen and (max-width: 480px) {
@@ -93,12 +145,13 @@ image: null
             line-height: 1.4em;
         }
 
-        .post img, .post pre {
+        .post img, .post pre, .post video {
             width: 100%;
         }
 
         .post pre {
             font-size: 10px;
+            overflow-x: scroll;
         }
     }
 </style>
@@ -108,8 +161,20 @@ image: null
     {% if date %}
         <p class="date">Published on {{date | formatDateLong | safe}}</p>
     {% endif %}
-    {% if image %}
+    {% if image and includeImage %}
         {% image image, "" %}
     {% endif %}
     {{ content | safe }}
+</div>
+
+<script>
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+<div class="callout">
+    I am currently looking for a job or internship. If you like what is this post and are looking for a full stack developer with expertise in Rust please contact <script>document.write("lox>;<=?Jqwksv8myw".split("").map(x => String.fromCharCode(x.charCodeAt(0) - 10)).join(""))</script> or <a href="https://twitter.com/kaleidawave">reach out through Twitter</a>. Preferably in the UK
 </div>
