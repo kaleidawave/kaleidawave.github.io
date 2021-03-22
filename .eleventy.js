@@ -73,8 +73,13 @@ module.exports = function (eleventyConfig) {
     });
 
     eleventyConfig.addShortcode("video", async function (src) {
-        const {height, width} = await videoSize(path.join(__dirname, src));
-        return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
+        try {
+            const {height, width} = await videoSize(path.join(__dirname, src));
+            return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
+        } catch (err) {
+            console.log(`Error finding size of video ${src}`);
+            return `<div style="display: contents;"><video controls loop src="${src}"></video></div>`;
+        }
     });
 
     return {
