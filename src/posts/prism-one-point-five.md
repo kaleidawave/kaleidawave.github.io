@@ -169,6 +169,8 @@ In the following HN clone you can see HTML come down the wire for rendering `sto
 
 From this you can see the `story-preview` components content is coming from the server as HTML. The rendered markup only contains one instance of the components `title`, `score` and `url` properties thus **no double data**. `temp1._d` shows what data the component was given during instantiation but when `JSON.stringify(temp1.data)` it evaluates every property through looking it up in the components server rendered DOM. The comments (`<!---->`) in the response are to break up text nodes. You can try this demo out [here](http://40.115.126.159/).
 
+Not only is the state available to the component but is also public to other components. Running `JSON.stringify(document.querySelector("index-page").data, 0, 4)` should see a object with a array of stories. Those stories exist on the individual components but modifying externally is permitted: `document.querySelector("index-page").data.stories[2].title = "Hello World"`
+
 The resolved data is being pulled from the HTML content of the component.
 
 With fast and efficient hydration Prism server components can send standard HTML down with interactivity on the client. A component can mark that its content should be from the server via the `@RenderFromEndpoint` decorator which takes a parameterized url which points to endpoint which returns the content of the component. 
@@ -231,6 +233,8 @@ Prism already has incredible bundle sizes. Without server components the total u
 - Significantly smaller JS size. React starts at `133kb` uncompressed, Prism starts at `2kb`
 - Non JS reliance (see [next section](#frontend-frameworks-on-the-backend))
 
+One thing I will give React server components is the ability to write [backend logic inline with the server components](https://github.com/reactjs/server-components-demo/blob/3a505efea0b1191496a832e23f3de46a0db69915/src/NoteList.server.js#L20) which while it doesn't enable anything is kinda neat.
+
 ##### Compared to Hotwire:
 
 - Prism is hybrid and defaults to client rather than going back to server
@@ -245,6 +249,14 @@ So the good thing about sending HTML down is that it can be readily placed into 
 Looking at HN frontpage the average JSON size for `story-preview`s was around `220bytes` whereas the average inner HTML size was around `600bytes`. Thus making HTML around `2.5x` larger than it's equivalent JSON representation.
 
 The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if [Prism moved to a index based element lookup system](https://github.com/kaleidawave/prism/issues/31). And the size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added [3](#foot3). These figures are ignoring compression which may have a disproportionate effect between the formats and may the close the size gap. But both formats aren't great data formats for small efficient data flow. *Inspired by [serde](https://serde.rs/)*, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.
+
+<h5 id="jit-vs-partial">On JIT hydration vs partial hydration</h5>
+
+One improvement to *full* hydration are techniques partial and progressive hydration. Partial hydration seems to benefit render to hydrate frameworks (which Prism isn't) by rerendering only *islands* (rather than the whole page) to add interaction. Partial hydration is difficult to implement though as it is difficult to know what portions are interactive and stateful. And although *static* regions are now ignored *dynamic* regions still suffer from the double data and rerender issue. In this case for HN Prism this means the biggest components `story-preview` and `story-page` aren't any more optimized.
+
+And progressive hydration is incrementally making portions interactive rather than waiting for everything to be processed before interaction is added.
+
+But Prism doesn't suffer from any of this. Whether a component is stateful or not it still doesn't send a JSON blob or *rerender* its content. The state is ultra partial and progressive considering properties are only retrieved when they are being evaluated and only the single property of that object is *hydrated* in. **I think JIT hydration and the code generation around the data is the only way to solve the double data problem while sending down only the HTML for stateful components**.
 
 <h3 id="frontend-frameworks-on-the-backend">Frontend frameworks on the backend:</h3>
 
@@ -351,13 +363,13 @@ This is not great because there is a loose reference to `span#upvotes`. The serv
 
 ##### Checking:
 
-There is also the fact that the above server code is a raw string literal. It does not check if it is valid HTML at compile time (some templating languages may do not quite sure) so I have often lost time after writing something like `<h1 ${someX}</h1>`. With Prism it will always concatenate to valid HTML and as a compiler it also catches syntax errors when parsing templates. The Svelte framework takes this checking a step further linting the template with rules to ensure accessible HTML. This is only really possible with the template DSL of svelte as a template literal can still be valid without knowing whats interpolated.
+There is also the fact that the above server code is a raw string literal. It does not check if it is valid HTML at compile time (some templating languages may do not quite sure) so I have often lost time after writing something like `<h1 ${someX}</h1>`. With Prism it will always concatenate to valid HTML and as a compiler it also catches syntax errors when parsing templates. The Svelte framework takes this checking a step further linting the template with rules to ensure accessible HTML. This is only really possible with the template DSL of Svelte as a template literal can still be valid without knowing whats interpolated.
 
-The other thing Prism does is add `disabled` to buttons with events which it then removes on adding event listeners during hydration. Also the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape safe calls. The other thing is Prism auto generates non clashing ids. The incrementing example above would break if I added a new element on the page with a id `#upvotes`. 
+The other thing Prism does is add `disabled` to buttons with events which it then removes on adding event listeners during hydration. Also the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape safe calls. The other thing is Prism auto generates non-clashing ids. The incrementing example above would break if I added a new element on the page with a id `#upvotes`. 
 
 ##### Lists:
 
-With lists you may want to render the first 10 items in the server responses and later add more in a infinite style way (the same way twitter and instagram feeds work). So on the server I may write a function which rendering a element of a list:
+With lists you may want to render the first 10 items in the server responses and later add more in a infinite style way (the same way Twitter and Instagram feeds work). So on the server I may write a function which rendering a element of a list:
 
 ```js
 function renderListItemToString(item: IPost): string { .. }
@@ -391,7 +403,7 @@ So frameworks implement some sort of single source. For example in Prism:
 </script>
 ```
 
-The template is declarative. It abstracts on the imperative `document.createElement` and `attachEventListener` calls. The template is much more akin to HTML and understanding the structure of this component is more accessible. The span <-> `upvotes` binding is only written once. And so if `span` was changed to `p` there are no other hand written references of this binding and compiling would take care of updating all references to span with references to the `p` element. For full reactivity and JIT hydration, Prism will take the single source and generate the x number of implementations. For example the upvotes binding eventually ends up in four places:
+The template is declarative. It abstracts on the imperative `document.createElement` and `attachEventListener` calls. The template is much more akin to HTML and understanding the structure of this component is more accessible. The span <-> `upvotes` binding is only written once. And so if `span` was changed to `p` there are no other handwritten references of this binding and compiling would take care of updating all references to span with references to the `p` element. For full reactivity and JIT hydration, Prism will take the single source and generate the n number of implementations. These would be tricky to manage if written manually. For example the upvotes binding eventually ends up in four places:
 
 `client.js`:
 ```js/2,8,9
@@ -465,7 +477,7 @@ class MyComponent {
 }
 ```
 
-Frameworks have something where you tell it to update with the new state. React's `setState` is a abstraction over rerendering the DOM as React doesn't really have a concept of state. It should be `rerenderWithTheseValues`. Simply setting a property in a react will not make the view update. 
+Frameworks have something where you tell it to update with the new state. React's `setState` is a abstraction over rerendering the DOM as React doesn't really have a concept of state. It should be `rerenderWithTheseValues`. Simply setting a property in a React will not make the view update. 
 
 Svelte is better in that its state updates are triggered around the assignment operator. Which is a step towards more "native" JavaScript. However there are still issues around internal changes. You cannot use push in svelte, instead `x = [...x, newItem]` is required for the compiler to realise a update has happened. This also the case for for the `Date` instance, calling `setMonth` etc does not cause the view to be updated. With Prism I wanted to allow internal mutation in the same way JS works. So I implemented this for `Date`.
 
@@ -480,6 +492,8 @@ In Prism 1.5.0 the Rust SSR compilation was improved so the that server render f
 Text can now be interpolated when alongside other tags. There are fixes for getting data on nullable nodes and there has been A lot of work behind the scenes to allow for Prism components to be compiled on the browser.
 
 <h3 id="prism-future">Future:</h3>
+
+Prism is not designed as a hot new framework. Instead it is a implementation in attempting to fix some of the biggest issues around *isomorphia* with modern frontend frameworks.
 
 One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (csr, ssr, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name. 
 
