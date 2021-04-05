@@ -24,6 +24,8 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+        env:
+          NODE_ENV: production
 
       - name: Deploy to GitHub Pages
         if: success()
@@ -34,4 +36,3 @@ jobs:
           jekyll: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_ENV: production
