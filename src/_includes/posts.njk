@@ -4,9 +4,34 @@
         padding-left: 0;
     }
 
-    .posts h5 {
-        font-size: 16pt;
-        margin: 14px 0;
+    .posts h3 {
+        font-size: 32px;
+        font-weight: lighter;
+        text-align: center;
+    }
+
+    .posts > ul {
+        display: grid;
+        grid-auto-rows: min-content;
+        gap: 14px;
+    }
+
+    .posts > ul > li {
+        background-color: var(--muted-background);
+        padding: 12px;
+        border-radius: 6px;
+        display: grid;
+    }
+
+    .posts > ul > li img {
+        width: 100%;
+        height: auto;
+    }
+
+    .posts > ul > li h5 {
+        font-weight: lighter;
+        font-size: 28px;
+        margin: 0;
     }
 
     .posts .date {
@@ -16,10 +41,13 @@
 </style>
 
 <div class="posts">
-    <h3>Posts:</h3>
+    <h3>All Posts:</h3>
     <ul>
     {%- for post in collections.sortedPosts -%}
         <li>
+            {% if post.data.image and post.data.includeImage %}
+                {% image post.data.image, "" %}
+            {% endif %}
             <a href="{{ post.url }}">
                 <h5>{{ post.data.title }}</h5>
             </a>

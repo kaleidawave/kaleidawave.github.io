@@ -10,14 +10,17 @@ includeImage: true
     }
 
     .post > p, .post li {
-        font-size: 17px;
+        font-size: 18px;
         line-height: 1.5em;
         margin: 10px 0;
+        font-weight: inherit;
+        font-family: "Inter", "Helvetica", sans-serif;
+        letter-spacing: .02rem;
     }
 
-    .post > *:is(h1, h2, h3, h4, h5) {
-        font-size: 120%;
+    .post > *:is(h2, h3, h4, h5) {
         margin: 10pt 0;
+        font-size: 1.2rem;
     }
 
     .post img, .post video, .post pre {
@@ -37,7 +40,7 @@ includeImage: true
 
     .post pre {
         font-size: 0.9em;
-        max-height: 80vh;
+        max-height: 81vh;
     }
 
     .post pre code {
@@ -175,5 +178,5 @@ includeImage: true
 </script>
 
 <div class="callout">
-    I am currently looking for a job or internship. If you like what is this post and are looking for a full stack developer with expertise in Rust please contact <script>document.write("lox>;<=?Jqwksv8myw".split("").map(x => String.fromCharCode(x.charCodeAt(0) - 10)).join(""))</script> or <a href="https://twitter.com/kaleidawave">reach out through Twitter</a>. Preferably in the UK
+    I am currently looking for a job or internship. If you like what is in this post and are looking for a full stack developer with expertise in Rust please contact <script>const m="lox>;<=?Jqwksv8myw".split("").map(x => String.fromCharCode(x.charCodeAt(0) - 10)).join("");document.write(`<a href="mailto:${m}">${m}</a>`)</script>. Preferably in the UK
 </div>

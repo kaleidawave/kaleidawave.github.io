@@ -240,7 +240,7 @@ One thing I will give React server components is the ability to write [backend l
 - Prism is hybrid and defaults to client rather than going back to server
 - Significantly smaller JS size. Stimulus is `77.4kb` and Turbo is `80.4kb`
 - Smaller response payloads. Stimulus attribute based logic is sent down on every response where Prism compiles logic into the JS bundle which size is constant and can cached between requests
-- Has a similar DOM based hydration system to Prism although it [seems to suffer from the double data problem using `data-*-value` attributes](https://stimulus.hotwire.dev/handbook/managing-state#reading-initial-state-from-the-dom)
+- Stimulus a similar DOM based hydration system to Prism although it [seems to suffer from the double data problem using `data-*-value` attributes](https://stimulus.hotwire.dev/handbook/managing-state#reading-initial-state-from-the-dom)
 
 <h5 id="json-vs-html">On JSON vs HTML</h5>
 
@@ -248,7 +248,7 @@ So the good thing about sending HTML down is that it can be readily placed into 
 
 Looking at HN frontpage the average JSON size for `story-preview`s was around `220bytes` whereas the average inner HTML size was around `600bytes`. Thus making HTML around `2.5x` larger than it's equivalent JSON representation.
 
-The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if [Prism moved to a index based element lookup system](https://github.com/kaleidawave/prism/issues/31). And the size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added [3](#foot3). These figures are ignoring compression which may have a disproportionate effect between the formats and may the close the size gap. But both formats aren't great data formats for small efficient data flow. *Inspired by [serde](https://serde.rs/)*, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.
+The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if Prism moved to a [index based element lookup system](https://github.com/kaleidawave/prism/issues/31). And the size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added [3](#foot3). These figures are ignoring compression which may have a disproportionate effect between the formats and may close the size gap. But both formats aren't great data formats for small efficient data flow. *Inspired by [serde](https://serde.rs/)*, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.
 
 <h5 id="jit-vs-partial">On JIT hydration vs partial hydration</h5>
 
@@ -503,7 +503,7 @@ The compiler is a little rough around the edges. Prism will fail both silently a
 
 <h6 id="foot1">(1) Render to hydrate</h6>
 
-For event listeners to be added the runtime needs to find the elements first. Many frontend frameworks do this via "rendering" there tree and comparing the result with the markup. Therefore **all** the data is required at hydration.
+For event listeners to be added the runtime needs to find the elements first. Many frontend frameworks do this via "rendering" their tree and comparing the result with the markup. Therefore **all** the data is required at hydration.
 
 <h6 id="foot2">(2) Types</h6>
 
