@@ -169,14 +169,21 @@ includeImage: true
     {{ content | safe }}
 </div>
 
-<script>
+<div class="callout">
+    I am currently looking for a job or internship. If you like what is in this post and are looking for a full stack developer with expertise in Rust please contact <a id="email"></a>. Preferably in the UK
+</div>
+
+<script defer>
     for (const video of document.querySelectorAll("video")) {
         video.addEventListener("mouseover", (ev) => {
             ev.target.play();
         })
     }
+    const emailElement = document.querySelector("#email");
+    if (emailElement) {
+        const email = Array.from("lox>;<=?Jqwksv8myw").map(x => String.fromCharCode(x.charCodeAt(0) - 10)).join("");
+        emailElement.setAttribute("href", `mailto:${email}`);
+        emailElement.innerHTML = email
+    }
 </script>
 
-<div class="callout">
-    I am currently looking for a job or internship. If you like what is in this post and are looking for a full stack developer with expertise in Rust please contact <script>const m="lox>;<=?Jqwksv8myw".split("").map(x => String.fromCharCode(x.charCodeAt(0) - 10)).join("");document.write(`<a href="mailto:${m}">${m}</a>`)</script>. Preferably in the UK
-</div>

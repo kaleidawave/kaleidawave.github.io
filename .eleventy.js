@@ -6,6 +6,7 @@ const simpleIcons = require("simple-icons");
 const imageSize = require("image-size")
 const videoSize = require("get-video-dimensions");
 const path = require("path");
+const htmlmin = require("html-minifier");
 
 module.exports = function (eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
@@ -56,6 +57,16 @@ module.exports = function (eleventyConfig) {
         value => `${value.getDate()}/${value.getMonth()+1}/${value.getFullYear()}`
     );
 
+    eleventyConfig.addNunjucksFilter(
+        "formatDateShortDash",
+        value => {
+            const year = value.getFullYear();
+            const month = (value.getMonth()+1).toString().padStart(2, "0");
+            const day = value.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+    );
+
     eleventyConfig.addShortcode("icon", function (iconName) {
         const icon = simpleIcons.get(iconName);
         if (!icon) {
@@ -80,6 +91,19 @@ module.exports = function (eleventyConfig) {
             console.log(`Error finding size of video ${src}`);
             return `<div style="display: contents;"><video controls loop src="${src}"></video></div>`;
         }
+    });
+
+    eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
+        if( outputPath && outputPath.endsWith(".html") ) {
+            return htmlmin.minify(content, {
+                useShortDoctype: true,
+                removeComments: false,
+                collapseWhitespace: true,
+                minifyJS: true,
+                minifyCSS: true,
+            });
+        }
+        return content;
     });
 
     return {

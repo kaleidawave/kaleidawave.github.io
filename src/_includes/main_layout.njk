@@ -90,7 +90,7 @@ description: writings on the things
                 --text-color: #1a1a1a;
                 --background: #f2f6f7;
                 --muted-background: white;
-                --muted-background-opaque: rgba(255, 255, 255, 0.7);
+                --muted-background-opaque: rgba(255, 255, 255, 0.5);
                 --accent: #3b1afa;
                 --muted-accent: #4d31e9;
                 letter-spacing: .02rem;
@@ -101,7 +101,7 @@ description: writings on the things
                 --text-color: #dbdbdb;
                 --background: #151516;
                 --muted-background: #1f1f23;
-                --muted-background-opaque: rgba(31, 31, 35, 0.7);
+                --muted-background-opaque: rgba(31, 31, 35, 0.5);
                 --accent: #aff7c2;
                 --muted-accent: #c7f9d4;
             }
@@ -190,8 +190,9 @@ description: writings on the things
 
             header img {
                 margin-top: 2px;
-                height: 30px;
                 margin-left: 6px;
+                height: 30px;
+                width: auto;
             }
 
             header nav > ul {
@@ -266,10 +267,11 @@ description: writings on the things
                 }
             }
 
-            @supports (display: grid) {
-                header {
-                    -webkit-backdrop-filter: blur(20px);
-                    backdrop-filter: blur(20px);
+            @media screen and (min-width: 480px) {
+                @supports (backdrop-filter: blur(20px)) {
+                    header {
+                        backdrop-filter: blur(20px);
+                    }
                 }
             }
         </style>
@@ -282,7 +284,10 @@ description: writings on the things
                     <h1>
                         <a href="/">kaleidawave.github.io</a>
                     </h1>
-                    <img src="/media/icon.png" alt="">
+                    <img src="/media/icon.png" width="256" height="256" alt="">
+                    {% if not globalData.production %}
+                        (dev)
+                    {% endif %}
                 </div>
                 <nav>
                     <ul>
