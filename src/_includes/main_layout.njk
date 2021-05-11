@@ -82,10 +82,10 @@ description: writings on the things
             }
         </script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=JetBrains+Mono:wght@200&display=swap" rel="stylesheet">
         <style>
             :root {
-                font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+                font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
                 font-weight: 500;
                 --text-color: #1a1a1a;
                 --background: #f2f6f7;
@@ -108,6 +108,10 @@ description: writings on the things
 
             :root:not(.dark) strong {
                 font-weight: bold;
+            }
+
+            :root:not(.dark) *:is(h1, h2, h3, h4, h5, h6) {
+                font-weight: 100;
             }
 
             body {
@@ -219,7 +223,7 @@ description: writings on the things
                 background-color: var(--muted-background);
                 border-radius: 4px;
                 font-size: 80%;
-                font-family: Fira Code light, consolas, monospace !important;
+                font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace !important;
                 overflow-x: scroll;
             }
 
