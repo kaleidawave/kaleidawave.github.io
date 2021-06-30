@@ -1,9 +1,9 @@
 ---
 layout: main_layout.njk
-title: kaleidawave - About
+title: About
 ---
 
-I am 20 from the UK. Interested in language design, zero cost abstractions and the web. 
+Hey I am Ben, currently 20 and live in the UK. I am interested in language design, mathematics, zero cost abstractions and the web.
 
 ### Other Links:
 

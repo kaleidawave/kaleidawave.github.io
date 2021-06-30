@@ -1,0 +1,207 @@
+:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    --text-color: #1a1a1a;
+    --background: #f2f6f7;
+    --muted-background: white;
+    --muted-background-opaque: rgba(255, 255, 255, 0.5);
+    --accent: #950525;
+    --muted-accent: #c03362;
+    letter-spacing: .02rem;
+}
+
+:root.dark {
+    font-weight: 300;
+    --text-color: #dbdbdb;
+    --background: #151516;
+    --muted-background: #1f1f23;
+    --muted-background-opaque: rgba(31, 31, 35, 0.5);
+    --accent: #aff7c2;
+    --muted-accent: #c7f9d4;
+}
+
+:root:not(.dark) strong {
+    font-weight: bold;
+}
+
+:root:not(.dark) *:is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 100;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display:flex; 
+    flex-direction:column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+}
+
+strong {
+    font-weight: 400;
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+header > div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    max-width: min(80vw, 720px);
+    width: 100%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 3px;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+}
+
+header h1 > a {
+    color: var(--text-color) !important;
+}
+
+header .title {
+    display: flex;
+    align-items: center;
+}
+
+header span {
+    margin-left: 8px;
+    align-self: end;
+}
+
+header img {
+    position: relative;
+    top: -6px;
+    left: 7px;
+    height: 30px;
+    width: auto;
+}
+
+header nav > ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav > ul > li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+code, pre {
+    background-color: var(--muted-background);
+    border-radius: 4px;
+    font-size: 80%;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    overflow-x: scroll;
+}
+
+footer {
+    margin-top: auto; 
+    background-color: var(--muted-background, white);
+    padding: 22px;
+}
+
+footer > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: end;
+    justify-content: space-evenly;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav {
+    grid-row: 1/4;
+    grid-column: 2;
+    text-align: right;
+}
+
+footer nav ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header > div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Vollkorn', serif;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}

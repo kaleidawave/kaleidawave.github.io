@@ -23,11 +23,16 @@
         display: grid;
     }
 
+    .posts > ul > li > .post-image {
+        height: 200px;
+        overflow: hidden;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
     .posts > ul > li img {
         width: 100%;
         height: auto;
-        margin-bottom: 20px;
-        border-radius: 6px;
     }
 
     .posts > ul > li h5 {
@@ -48,7 +53,9 @@
     {%- for post in collections.sortedPosts -%}
         <li>
             {% if post.data.image and post.data.includeImage %}
-                {% image post.data.image, "" %}
+                <div class="post-image">
+                    {% image post.data.image, "" %}
+                </div>
             {% endif %}
             <a href="{{ post.url }}">
                 <h5>{{ post.data.title }}</h5>

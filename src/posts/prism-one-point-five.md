@@ -21,13 +21,13 @@ These two announcements sparked ideas around *"server components"* which is a di
 Standard AJAX flow:
 
 <h4 class="center">
-    Read request -> JSON -> parse -> build DOM -> append to node
+    Read request → JSON → parse → build DOM → append to node
 </h4>
 
 HTML (or VDOM) over the wire:
 
 <h4 class="center">
-    Read request -> append request body to node
+    Read request → append request body to node
 </h4>
 
 Both are interesting ideas. Hotwire is a interesting take on how to use server side rendering for more than initial page load. And React server components are a acknowledgment that strictly client side design isn't perfect.
@@ -250,7 +250,7 @@ Looking at HN frontpage the average JSON size for `story-preview`s was around `2
 
 The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if Prism moved to a [index based element lookup system](https://github.com/kaleidawave/prism/issues/31). And the size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added [3](#foot3). These figures are ignoring compression which may have a disproportionate effect between the formats and may close the size gap. But both formats aren't great data formats for small efficient data flow. *Inspired by [serde](https://serde.rs/)*, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.
 
-<h5 id="jit-vs-partial">On JIT hydration vs partial hydration</h5>
+<h5 id="jit-vs-partial">On JIT hydration vs Partial hydration</h5>
 
 One improvement to *full* hydration are techniques partial and progressive hydration. Partial hydration seems to benefit render to hydrate frameworks (which Prism isn't) by rerendering only *islands* (rather than the whole page) to add interaction. Partial hydration is difficult to implement though as it is difficult to know what portions are interactive and stateful. And although *static* regions are now ignored *dynamic* regions still suffer from the double data and rerender issue. In this case for HN Prism this means the biggest components `story-preview` and `story-page` aren't any more optimized.
 

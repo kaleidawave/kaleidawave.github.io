@@ -12,11 +12,14 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@11ty/eleventy": "^0.11.1",
+        "@11ty/eleventy": "^0.12.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.0",
+        "@types/mathjax": "^0.0.36",
+        "eleventy-google-fonts": "^0.0.5",
         "get-video-dimensions": "^1.0.0",
         "html-minifier": "^4.0.0",
         "image-size": "^0.9.7",
+        "mathjax": "^3.2.0",
         "simple-icons": "^4.14.0"
     }
 }

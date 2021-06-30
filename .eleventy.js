@@ -7,12 +7,24 @@ const imageSize = require("image-size")
 const videoSize = require("get-video-dimensions");
 const path = require("path");
 const htmlmin = require("html-minifier");
+const mathjax = require("mathjax");
+const eleventyGoogleFonts = require("eleventy-google-fonts");
+
+let mathjax_instance;
 
 module.exports = function (eleventyConfig) {
+
     eleventyConfig.addPlugin(syntaxHighlight);
+    eleventyConfig.addPlugin(eleventyGoogleFonts);
     eleventyConfig.setUseGitIgnore(false);
+    
     eleventyConfig.addPassthroughCopy("media");
     eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
+    
+    // Available in 11ty 1.0
+    // const production = process.env.CI === "true";
+    // eleventyConfig.addGlobalData("production", production);
+    // eleventyConfig.setUseGitIgnore(!production);
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
         const day = days[value.getDay()];
@@ -54,14 +66,14 @@ module.exports = function (eleventyConfig) {
 
     eleventyConfig.addNunjucksFilter(
         "formatDateShort",
-        value => `${value.getDate()}/${value.getMonth()+1}/${value.getFullYear()}`
+        value => `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`
     );
 
     eleventyConfig.addNunjucksFilter(
         "formatDateShortDash",
         value => {
             const year = value.getFullYear();
-            const month = (value.getMonth()+1).toString().padStart(2, "0");
+            const month = (value.getMonth() + 1).toString().padStart(2, "0");
             const day = value.getDate().toString().padStart(2, "0");
             return `${year}-${month}-${day}`;
         }
@@ -75,8 +87,34 @@ module.exports = function (eleventyConfig) {
         const svg = icon.svg;
         return "<svg class=\"icon\"".concat(svg.slice(4));
     });
+    
+    eleventyConfig.addShortcode("mathinline", async function (source) {
+        if (!mathjax_instance) {
+            mathjax_instance = await mathjax.init({
+                loader: {
+                    load: ['input/tex', 'output/svg'],
+                },
+                fontCache: 'local'
+            });
+        }
+        const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(source, {display: false}))
+        return output;
+    });
 
-    // Images and videos are wrapped in `div` to avoid markdown plugin wanting to wrap them in `p` tags
+    // Latex, Images and videos are wrapped in `div` to avoid markdown plugin wanting to wrap them in `p` tags
+    eleventyConfig.addPairedShortcode("math", async function (latex) {
+        if (!mathjax_instance) {
+            mathjax_instance = await mathjax.init({
+                loader: {
+                    load: ['input/tex', 'output/svg'],
+                },
+                fontCache: 'local'
+            });
+        }
+        const height = latex.length * 2;
+        const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(latex, {display: true}));
+        return `<div class="math"><svg style="height:${height}px"><svg${output.slice(4)}</svg></div>`;
+    });
 
     eleventyConfig.addShortcode("image", function (src, alt) {
         const {height, width} = imageSize(path.join(__dirname, src));
@@ -93,8 +131,8 @@ module.exports = function (eleventyConfig) {
         }
     });
 
-    eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
-        if( outputPath && outputPath.endsWith(".html") ) {
+    eleventyConfig.addTransform("htmlmin", function (content, outputPath) {
+        if (outputPath && outputPath.endsWith(".html")) {
             return htmlmin.minify(content, {
                 useShortDoctype: true,
                 removeComments: false,

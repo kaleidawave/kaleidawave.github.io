@@ -1,0 +1,159 @@
+.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post > p,
+.post li {
+    font-size: 18px;
+    line-height: 1.5em;
+    margin: 10px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+    letter-spacing: 0.02rem;
+}
+
+.post > *:is(h2, h3, h4, h5) {
+    margin: 10pt 0;
+    font-size: 1.8rem;
+}
+
+.post img,
+.post video,
+.post pre {
+    width: 110%;
+    align-self: center;
+    height: auto;
+}
+
+.post video,
+.post img {
+    margin: 20px 0;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post pre {
+    font-size: 0.9em;
+    max-height: 81vh;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math > svg {
+    height: 20px;
+    width: auto;
+    margin: 10px;
+}
+
+.post pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post .date {
+    margin-top: 0;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid white;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 10px 30px;
+}
+
+.post li {
+    margin: 10px 0;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li) > code {
+    padding: 3px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes ~ * {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post > p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post video {
+        width: 100%;
+    }
+
+    .post pre {
+        font-size: 10px;
+        overflow-x: scroll;
+    }
+}
