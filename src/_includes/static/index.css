@@ -1,23 +1,22 @@
 :root {
     font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     --text-color: #1a1a1a;
     --background: #f2f6f7;
     --muted-background: white;
     --muted-background-opaque: rgba(255, 255, 255, 0.5);
-    --accent: #950525;
-    --muted-accent: #c03362;
-    letter-spacing: .02rem;
+    --accent: #b80f34;
+    --muted-accent: #9c1f49;
 }
 
 :root.dark {
-    font-weight: 300;
+    /* font-weight: 400; */
     --text-color: #dbdbdb;
     --background: #151516;
     --muted-background: #1f1f23;
     --muted-background-opaque: rgba(31, 31, 35, 0.5);
-    --accent: #aff7c2;
-    --muted-accent: #c7f9d4;
+    --accent: #8af1be;
+    --muted-accent: #81c9a7;
 }
 
 :root:not(.dark) strong {
@@ -72,6 +71,13 @@ header > div {
 ul {
     margin: 0px;
     padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
 }
 
 main {

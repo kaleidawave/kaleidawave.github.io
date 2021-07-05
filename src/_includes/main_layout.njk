@@ -48,7 +48,7 @@ description: writings on the things
             {% include "static/script.js" %}
         </script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        {% eleventyGoogleFonts "https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Vollkorn:wght@600&family=JetBrains+Mono:wght@200&display=swap" %}
+        {% eleventyGoogleFonts "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Vollkorn:wght@600&family=JetBrains+Mono:wght@200&display=swap" %}
         <style>
             {% include "static/index.css" %}
         </style>
@@ -58,10 +58,10 @@ description: writings on the things
             <div class="width-box">
                 <div class="title">
                     <h1>
-                        <a href="/">Ben's engineering blog</a>
+                        <a href="/">kaleidawave</a>
                     </h1>
                     <img src="/media/icon.png" width="256" height="256" alt="">
-                    {% if not production %}
+                    {% if not globalData.production %}
                         <span>(dev)</span>
                     {% endif %}
                 </div>

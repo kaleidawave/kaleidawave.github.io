@@ -214,7 +214,7 @@ The server generated function and hydration system was an existing process for i
 
 Prism already has incredible bundle sizes. Without server components the total uncompressed bundle is `17kb` and after converting `story-preview` and `story-page` for their content to be rendered on the server it comes to `16.08kb` which is `4.76kb` after GZIP. The saving of around ~`1kb` is around removing server loading logic and (some) of the render methods for the components. The bundle could be ~25% less if Prism could tree shake the reactivity logic and minify identifiers.
 
-##### Some other features Prism has around JIT hydration:
+##### Some other features Prism has around JIT hydration
 
 - *Getting* values is lazy. The get logic is only called when the value is evaluated 
 - *Getting* values is done on a **per property basis**. `title` can be in the JS runtime but not `time`
@@ -222,12 +222,12 @@ Prism already has incredible bundle sizes. Without server components the total u
 - Events are attached during hydration via compiled methods which finds elements and calls `addEventListener`. Unlike others, Prism does not do any sort of rerendering in order to add event listeners. This results in super quick TTI
 - Even though the DOM is made up of strings, Prism can convert various types. This is why type declarations are required [2](#foot2).
 
-##### Using `@RenderFromEndpoint` has the following benefits:
+##### Using `@RenderFromEndpoint` has the following benefits
 
 - Skipped the parse cycle on the JSON returned from the HN REST api and generating the nodes on the client which should be a little bit faster
 - Reduced the client logic for getting the data and rendering nodes
 
-##### Compared to React server components:
+##### Compared to React server components
 
 - Rendering stateful components ([RSC does not allow for stateful components](https://github.com/josephsavona/rfcs/blob/server-components/text/0000-server-components.md#capabilities--constraints-of-server-and-client-components))
 - Significantly smaller JS size. React starts at `133kb` uncompressed, Prism starts at `2kb`
@@ -235,7 +235,7 @@ Prism already has incredible bundle sizes. Without server components the total u
 
 One thing I will give React server components is the ability to write [backend logic inline with the server components](https://github.com/reactjs/server-components-demo/blob/3a505efea0b1191496a832e23f3de46a0db69915/src/NoteList.server.js#L20) which while it doesn't enable anything is kinda neat.
 
-##### Compared to Hotwire:
+##### Compared to Hotwire
 
 - Prism is hybrid and defaults to client rather than going back to server
 - Significantly smaller JS size. Stimulus is `77.4kb` and Turbo is `80.4kb`
@@ -258,7 +258,7 @@ And progressive hydration is incrementally making portions interactive rather th
 
 But Prism doesn't suffer from any of this. Whether a component is stateful or not it still doesn't send a JSON blob or *rerender* its content. The state is ultra partial and progressive considering properties are only retrieved when they are being evaluated and only the single property of that object is *hydrated* in. **I think JIT hydration and the code generation around the data is the only way to solve the double data problem while sending down only the HTML for stateful components**.
 
-<h3 id="frontend-frameworks-on-the-backend">Frontend frameworks on the backend:</h3>
+<h3 id="frontend-frameworks-on-the-backend">Frontend frameworks on the backend</h3>
 
 One of the arguments behind Hotwire is that it's system *works* for server rendered sites built in languages other than JS. This is generally a problem with all frontend frameworks. React, Vue, Angular and Svelte all have some API to render their templates to a string **but** they are all restricted to the JS language. This is a big gap as there are lots of other backend frameworks and tools for languages not in JS.
 
@@ -293,7 +293,7 @@ I should also mention WASM & Rust based "frontend-frameworks" [yew](https://yew.
 
 For Prism the most promising feature with WASM is the available runners. If Prism could compile SSR functions for WASM then it could be used with the [python runner](https://github.com/wasmerio/wasmer-python) and wouldn't have separate compiler outputs and would be more lightweight than embedding v8. Untested but I think Prism's [rust output as binary could be called from the python runtime](https://avacariu.me/writing/2014/calling-rust-from-python) or any other language that can call c like code.
 
-##### Reflection on Prism:
+##### Reflection on Prism
 
 With Prism I took a lot of the problems around frontend frameworks today in to account with the design. I hope I at least made a dent on some of these issues:
 
@@ -361,13 +361,13 @@ document.querySelector("span#upvotes").innerText = this.upvotes += 1;
 
 This is not great because there is a loose reference to `span#upvotes`. The server response may be changed to use `p` instead of a `span` and now the `querySelector` call returns null. It is not easy to find the issue and often ends up in "spot the difference" or "wheres wally" scenario across separate files. I have found this on large projects where I go to change or add a button and now have to find out what code was relying on that button and what that affects. This problem is amplified when there are tens of pages and hundreds of places where things are interpolated and events are connected.
 
-##### Checking:
+##### Checking
 
 There is also the fact that the above server code is a raw string literal. It does not check if it is valid HTML at compile time (some templating languages may do not quite sure) so I have often lost time after writing something like `<h1 ${someX}</h1>`. With Prism it will always concatenate to valid HTML and as a compiler it also catches syntax errors when parsing templates. The Svelte framework takes this checking a step further linting the template with rules to ensure accessible HTML. This is only really possible with the template DSL of Svelte as a template literal can still be valid without knowing whats interpolated.
 
 The other thing Prism does is add `disabled` to buttons with events which it then removes on adding event listeners during hydration. Also the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape safe calls. The other thing is Prism auto generates non-clashing ids. The incrementing example above would break if I added a new element on the page with a id `#upvotes`. 
 
-##### Lists:
+##### Lists
 
 With lists you may want to render the first 10 items in the server responses and later add more in a infinite style way (the same way Twitter and Instagram feeds work). So on the server I may write a function which rendering a element of a list:
 
@@ -377,7 +377,7 @@ function renderListItemToString(item: IPost): string { .. }
 
 However now on the client if I wanted to append a new item the `renderListItemToString` is only available on the backend not the frontend. With a framework that has or compiles to multiple functions depending on runtime the same list item elements can be generated on both the frontend and backend. I guess this is a advantage of server components and turbo where that the frontend function is a alias for calling the same function on the backend under the same source.
 
-#### Single source:
+#### Single source
 
 So frameworks implement some sort of single source. For example in Prism:
 
@@ -457,9 +457,9 @@ The other benefit of Prism, Svelte and Vue is that they use single file componen
 
 <h6 role="caption">There are many benefits in readability in having css alongside the components. Prism and others also automatically scope classes so that other <code>div.container</code>s are not affected outside of the component</h6>
 
-## Other Prism changes:
+## Other Prism changes
 
-#### Observable date instances:
+#### Observable date instances
 
 One design of Prism is for effectively act as if the DOM was a result of a *getter*. And the view should always be 1:1 to the value of the evaluated getter
 
@@ -491,7 +491,7 @@ In Prism 1.5.0 the Rust SSR compilation was improved so the that server render f
 
 Text can now be interpolated when alongside other tags. There are fixes for getting data on nullable nodes and there has been A lot of work behind the scenes to allow for Prism components to be compiled on the browser.
 
-<h3 id="prism-future">Future:</h3>
+<h3 id="prism-future">Future</h3>
 
 Prism is not designed as a hot new framework. Instead it is a implementation in attempting to fix some of the biggest issues around *isomorphia* with modern frontend frameworks.
 

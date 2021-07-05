@@ -83,13 +83,6 @@
     font-family: monospace;
 }
 
-.post hr {
-    width: 100%;
-    margin: 30px auto;
-    border: none;
-    border-top: 1px solid white;
-}
-
 .post .center {
     text-align: center;
     font-weight: inherit;
@@ -131,6 +124,22 @@
     background-color: var(--muted-background);
     border-radius: 16px;
     border: 3px solid var(--muted-accent);
+}
+
+.post h1 {
+    font-size: 40px;
+}
+.post h2 {
+    font-size: 35px;
+}
+.post h3 {
+    font-size: 30px;
+}
+.post h4 {
+    font-size: 25px;
+}
+.post h5 {
+    font-size: 20px;
 }
 
 @media screen and (max-width: 480px) {

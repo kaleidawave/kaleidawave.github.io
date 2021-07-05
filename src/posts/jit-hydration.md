@@ -98,7 +98,7 @@ JIT hydration has the effect of full hydration at a significantly lower cost on 
 - Values are cached after being pulled in during hydration
 - The get logic is invariant and can be cached between requests. The JSON blob is not.
 
-### Conclusion:
+### Conclusion
 
 JIT hydration sounds good on paper but it is difficult to implement. For it to work effectively there needs to be more complex work done at build time. To establish where data comes from it requires compiling bindings rather than locating it at runtime. So runtime limited frameworks like React will not be able to implement such but frameworks that do some work at build time e.g. svelte or vue may be able to do something here.
 
