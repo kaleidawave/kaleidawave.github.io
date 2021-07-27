@@ -1,3 +1,3 @@
 module.exports = {
-    production: process.env.CI === "true"
+    production: (process.env.CI || process.env.PRODUCTION) === "true"
 };

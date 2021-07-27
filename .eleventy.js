@@ -9,8 +9,11 @@ const path = require("path");
 const htmlmin = require("html-minifier");
 const mathjax = require("mathjax");
 const eleventyGoogleFonts = require("eleventy-google-fonts");
+const fs = require("fs");
 
 let mathjax_instance;
+
+const mediaCacheFile = ".mediasizecache";
 
 module.exports = function (eleventyConfig) {
 
@@ -20,6 +23,13 @@ module.exports = function (eleventyConfig) {
     
     eleventyConfig.addPassthroughCopy("media");
     eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
+
+    let mediaSizeCache;
+    if (fs.existsSync(mediaCacheFile)) {
+        mediaSizeCache = new Map(JSON.parse(fs.readFileSync(mediaCacheFile).toString()))
+    } else {
+        mediaSizeCache = new Map();
+    }
     
     // Available in 11ty 1.0
     // const production = process.env.CI === "true";
@@ -111,19 +121,26 @@ module.exports = function (eleventyConfig) {
                 fontCache: 'local'
             });
         }
-        const height = latex.length * 2;
         const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(latex, {display: true}));
-        return `<div class="math"><svg style="height:${height}px"><svg${output.slice(4)}</svg></div>`;
+        return `<div class="math">${output}</div>`;
     });
 
     eleventyConfig.addShortcode("image", function (src, alt) {
-        const {height, width} = imageSize(path.join(__dirname, src));
-        return `<div style="display: contents;"><img src="${src}" alt="${alt}" width="${width}" height="${height}"></div>`;
+        try {
+            const {height, width} = mediaSizeCache.get(src) || imageSize(path.join(__dirname, src));
+            mediaSizeCache.set(src, {height, width});
+            return `<div style="display: contents;"><img src="${src}" alt="${alt}" width="${width}" height="${height}"></div>`;
+        } catch (err) {
+            console.log(`Error finding size of image ${src}`);
+            return `<div style="display: contents;"><img src="${src}" alt="${alt}"></div>`;
+        }
+        
     });
 
     eleventyConfig.addShortcode("video", async function (src) {
         try {
-            const {height, width} = await videoSize(path.join(__dirname, src));
+            const {height, width} = mediaSizeCache.get(src) || await videoSize(path.join(__dirname, src));
+            mediaSizeCache.set(src, {height, width});
             return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
         } catch (err) {
             console.log(`Error finding size of video ${src}`);
@@ -135,13 +152,17 @@ module.exports = function (eleventyConfig) {
         if (outputPath && outputPath.endsWith(".html")) {
             return htmlmin.minify(content, {
                 useShortDoctype: true,
-                removeComments: false,
+                removeComments: true,
                 collapseWhitespace: true,
                 minifyJS: true,
                 minifyCSS: true,
             });
         }
         return content;
+    });
+
+    eleventyConfig.on("afterBuild", () => {
+        fs.writeFileSync(mediaCacheFile, JSON.stringify(Array.from(mediaSizeCache)));
     });
 
     return {

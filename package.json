@@ -6,6 +6,7 @@
     "main": "index.js",
     "scripts": {
         "start": "eleventy --serve",
+        "start-production": "cross-env PRODUCTION=true eleventy --serve",
         "build": "eleventy --quiet"
     },
     "keywords": [],
@@ -15,6 +16,7 @@
         "@11ty/eleventy": "^0.12.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.0",
         "@types/mathjax": "^0.0.36",
+        "cross-env": "^7.0.3",
         "eleventy-google-fonts": "^0.0.5",
         "get-video-dimensions": "^1.0.0",
         "html-minifier": "^4.0.0",

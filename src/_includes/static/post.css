@@ -46,8 +46,8 @@
 }
 
 .post .math > svg {
-    height: 20px;
     width: auto;
+    height: 200%;
     margin: 10px;
 }
 
