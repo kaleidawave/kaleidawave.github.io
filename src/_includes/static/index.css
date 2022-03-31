@@ -61,7 +61,7 @@ header > div {
 header h1 {
     font-weight: 100;
     font-size: 20px;
-    color: var(--text-color: #dbdbdb);
+    color: var(--text-color);
 }
 
 header h1 > a {
