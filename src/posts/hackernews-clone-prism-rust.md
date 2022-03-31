@@ -9,7 +9,7 @@ tags: posts
 
 Last week I recreated the [Hacker News site](https://news.ycombinator.com/news). It is built as a isomorphic site with a Prism compiled frontend and a Rust backend. In this post I will illustrate some of the benefits that using [Prism compiler](https://github.com/kaleidawave/prism) has on this site.
 
-<h3 id="rust">Isomorphic sites with a Rust backend</h3>
+### Isomorphic sites with a Rust backend {#rust}
 
 Currently most sites are client side rendered apps built with a framework. Client side frameworks make development easier by using a more declarative programming style. Using the client runtime can add more reactive interactions without going back to the network. Client side frameworks make SPA’s easier to develop.
 
@@ -58,7 +58,7 @@ It is already possible to server render SPAs in other languages:
 - Rewriting in handlebars etc, this has the need to do more work. Changes to frontend markup views must be reflected in the handlebars templates. Can lead to nasty hydration issues (where the frontend logic was not expecting that result from backend)
 - Hosting SSG. Sites can be built using a JAM stack pattern where changes to data are then used to rebuild static markup files. But as said before this doesn’t really work for many sites. Especially HN where the data source is constantly changing with the stories, comments and upvotes.
 
-<h3 id="jit-state-hydration">JIT state hydration</h3>
+### JIT state hydration {#jit-state-hydration}
 
 When building isomorphic sites it often makes the frontend more confusing. Now the frontend it is not the start of the world and there is existing markup. The biggest issue from this is booting up state on the frontend. With both server and client rendered DOM the view is the same but the JS state is not there on server responses. Getting the state in JS by doing a data fetch is not good as it may be out of sync with what the server content is. So the approach used by most SSR frameworks is to send down a JSON or JS blob in a script tag that contains the JS object used to generate the markup response.
 
@@ -291,7 +291,3 @@ This clone is also missing a number of features from the actual version that I w
 For now you can clone the clone and try it out here: [kaleidawave/hackernews-prism](https://github.com/kaleidawave/hackernews-prism)
 
 For a JS based isomorphic site there is [kaleidawave/prism-ssr-demo](https://github.com/kaleidawave/prism-ssr-demo) and can be run without downloading anything through [replit](https://repl.it/github/kaleidawave/prism-ssr-demo)
-
-<h3 class="note">
-    Originally posted on <a href="https://kaleidawave.medium.com/hacker-news-clone-with-prism-rust-b4c681fe07af">Medium</a>
-</h3>

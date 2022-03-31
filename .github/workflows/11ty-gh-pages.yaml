@@ -16,6 +16,7 @@ jobs:
         with:
           path: |
             ~/.npm
+            .mediasizecache
             
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |

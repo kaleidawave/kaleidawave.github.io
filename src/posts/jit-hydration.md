@@ -66,7 +66,7 @@ This issue is something framework authors and developers are aware of and active
 
 But most implementations seems quite manual to implement. It also seems difficult to how this plays out with what is a static element and what needs to be reactive. 
 
-<h3 id="jit-hydration">But today I'll introduce a different approach: JIT state hydration</h3>
+### But today I'll introduce a different approach: JIT state hydration {#jit-hydration}
 
 The ideal hydration would be prioritizing adding event listeners above everything. The only need for state at hydration is for generating the vdom for matching up event listeners. But we could do something at build time to mark elements with events and at runtime add the events without knowing there position and existence in the tree.
 
@@ -76,7 +76,7 @@ And this is what I have written into my own framework [Prism](https://github.com
 
 <img src="https://dev-to-uploads.s3.amazonaws.com/i/tdqgpuufndw3hfke8s6z.gif" alt="">
 
-And this is working quite well here on my [hacker news clone](http://40.115.126.159/)
+And this is working quite well here on my [hacker news clone](https://github.com/kaleidawave/hackernews-prism)
 
 <img src="https://dev-to-uploads.s3.amazonaws.com/i/q9hgel93n4ebai7ez42b.gif" alt="">
 
@@ -86,7 +86,7 @@ You can read more about the Hackernews clone [here](/posts/hackernews-clone-pris
 
 JIT hydration has the effect of full hydration at a significantly lower cost on client than full or partial hydration.
 
-<h3 id="benefits">So what are the benefits of JIT hydration?</h3>
+### So what are the benefits of JIT hydration? {#benefits}
 
 - Prioritizes adding events, does not need state to add event listeners
 - State loading is deferred until needed
@@ -109,7 +109,3 @@ There is also complexities around values that are not represented literally in t
 So yeah, this is super early and experimental stuff. If you have any questions or feedback it would be great to leave them in the comments.
 
 You can follow me and the development of Prism [@kaleidawave](https://twitter.com/kaleidawave)
-
-<h3 class="note">
-    Originally posted on <a href="https://dev.to/kaleidawave/jit-hydration-4b62">dev.to</a>
-</h3>

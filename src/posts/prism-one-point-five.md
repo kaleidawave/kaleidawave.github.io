@@ -12,7 +12,7 @@ Prism 1.5 is out now. This post goes over the [server component](#server-compone
 
 Prism is a experimental framework for building web apps which takes declarative templates written in HTML, CSS and JS (similar to svelte and vue) and compiles them into ultra small & efficient client and server bundles. It is more of a research project into some ideas of what I thought could be the most efficient full stack framework.
 
-<h2 id="server-components">"Server components"</h2>
+## "Server components"
 
 Last December we saw two big announcements in the world of server rendering. The first was [React server components](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html) which enables components VDOM content to be rendered on the server. The other was [hotwire](https://hotwire.dev/) which is a set of libraries for adding more interactivity on the page through communicating with the server.
 
@@ -118,7 +118,7 @@ So the answer by most frameworks is to serialize the data used to render that co
 
 But this is bad as now each response is now considerably larger due to the same data now existing both in the markup and in the JSON blob (as shown with the highlighting). This problem is often referred to as the *double data* problem. This is especially a problem in VDOM and render to hydrate based frameworks which require all the data to start [1](#foot1).
 
-<h3 id="jit-hydration">A better implementation</h3>
+### A better implementation {#jit-hydration}
 
 As we have seen just looking at the HTML response it is impossible to pull data from it. But now if I show you the template that was behind what was used to render `story-preview`'s HTML then it becomes understandable where those values were interpolated:
 
@@ -242,7 +242,7 @@ One thing I will give React server components is the ability to write [backend l
 - Smaller response payloads. Stimulus attribute based logic is sent down on every response where Prism compiles logic into the JS bundle which size is constant and can cached between requests
 - Stimulus a similar DOM based hydration system to Prism although it [seems to suffer from the double data problem using `data-*-value` attributes](https://stimulus.hotwire.dev/handbook/managing-state#reading-initial-state-from-the-dom)
 
-<h5 id="json-vs-html">On JSON vs HTML</h5>
+##### On JSON vs HTML {#json-vs-html}
 
 So the good thing about sending HTML down is that it can be readily placed into the tree without a transformation step. Comparing the sizes: JSON includes the keys whereas with Prism's hydration system encodes the key mapping into the hydration codegen which is constant for any incoming data. HTML is a data language although data is nested within a bunch of UI markup. For example on every `story-preview` it has to send two buttons for each component although with JSON only the raw data is sent and the buttons are added via constant bundle code.
 
@@ -250,7 +250,7 @@ Looking at HN frontpage the average JSON size for `story-preview`s was around `2
 
 The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if Prism moved to a [index based element lookup system](https://github.com/kaleidawave/prism/issues/31). And the size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added [3](#foot3). These figures are ignoring compression which may have a disproportionate effect between the formats and may close the size gap. But both formats aren't great data formats for small efficient data flow. *Inspired by [serde](https://serde.rs/)*, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.
 
-<h5 id="jit-vs-partial">On JIT hydration vs Partial hydration</h5>
+##### On JIT hydration vs Partial hydration {#jit-vs-partial}
 
 One improvement to *full* hydration are techniques partial and progressive hydration. Partial hydration seems to benefit render to hydrate frameworks (which Prism isn't) by rerendering only *islands* (rather than the whole page) to add interaction. Partial hydration is difficult to implement though as it is difficult to know what portions are interactive and stateful. And although *static* regions are now ignored *dynamic* regions still suffer from the double data and rerender issue. In this case for HN Prism this means the biggest components `story-preview` and `story-page` aren't any more optimized.
 
@@ -258,7 +258,7 @@ And progressive hydration is incrementally making portions interactive rather th
 
 But Prism doesn't suffer from any of this. Whether a component is stateful or not it still doesn't send a JSON blob or *rerender* its content. The state is ultra partial and progressive considering properties are only retrieved when they are being evaluated and only the single property of that object is *hydrated* in. **I think JIT hydration and the code generation around the data is the only way to solve the double data problem while sending down only the HTML for stateful components**.
 
-<h3 id="frontend-frameworks-on-the-backend">Frontend frameworks on the backend</h3>
+##### Frontend frameworks on the backend {#frontend-frameworks-on-the-backend}
 
 One of the arguments behind Hotwire is that it's system *works* for server rendered sites built in languages other than JS. This is generally a problem with all frontend frameworks. React, Vue, Angular and Svelte all have some API to render their templates to a string **but** they are all restricted to the JS language. This is a big gap as there are lots of other backend frameworks and tools for languages not in JS.
 
@@ -303,7 +303,7 @@ With Prism I took a lot of the problems around frontend frameworks today in to a
 
 At this point it seems necessary to mention why frameworks? and why plain JS or no build step is insufficient in many cases.
 
-<h3 id="why-frameworks">Why frameworks?</h3>
+### Why frameworks? {#why-frameworks}
 
 Frameworks generally implement a single declarative way to mark that this variable/data/state is interpolated here. Reactivity mechanisms ensure that the view is always up to date with the current value of the variable/data/state. Generally HTML doesn't have a way to express a binding with JS. So updating the view is done imperatively:
 
@@ -339,7 +339,7 @@ document.body.append(counterComponent);
 
 Here the interpolation of `this.counter` is done imperatively. And due to this it requires writing the interpolation logic twice. Writing twice is a little time consuming but the worst effect is that the logic is split up. If the first part is modified for example `h1` tag is changed to `h5` then the second part is broken and it's not clear for a linter to pick this up. The *desync* issue here is manageable but when you have lots of components with lots of interpolation spread across a large project with lots of contributors it gets difficult to manage. There is also the fact that the imperative calls are quite distant from the declarative design of the HTML language and reading & processing the above is more difficult. But the lack of interpolation synchronization only gets worse..
 
-<h4 id="why-frameworks-isomorphic"><i>Isomorphia</i></h4>
+#### Universality / SSR {#ssr}
 
 The reactivity issue is further amplified when work is shared between the client and server. For this example a *"post"* is sent down with some interpolated data.
 
@@ -491,15 +491,15 @@ In Prism 1.5.0 the Rust SSR compilation was improved so the that server render f
 
 Text can now be interpolated when alongside other tags. There are fixes for getting data on nullable nodes and there has been A lot of work behind the scenes to allow for Prism components to be compiled on the browser.
 
-<h3 id="prism-future">Future</h3>
+### Future {#prism-future}
 
-Prism is not designed as a hot new framework. Instead it is a implementation in attempting to fix some of the biggest issues around *isomorphia* with modern frontend frameworks.
+Prism is not designed to be the next new framework. Instead it is a implementation in attempting to fix some of the biggest issues around SSR and hydration in currently popular frontend frameworks.
 
 One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (csr, ssr, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name. 
 
 The compiler is a little rough around the edges. Prism will fail both silently and loudly. It is not intended for production but if you want to try out JIT hydration or Rust compilation you can try the [quickstart](https://github.com/kaleidawave/prism/blob/main/docs/quickstart.md) or fork the [HN repo](https://github.com/kaleidawave/hackernews-prism).
 
-<h3 id="footnotes">Footnotes 📜</h3>
+### Footnotes 📜 {#footnotes}
 
 <h6 id="foot1">(1) Render to hydrate</h6>
 

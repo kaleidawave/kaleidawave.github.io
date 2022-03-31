@@ -3,9 +3,8 @@ layout: main_layout.njk
 title: About
 ---
 
-Hey I am Ben, currently 20 and live in the UK. I am interested in language design, mathematics, zero cost abstractions and the web.
+Hey 👋 I am Ben, currently 21 and live in the UK. 
 
-### Other Links:
+I am interested in language design, type theory, zero cost abstractions and the web.
 
-- [{% icon "codepen" %} Codepen](https://codepen.io/kaleidawave)
-- [{% icon "stackoverflow" %} Stack Overflow](https://stackoverflow.com/users/10048799/kaleidawave)
+[The easiest/best way to contact me is via Twitter](https://twitter.com/messages/compose?recipient_id=&ref_src=twsrc%5Etfw)

@@ -1,5 +1,5 @@
 ---
-title: kaleidawave.github.io
+title: Ben's Engineering Blog
 image: null
 description: writings on the things
 ---
@@ -11,15 +11,15 @@ description: writings on the things
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
         <meta name="referrer" content="no-referrer-when-downgrade">
+
         {% if globalData.production %}
-        <!-- counter.dev Analytics -->
-        <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"kaleidawave",utcoffset:"0"}))};sessionStorage.setItem("_swa","1");</script>
-        <!-- End counter.dev Analytics -->
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a3f0b71c0ea4b3d99621e1b084c24cd"}'></script>
         <!-- End Cloudflare Web Analytics -->
         {% endif %}
+
         <title>{{ title }}</title>
+
         <meta name="title" content="{{title}}">
         <meta property="og:title" content="{{title}}">
         <meta property="twitter:title" content="{{title}}">
@@ -44,11 +44,10 @@ description: writings on the things
             <meta property="og:image" content="{{image}}">
         {% endif %}
 
-        <script>
-            {% include "static/script.js" %}
-        </script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
+
         {% eleventyGoogleFonts "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Vollkorn:wght@600&family=JetBrains+Mono:wght@200&display=swap" %}
+        
         <style>
             {% include "static/index.css" %}
         </style>
@@ -56,15 +55,14 @@ description: writings on the things
     <body>
         <header>
             <div class="width-box">
-                <div class="title">
-                    <h1>
-                        <a href="/">kaleidawave</a>
+                <a class="title" href="/">
+                    <h1>Ben's Engineering Blog
                     </h1>
                     <img src="/media/icon.png" width="256" height="256" alt="">
                     {% if not globalData.production %}
                         <span>(dev)</span>
                     {% endif %}
-                </div>
+                </a>
                 <nav>
                     <ul>
                         <li><a href="/posts">Posts</a></li>
@@ -80,30 +78,24 @@ description: writings on the things
         </main>
         <footer>
             <div class="width-box">
-                <h3> 2021 @kaleidawave </h3>
+                <h3>2022 @kaleidawave</h3>
                 <nav>
                     <ul>
-                        <li><a href="https://github.com/kaleidawave">{% icon "github" %} GitHub</a></li>
                         <li><a href="https://twitter.com/kaleidawave">{% icon "twitter" %} Twitter</a></li>
-                        <li><a href="https://leetcode.com/kaleidawave/">{% icon "leetcode" %} LeetCode</a></li>
                     </ul>
                 </nav>
                 <form>
                     <label for="toggle-theme">Light Mode</label>
                     <input type="checkbox" name="toggle-theme" id="toggle-theme">
                 </form>
-                <span>Built with <a href="https://www.11ty.dev/">{% icon "eleventy" %} Eleventy</a></span>
-                <script>
-                    const themeSwitch = document.querySelector("#toggle-theme");
-                    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
-
-                    themeSwitch.addEventListener("change", (ev) => {
-                        const darkTheme = !ev.target.checked;
-                        onSchemeChange(darkTheme);
-                        updateThemeClass(darkTheme);
-                    })
-                </script>
+                <span>
+                    Built with <a href="https://www.11ty.dev/">{% icon "eleventy" %} Eleventy</a>
+                </span>
             </div>
         </footer>
+        
+        <script>
+            {% include "static/script.js" %}
+        </script>
     </body>
 </html>

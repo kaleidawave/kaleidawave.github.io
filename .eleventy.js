@@ -10,19 +10,27 @@ const htmlmin = require("html-minifier");
 const mathjax = require("mathjax");
 const eleventyGoogleFonts = require("eleventy-google-fonts");
 const fs = require("fs");
+const markdownIt = require("markdown-it");
+const markdownItAnchor = require("markdown-it-anchor");
+const markdownItAttrs = require("markdown-it-attrs");
 
 let mathjax_instance;
 
 const mediaCacheFile = ".mediasizecache";
 
 module.exports = function (eleventyConfig) {
-
     eleventyConfig.addPlugin(syntaxHighlight);
     eleventyConfig.addPlugin(eleventyGoogleFonts);
-    eleventyConfig.setUseGitIgnore(false);
     
     eleventyConfig.addPassthroughCopy("media");
     eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
+
+    const options = {
+        html: true
+    };
+    const markdownLib = markdownIt(options).use(markdownItAttrs).use(markdownItAnchor);
+    
+    eleventyConfig.setLibrary("md", markdownLib);
 
     let mediaSizeCache;
     if (fs.existsSync(mediaCacheFile)) {
@@ -31,10 +39,9 @@ module.exports = function (eleventyConfig) {
         mediaSizeCache = new Map();
     }
     
-    // Available in 11ty 1.0
-    // const production = process.env.CI === "true";
-    // eleventyConfig.addGlobalData("production", production);
-    // eleventyConfig.setUseGitIgnore(!production);
+    const production = process.env.CI === "true";
+    eleventyConfig.addGlobalData("production", production);
+    eleventyConfig.setUseGitIgnore(production);
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
         const day = days[value.getDay()];
@@ -107,8 +114,7 @@ module.exports = function (eleventyConfig) {
                 fontCache: 'local'
             });
         }
-        const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(source, {display: false}))
-        return output;
+        return mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(source, {display: false}));
     });
 
     // Latex, Images and videos are wrapped in `div` to avoid markdown plugin wanting to wrap them in `p` tags
@@ -149,7 +155,7 @@ module.exports = function (eleventyConfig) {
     });
 
     eleventyConfig.addTransform("htmlmin", function (content, outputPath) {
-        if (outputPath && outputPath.endsWith(".html")) {
+        if (production && outputPath && outputPath.endsWith(".html")) {
             return htmlmin.minify(content, {
                 useShortDoctype: true,
                 removeComments: true,
@@ -161,6 +167,7 @@ module.exports = function (eleventyConfig) {
         return content;
     });
 
+    // Cache the results of images sizing
     eleventyConfig.on("afterBuild", () => {
         fs.writeFileSync(mediaCacheFile, JSON.stringify(Array.from(mediaSizeCache)));
     });
