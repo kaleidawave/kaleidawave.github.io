@@ -12,7 +12,7 @@ description: writings on the things
         <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
         <meta name="referrer" content="no-referrer-when-downgrade">
 
-        {% if globalData.production %}
+        {% if production %}
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a3f0b71c0ea4b3d99621e1b084c24cd"}'></script>
         <!-- End Cloudflare Web Analytics -->
@@ -59,7 +59,7 @@ description: writings on the things
                     <h1>Ben's Engineering Blog
                     </h1>
                     <img src="/media/icon.png" width="256" height="256" alt="">
-                    {% if not globalData.production %}
+                    {% if not production %}
                         <span>(dev)</span>
                     {% endif %}
                 </a>
