@@ -33,3 +33,29 @@ themeSwitch.addEventListener("change", (ev) => {
     const darkTheme = !ev.target.checked;
     changeScheme(darkTheme);
 });
+
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+// TODO temp hack:
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }   
+    }
+}

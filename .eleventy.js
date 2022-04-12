@@ -1,7 +1,6 @@
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const simpleIcons = require("simple-icons");
 const imageSize = require("image-size")
 const videoSize = require("get-video-dimensions");
@@ -13,22 +12,30 @@ const fs = require("fs");
 const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItAttrs = require("markdown-it-attrs");
+const markdownItShiki = require("markdown-it-shiki").default;
 
 let mathjax_instance;
 
 const mediaCacheFile = ".mediasizecache";
 
 module.exports = function (eleventyConfig) {
-    eleventyConfig.addPlugin(syntaxHighlight);
+    eleventyConfig.setWatchThrottleWaitTime(100);
+
     eleventyConfig.addPlugin(eleventyGoogleFonts);
     
     eleventyConfig.addPassthroughCopy("media");
     eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
 
-    const options = {
-        html: true
-    };
-    const markdownLib = markdownIt(options).use(markdownItAttrs).use(markdownItAnchor);
+    const options = { html: true };
+    const markdownLib = markdownIt(options)
+        .use(markdownItShiki, {
+            theme: {
+                dark: 'min-dark',
+                light: 'min-light'
+            }
+        })
+        .use(markdownItAttrs)
+        .use(markdownItAnchor);
     
     eleventyConfig.setLibrary("md", markdownLib);
 

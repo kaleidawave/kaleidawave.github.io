@@ -84,7 +84,7 @@ To run the above the client needs to know the value of the data used to render t
 
 So the answer by most frameworks is to serialize the data used to render that component on the server and include it in the response. During the hydration the serialized data can be deserialized and stored in memory as the page data through `JSON.parse`. Here is a example of a response with the additional serialized data:
 
-```html/10,20
+```html{data-highlight=10,20}
 <story-preview>
     <div class="buttons">
         <button disabled>&#9650;</button>
@@ -270,7 +270,7 @@ Yep thats right Rust {% icon "rust" %} server side rendered web components, neve
 
 All that is required to render a Prism component/page is to wire up the Prism generated method to a endpoint:
 
-```rust/1,9
+```rust{data-highlight=1,9}
 // Import Prism generated method:
 use templates::story_page_prism::render_story_page_page;
 
@@ -307,7 +307,7 @@ At this point it seems necessary to mention why frameworks? and why plain JS or 
 
 Frameworks generally implement a single declarative way to mark that this variable/data/state is interpolated here. Reactivity mechanisms ensure that the view is always up to date with the current value of the variable/data/state. Generally HTML doesn't have a way to express a binding with JS. So updating the view is done imperatively:
 
-```js/7,18
+```js{data-highlight=7,18}
 customElements.define(
     "counter-component", 
     class extends HTMLElement { 
@@ -406,7 +406,7 @@ So frameworks implement some sort of single source. For example in Prism:
 The template is declarative. It abstracts on the imperative `document.createElement` and `attachEventListener` calls. The template is much more akin to HTML and understanding the structure of this component is more accessible. The span <-> `upvotes` binding is only written once. And so if `span` was changed to `p` there are no other handwritten references of this binding and compiling would take care of updating all references to span with references to the `p` element. For full reactivity and JIT hydration, Prism will take the single source and generate the n number of implementations. These would be tricky to manage if written manually. For example the upvotes binding eventually ends up in four places:
 
 `client.js`:
-```js/2,8,9
+```js{data-highlight=2,8,9}
 // Initial render
 render() {
     this.append(.., h("span", {class: "p120"}, 0, this.data.upvotes))
@@ -422,7 +422,7 @@ bindings = {
 ```
 
 `server.rs`:
-```rust/8
+```rust{data-highlight=8}
 pub struct PostData {
     postTitle: String, 
     upvotes: f64
@@ -538,7 +538,7 @@ class StoryPage extends Component<IStoryItem>
 
 <h6 id="foot3">(3) Non reversible expressions</h6>
 
-Some expressions cannot be reversed. For example the `date` in markup is rendered as a relative string. From `"1 day ago"` it isn't possible to construct a `Date` instance of that value as it could be any hour, minute etc of the previous day. There are a possible `86400000` different `Date` objects which could have been rendered to say `"1 day ago"`. Information has been lot in converting it a relative string. So instead a ISO string representation of that `Date` is added as a attribute on one of the elements so the hydration logic can do `return new Date(elem.getAttribute())`. 
+Some expressions cannot be reversed. For example the `date` in markup is rendered as a relative string. From `"1 day ago"` it isn't possible to construct a `Date` instance of that value as it could be any hour, minute etc of the previous day. There are a possible `86400000` different `Date` objects which could have been rendered to say `"1 day ago"`. Information has been lost in converting it a relative string. So instead a ISO string representation of that `Date` is added as a attribute on one of the elements so the hydration logic can do `return new Date(elem.getAttribute())`. 
 
 Prism can reverse some expressions e.g. from `/i/${id}` it produces this expression `result.slice(3)`. See [this issue](https://github.com/kaleidawave/prism/issues/11) for further details.
 

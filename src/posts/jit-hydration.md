@@ -26,7 +26,7 @@ Standard client side rendered sites would make a http request to the backend api
 
 So the solution a lot of frameworks use is to send the data down as a JSON blob with the request.
 
-```html/6,15
+```html{data-highlight=6,15}
 <head>
     <script>
         window.__data__ = JSON.parse(`

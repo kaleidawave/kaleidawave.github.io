@@ -5,7 +5,7 @@
 
 .post > p,
 .post li {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.5em;
     margin: 10px 0;
     font-weight: inherit;
@@ -13,17 +13,29 @@
     letter-spacing: 0.02rem;
 }
 
+.post strong {
+    letter-spacing: initial;
+}
+
 .post > *:is(h2, h3, h4, h5) {
     margin: 10pt 0;
     font-size: 1.8rem;
 }
 
-.post img,
-.post video,
-.post pre {
-    width: 110%;
-    align-self: center;
-    height: auto;
+@media screen {
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        width: 110%;
+        align-self: center;
+        height: auto;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
 }
 
 .post video,
@@ -36,9 +48,14 @@
     fill: var(--text-color);
 }
 
-.post pre {
-    font-size: 0.9em;
-    max-height: 81vh;
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    margin: 20px;
 }
 
 .post .math {
@@ -49,11 +66,6 @@
     width: auto;
     height: 200%;
     margin: 10px;
-}
-
-.post pre code {
-    white-space: break-spaces !important;
-    overflow-x: hidden;
 }
 
 .post .quote {
@@ -127,16 +139,16 @@
 }
 
 .post h1 {
-    font-size: 40px;
+    font-size: 36px;
 }
 .post h2 {
-    font-size: 35px;
+    font-size: 32px;
 }
 .post h3 {
-    font-size: 30px;
+    font-size: 28px;
 }
 .post h4 {
-    font-size: 25px;
+    font-size: 24px;
 }
 .post h5 {
     font-size: 20px;

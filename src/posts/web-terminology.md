@@ -14,7 +14,7 @@ The act of turning data or state into some representation of HTML.
 
 ### Server side rendering (SSR) {#ssr}
 
-A process which produces a string/text buffer of the HTML format by a server (a machine that is not the client). Note that this can be stored in buffers on a server as a cache or can be saved to *files* as a static site generation.
+A process which produces a string/text buffer of the HTML format by a server (a machine that is not the client). Note that this can be stored in buffers on a server as a cache or can be saved to *files* as static site generation.
 
 ### Client side rendering (CSR) {#csr}
 
@@ -32,19 +32,19 @@ Hydration is the running of code which enables client side interactivity on serv
 
 ### Partial hydration / Island architecture {#partial-hydration}
 
-If your implementation of hydration starts by walking from top level node and ends up running over the whole UI requiring all the state then partial hydration is identifying and instead running hydration only on dynamic trees (aka not [static trees](#static-trees)). The islands refers to the dynamic trees.
+If your implementation of hydration starts by walking from top level node and ends up running over the whole UI requiring deserializing **all the state** then partial hydration is identifying and instead running hydration only on dynamic trees (aka not [static trees](#static-trees)). The islands refers to the dynamic trees.
 
-Partial hydration is a form of [dead code elimination](#dead-code-elimination).
+Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with UI that doesn't change. This includes static component's render methods and any dependencies the render methods pull in. If state is also serialized as a JSON blob then partial hydration can stop serializing data used by the static trees.
 
-The saving is a ratio of how *dynamic* the page is. Partial hydration doesn’t make the interactive parts faster just removes the “hydration costs” from static parts, so overall the page should be faster than the “hydrating” the whole page. And notes this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% performance improvement). 
+The saving is a ratio of how *dynamic* the page is. Partial hydration doesn’t make the interactive parts faster just removes the costs of additional serialized state and their from static parts, so overall the page should be faster than the “hydrating” the whole page. And notes this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% performance improvement). 
 
-Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. It’s a architecture not a feature. 
+Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. It’s a architecture not a feature. Partial hydration / Island architecture is not related to [progressive enhancement](#progressive-enhancement)
 
 ### Progressive hydration / Lazy hydration {#progressive-hydration}
 
-Doing the process of hydration on interaction or some time after the page load.
+Doing the process of hydration on interaction with a component or some other time after the page load.
 
-It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture really encompasses other functionality at play such as only sending component only bundles and stopping at hydrating the whole subtree become interactive before then. 
+It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture really encompasses other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree which can make the component interactive sooner. 
 
 ### JIT (state) Hydration {#jit-hydration}
 
@@ -55,19 +55,19 @@ Lazily initializing the client's state using data present in the UI in the HTML 
 The act of server rendering markup which has functionality using HTML features such as:
 
 - Forms with endpoints
-- Anchor tags
+- Anchor tags with href
 
-These features are available without JS running on the client, The server should be ready up to receive the browsers requests and provide the functionality that the JS is implementing. A [hydration](#hydration) step can then add event listeners to override the default browser functionality.
+The above features are available without JS running on the client. A server should be ready to receive the browsers requests and do stuff. 
 
-Progressive enhancement can be implemented in any framework that supports server side rendering. Although some frameworks have helpers for making this easier or the cow path.
+Progressive enhancement can be implemented in any framework that supports server side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally a [hydration](#hydration) step can then add event listeners to override the default browser functionality.
 
-Note that not every interaction can be implemented using the HTML features (e.g mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Sometimes using the browser functionality is easier and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
+Note that not every interaction can be implemented using the HTML features (e.g mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do [full page reloads](#full-page-reloads) which can disrupt state on the client (e.g. other input contents, background audio). Overriding the behavior to be a [spa](#spa) allows for transitions between and in some places can be faster as only a partial amount of the new page data needs to be changed. Sometimes using the browser functionality is easier and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
 
-But doing PE is better than not doing PE. The site should be as functional as it can be because JS may have not run yet, at all or may have failed. 
+But doing PE is better than not doing PE. The site should be as functional as it can be because JS (the hydration) may have not run yet, at all or may have failed. 
 
 PE is disjoint from load performance. PE does not mean better performance either, using JS to only get partials from the server sends less than the content from a full page refresh thus is better performance. 
 
-**Progressive enhancement is not partial hydration.** 
+**Progressive enhancement is not [partial hydration](#partial-hydration).** 
 
 ### Design system
 
@@ -98,15 +98,23 @@ Similar to a static site generation. Where a static site generates on build / de
 The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**. 
 
 - Event handlers are registered for most visible page elements
-- **The page responds to user interactions within 50 milliseconds**.
+- **The page responds to user interactions within 50 milliseconds**
 
-### First Contentful Paint (FCP) {#fcp}
+### First contentful paint (FCP) {#fcp}
 
-The time to display content from when the page starts loading (e.g server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client side rendering then the time it takes for the JS to start running and produce the elements).
+The time to display content from when the page starts loading (e.g server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client side rendering then the time it takes for the JS to start running and produce the elements). This also includes initial layout working and image rendering.
+
+### Time to first byte (TTFB) {#ttfb}
+
+How long it takes for the server to initially respond. If streaming this is the time to the first chunk. If not (aka buffering) this is the time for the content to be prepared and sent (aka a full SSR). Normally a measure of the hosting server rather.
 
 ### No-JS / zero JS {#zero-js}
 
-Something which runs with no JS running ever. This includes 3rd party scripts. Again most pages require some form of JS, something that runs no JS is not necessarily better. 
+Something with no JS running **ever**. This includes [3rd party scripts](#3rd-party-scripts). Again most pages require some form of JS, something that runs no JS is not necessarily better.
+
+### Sprinkles
+
+Using JS to add interactivity to certain parts of a server rendered UI in small amounts. (This is not [progressive-enhancement](#progressive-enhancement) as it doesn't require implement server functionality)
 
 ### 3rd party scripts
 
@@ -145,13 +153,13 @@ Note that fine grained reactivity may include re-rendering sections which are dy
 
 ### Server component
 
-Any component where its content is produced on the server either in HTML or a intermediate format
+Any component where its content is produced on the server either in HTML or a intermediate format.
 
 ### Memoization
 
 The process of caching function return values against the inputs. If a function takes a long to compute the result and is rerun a lot then this can speed up getting the result as it takes a map lookup rather than a re-computation. 
 
-A auto-memoization compiler can wrap function calls with a cache lookup and storage
+A auto-memoization compiler can wrap function calls with a cache lookup and storage.
 
 Note that this is a optimization at call sites, this can be avoided via rearranging when data is calculated and is passed through. 
 
@@ -159,23 +167,23 @@ This technique incurs memory overhead due needing to storing all results of the 
 
 ### Actions
 
-Something which mutates a specific part of the state
+Something which mutates a specific part of the state.
 
 ### Effects
 
-Results of those actions. e.g changing a value may require updating the content element in the templating interpolation
+Results of those actions. e.g changing a value may require updating the content element in the templating interpolation.
 
 ### Diffing
 
-Finding differences between a existing representation and a new representation
+Finding differences between a existing representation and a new representation.
 
-Diffing techniques do not always apply to VDOM. Diffing can be done on structures that do not look like DOM. Such as a flat list
+Diffing techniques do not always apply to VDOM. Diffing can be done on structures that do not look like DOM. Such as a flat list.
 
-Produces a diff / difference which can be used for reconciliation
+Produces a diff / difference which can be used for reconciliation.
 
 ### Virtual DOM / VDOM {#vdom}
 
-The virtual DOM is a structure similar to the DOM. It is slimmer and has a subset of the API of the structures defined in the DOM JS spec e.g. HTMLElement. VDOM is a representation, actual DOM has functionality (e.g `.click()` isn't on VDOM structures)
+The virtual DOM is a structure similar to the DOM. It is slimmer and has a subset of the API of the structures defined in the DOM JS spec e.g. HTMLElement. VDOM is a representation, actual DOM has functionality (e.g `.click()` isn't on VDOM structures).
 
 ### Conciliation / reconciliation {#conciliation}
 
@@ -352,3 +360,15 @@ The whole operation or managing and running the program.
 ### Standard
 
 A API formalized in a specification and implemented by other parties.
+
+### Type checking
+
+Validating that source code lines up with type definitions.
+
+### Type annotation
+
+A piece of syntax which associates a type with a term.
+
+### Type inference
+
+Identifying a type without using information from a type annotation.

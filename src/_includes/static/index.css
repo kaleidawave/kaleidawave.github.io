@@ -7,15 +7,19 @@
     --muted-background-opaque: rgba(255, 255, 255, 0.5);
     --accent: #b80f34;
     --muted-accent: #9c1f49;
+    --code-highlight: #ffb0b0;
 }
 
-:root.dark {
-    --text-color: #dbdbdb;
-    --background: #151516;
-    --muted-background: #1f1f23;
-    --muted-background-opaque: rgba(31, 31, 35, 0.5);
-    --accent: #8af1be;
-    --muted-accent: #81c9a7;
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #151516;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: rgba(31, 31, 35, 0.5);
+        --accent: #8af1be;
+        --muted-accent: #81c9a7;
+        --code-highlight: #223731;
+    }
 }
 
 :root:not(.dark) strong {
@@ -24,6 +28,14 @@
 
 :root:not(.dark) *:is(h1, h2, h3, h4, h5, h6) {
     font-weight: 100;
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
 }
 
 html, body {
@@ -79,6 +91,16 @@ header img {
     top: -4px;
     height: 26px;
     width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
 }
 
 header nav > ul {
@@ -144,12 +166,16 @@ a:visited {
     color: var(--muted-accent, white);
 }
 
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+}
+
 code, pre {
     background-color: var(--muted-background);
     border-radius: 4px;
-    font-size: 80%;
+    font-size: 15px;
     font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
-    overflow-x: scroll;
 }
 
 footer {
@@ -159,11 +185,9 @@ footer {
 }
 
 footer > div {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 footer h3 {
@@ -175,7 +199,9 @@ footer h3 {
 footer nav ul {
     list-style: none;
     display: flex;
-    gap: 10px;
+    gap: 4px;
+    flex-direction: column;
+    text-align: right;
 }
 
 footer > div > *:nth-child(2n) {

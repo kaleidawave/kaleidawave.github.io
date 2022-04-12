@@ -15,7 +15,9 @@
             <a href="{{ post.url }}">
                 <h5>{{ post.data.title }}</h5>
             </a>
-            <p>{{post.data.description}}</p>
+            {% if post.data.description %}
+                <p>{{post.data.description}}</p>
+            {% endif %}
             {% if post.data.date %}
             <span class="date">
                 {{ post.data.date | formatDateShort }}
