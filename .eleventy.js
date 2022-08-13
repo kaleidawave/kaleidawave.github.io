@@ -30,8 +30,8 @@ module.exports = function (eleventyConfig) {
     const markdownLib = markdownIt(options)
         .use(markdownItShiki, {
             theme: {
-                dark: 'min-dark',
-                light: 'min-light'
+                dark: 'github-dark',
+                light: 'github-light'
             }
         })
         .use(markdownItAttrs)
@@ -47,6 +47,7 @@ module.exports = function (eleventyConfig) {
     }
     
     const production = process.env.CI === "true";
+    console.log({production});
     eleventyConfig.addGlobalData("production", production);
     eleventyConfig.setUseGitIgnore(production);
 
@@ -82,11 +83,11 @@ module.exports = function (eleventyConfig) {
         return `${day} ${dayOfMonth}<sup>${postfix}</sup> ${month} ${year}`;
     });
 
-    eleventyConfig.addCollection("sortedPosts", collectionApi => {
-        return collectionApi.getFilteredByTag("posts").sort(function (a, b) {
+    eleventyConfig.addCollection("sortedPosts", collectionApi => 
+        collectionApi.getFilteredByTag("posts").sort(function (a, b) {
             return b.date - a.date;
-        });
-    });
+        })
+    );
 
     eleventyConfig.addNunjucksFilter(
         "formatDateShort",
@@ -144,7 +145,7 @@ module.exports = function (eleventyConfig) {
             mediaSizeCache.set(src, {height, width});
             return `<div style="display: contents;"><img src="${src}" alt="${alt}" width="${width}" height="${height}"></div>`;
         } catch (err) {
-            console.log(`Error finding size of image ${src}`);
+            console.error(`Error finding size of image ${src}`);
             return `<div style="display: contents;"><img src="${src}" alt="${alt}"></div>`;
         }
         
@@ -156,7 +157,7 @@ module.exports = function (eleventyConfig) {
             mediaSizeCache.set(src, {height, width});
             return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
         } catch (err) {
-            console.log(`Error finding size of video ${src}`);
+            console.error(`Error finding size of video ${src}`);
             return `<div style="display: contents;"><video controls loop src="${src}"></video></div>`;
         }
     });
@@ -174,7 +175,7 @@ module.exports = function (eleventyConfig) {
         return content;
     });
 
-    // Cache the results of images sizing
+    // Cache the results of image sizes
     eleventyConfig.on("afterBuild", () => {
         fs.writeFileSync(mediaCacheFile, JSON.stringify(Array.from(mediaSizeCache)));
     });

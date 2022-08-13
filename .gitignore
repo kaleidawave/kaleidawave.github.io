@@ -4,5 +4,6 @@ dist
 TODO.txt
 private
 src/unpublished
+src/canned
 media/unpublished
 .mediasizecache

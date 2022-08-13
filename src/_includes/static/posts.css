@@ -26,7 +26,11 @@
     height: 200px;
     overflow: hidden;
     border-radius: 6px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+}
+
+.posts > ul > li > p {
+    margin: 6px 0 12px;
 }
 
 .posts > ul > li img {

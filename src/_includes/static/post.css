@@ -5,24 +5,22 @@
 
 .post > p,
 .post li {
-    font-size: 16px;
     line-height: 1.5em;
     margin: 10px 0;
     font-weight: inherit;
     font-family: "Inter", "Helvetica", sans-serif;
-    letter-spacing: 0.02rem;
 }
 
 .post strong {
     letter-spacing: initial;
 }
 
-.post > *:is(h2, h3, h4, h5) {
-    margin: 10pt 0;
-    font-size: 1.8rem;
+.post > *:is(h1, h2, h3, h4, h5) {
+    margin: 6pt 0;
+    font-size: 1.6rem;
 }
 
-@media screen {
+@media screen and (min-width: 480px) {
     .post img,
     .post video,
     .post pre:not(.shiki) {
@@ -41,6 +39,10 @@
 .post video,
 .post img {
     margin: 20px 0;
+}
+
+.post img {
+    border-radius: 6px;
 }
 
 .post svg.icon {
@@ -154,6 +156,17 @@
     font-size: 20px;
 }
 
+blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 0px 10px;
+}
+
+blockquote > p {
+    margin: 0;
+    font-style: italic;
+}
+
 @media screen and (max-width: 480px) {
     .center {
         text-align: center;
@@ -171,6 +184,7 @@
     .post pre,
     .post video {
         width: 100%;
+        height: auto;
     }
 
     .post pre {

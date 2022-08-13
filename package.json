@@ -10,8 +10,7 @@
         "build": "eleventy --quiet"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "kaleidawave",
     "devDependencies": {
         "@11ty/eleventy": "^1.0.0",
         "@types/mathjax": "^0.0.36",

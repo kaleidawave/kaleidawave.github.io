@@ -8,9 +8,14 @@ includeImage: true
 </style>
 
 <div class="post">
-    <h1>{{title}}</h1>
+    <h1 class="title">{{title}}</h1>
     {% if date %}
-        <p class="date">Published on {{date | formatDateLong | safe}}</p>
+        <p class="date">
+            Published on {{date | formatDateLong | safe}}
+            {% if editDate %}
+            (last edited on {{editDate | formatDateLong | safe}})
+            {% endif %}
+        </p>
     {% endif %}
     {% if image and includeImage %}
         {% image image, "" %}
