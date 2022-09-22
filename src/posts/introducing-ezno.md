@@ -3,7 +3,7 @@ layout: post.njk
 title: Introducing Ezno
 date: 2022-09-22
 description: Introducing Ezno and the current state of the project.
-image: /media/unpublished/introducing-ezno-banner.png
+image: /media/introducing-ezno-banner.png
 tags: posts
 ---
 
