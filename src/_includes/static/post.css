@@ -4,8 +4,9 @@
 }
 
 .post > p,
-.post li {
-    line-height: 1.5em;
+.post li,
+.post blockquote {
+    line-height: 1.6em;
     margin: 10px 0;
     font-weight: inherit;
     font-family: "Inter", "Helvetica", sans-serif;
@@ -114,7 +115,7 @@
 }
 
 *:is(h1, h2, h3, h4, h5, h6, p, li) > code {
-    padding: 3px 6px;
+    padding: 2px 6px;
 }
 
 /* For footnotes */
@@ -138,6 +139,10 @@
     background-color: var(--muted-background);
     border-radius: 16px;
     border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 48px;
 }
 
 .post h1 {
@@ -164,7 +169,6 @@ blockquote {
 
 blockquote > p {
     margin: 0;
-    font-style: italic;
 }
 
 @media screen and (max-width: 480px) {

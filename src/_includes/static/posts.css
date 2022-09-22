@@ -12,7 +12,7 @@
 .posts > ul {
     display: grid;
     grid-auto-rows: min-content;
-    gap: 14px;
+    gap: 28px;
 }
 
 .posts > ul > li {
@@ -23,8 +23,8 @@
 }
 
 .posts > ul > li > .post-image {
-    height: 200px;
     overflow: hidden;
+    max-height: 200px;
     border-radius: 6px;
     margin-bottom: 18px;
 }

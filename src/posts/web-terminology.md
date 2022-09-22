@@ -13,42 +13,42 @@ tags: posts
 
 The act of turning data or state into some representation of HTML.
 
-### Server side rendering (SSR) {#ssr}
+### Server-side rendering (SSR) {#ssr}
 
 A process that produces a string/text buffer of the HTML format by a server (a machine that is not the client). Note that this can be stored in buffers on a server as a cache or can be saved to *files* as static site generation.
 
-### Client side rendering (CSR) {#csr}
+### Client-side rendering (CSR) {#csr}
 
-A string/text representation of HTML or `HTMLElement`s that is created locally on the client (the same cpu, this includes web workers and service workers).
+A string/text representation of HTML or `HTMLElement`s that is created locally on the client (the same CPU, this includes web workers and service workers).
 
 ### Hydration
 
-Hydration is the running of code that enables client side interactivity on server rendered DOM. [It has origins for databases](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object) and refers to how data is deserialized from some string buffer form. The reference of the term on the web is now more prevalent than databases.
+Hydration is the running of code that enables client-side interactivity on server-side rendered DOM. [It has origins in databases](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object) and refers to how data is deserialized from some string buffer form. The reference of the term with the web is now more prevalent than with databases.
 
 More recently it has been unfortunately been expanded to cover other aspects such as code bundling/elimination and execution.
 
 Typically the term encompasses the following steps that many (*but not all*) frameworks use:
 
-- Parsing state from a JSON blob that is sent with the server rendered markup
+- Parsing state from a JSON blob that is sent with the server-side rendered markup
 - Running any component initialization logic
-- Pairing up client rendered DOM elements with server rendered elements and adding event listeners, making corrections. Most frameworks do this via rendering VDOM.
-    - Something said is *"nuke server rendered"* DOM, which is when the client rendered DOM does not match the server rendered DOM and removes the server tree and uses the client rendered version
+- Pairing up client-side rendered DOM elements with server-side rendered elements and adding event listeners, making corrections. Most frameworks do this via rendering VDOM.
+    - Something said is *"nuke server-side rendered"* DOM, which is when the client rendered DOM does not match the server-side rendered DOM and removes the server tree and uses the client rendered version
 
 ### Partial hydration / Island architecture {#partial-hydration}
 
-If your implementation of hydration starts by walking from a top level node and ends up running over the whole UI, evaluating components and deserializing **all the state** then partial hydration is identifying and instead running the above mentioned hydration steps only on dynamic trees (aka not [static trees](#static-trees)). The islands refers to the dynamic trees.
+If your implementation of hydration starts by walking from a top-level node and ends up running over the whole UI, evaluating components, and deserializing **the full state** then partial hydration is identifying and instead running the above-mentioned hydration steps only on dynamic trees (aka not [static trees](#static-trees)). The islands refer to the dynamic trees.
 
-Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with static UI. This includes static component's render methods and any dependencies those render methods pull in. If state is also serialized as a JSON blob then partial hydration can remove data used by static trees.
+Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with static UI. This includes static components render methods and any dependencies those render methods pull in. If the state is also serialized as a JSON blob then partial hydration can remove data used by static trees.
 
 The saving is a ratio of how *dynamic* the page is. Partial hydration doesn't make the interactive parts faster just removes the costs of additional serialized state and additional code sent down, so overall the page should be faster than the "hydrating" the whole page. And note this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% reduction in payload size). 
 
-Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. It is a architecture not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement)
+Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. Partial hydration is an architecture, not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement)
 
 ### Progressive hydration / Lazy hydration {#progressive-hydration}
 
 Doing the process of hydration on interaction with a component or some other time after the page load.
 
-It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture really encompasses other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree that can make the component interactive sooner. 
+It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture instead refers to other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree that can make the component interactive sooner. 
 
 ### JIT Hydration {#jit-hydration}
 
@@ -61,11 +61,11 @@ The act of server rendering markup that has functionality using HTML features su
 - Forms with endpoints
 - Anchor tags with href
 
-The above features are available without JS running on the client. A server should be ready to receive the browsers requests and do stuff. 
+The above features are available without JS running on the client. A server should be ready to receive the browser's requests and do stuff. 
 
-Progressive enhancement can be implemented in any framework that supports server side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally a [hydration](#hydration) step can then add event listeners to override the default browser functionality.
+Progressive enhancement can be implemented in any framework that supports server-side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally, the [hydration](#hydration)](#hydration) step can then add event listeners to override the default browser functionality.
 
-Note that not every interaction can be implemented using the HTML features (e.g. mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do [full page reloads](#full-page-reloads) that can disrupt state on the client (e.g. other input contents, background audio). Overriding the behavior to be a [spa](#spa) allows for transitions between and in some places can be faster as only a partial amount of the new page data needs to be changed. Sometimes using the browser functionality can be easier, and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
+Note that not every interaction can be implemented using the HTML features (e.g. mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do [full page reloads](#full-page-reloads) which can disrupt the state present on the client (e.g. other input contents, background audio). Overriding the behavior to be a [spa](#spa) allows for transitions between and in some places can be faster as only a partial amount of the new page data needs to be changed. Sometimes using the browser functionality can be easier, and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
 
 But doing PE is better than not doing PE. The site should be as functional as it can be because JS (the hydration) may have not run yet, at all or may have failed. 
 
@@ -75,42 +75,42 @@ PE is disjoint from load performance. PE does not mean better performance either
 
 ### Design system
 
-A collection of colour themes, component designs, layout and assets encompassing brand image and packaged up to be easily reusable throughout the site.
+A collection of colour themes, component designs, layouts, and assets encompassing brand image and packaged up to be easily reusable throughout the site.
 
 ### Hot module reloading / swapping {#hmr}
 
-When changes happen during development it patches the changed functions rather reload the whole content and state.
+When changes happen during development it patches the changed functions rather than reloading the whole content and state.
 
 ### Dynamic rendering
 
-Server server renders pages with data on demand.
+The server renders pages with data on demand.
 
 ### HTML Frames
 
-Sections of which content is purely server side rendered. Note that server components may or may not be frames if they don't serve HTML strings. 
+Sections of which content is purely server-side rendered. Note that server components may or may not be HTML frames if they don't serve HTML strings. 
 
 ### Static site generation (SSG) {#ssg}
 
-Generation of static HTML through server side rendering (or some bad methods that do client side rendering and then capture the result on a headless browser). Normally done at build time. Note that SSGs can have dynamism through client side rendering. If a tool has server side rendering then that mechanism can be used to send the HTML content to file to implement SSG. 
+Generation of static HTML through server-side rendering (or some bad methods that do client-side rendering and then capture the result on a headless browser). Normally done at build time. Note that SSGs can have dynamism through client-side rendering. If a tool has server-side rendering then that mechanism can be used to store the HTML content in a file to implement SSG. 
 
 ### Incremental static generation (ISG) {#isg}
 
-Similar to a static site generation. Where a static site generates on build / deploy. Incremental static generation is linked to a timed interval, or a hook on the change of a data source and on that event generates new pages to reflect the new data. 
+Similar to a static site generation. Where a static site generates on build/deploy. Incremental static generation is linked to a timed interval or a hook on the change of a data source. The hook fires an event that generates new pages to reflect the new data. 
 
 ### Time to interactive (TTI) {#tti}
 
 The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**. 
 
-- Event handlers are registered for most visible page elements
+- Event handlers are registered for the most visible page elements
 - **The page responds to user interactions within 50 milliseconds**
 
 ### First contentful paint (FCP) {#fcp}
 
-The time to display content from when the page starts loading (e.g. server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client side rendering then the time it takes for the JS to start running and produce the elements). This also includes initial layout working and image rendering.
+The time to display content from when the page starts loading (e.g. server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client-side rendering then the time it takes for the JS to start running and produce the elements). This also includes initial layout working and image rendering.
 
 ### Time to first byte (TTFB) {#ttfb}
 
-How long it takes for the server to initially respond. If streaming this is the time to the first chunk. If not (aka buffering) this is the time for the content to be prepared and sent (aka a full SSR). Normally a measure of the hosting server rather.
+The time it takes for the server to initially respond. If streaming, this is the time for the first chunk. If not (aka buffering) this is the time for the content to be prepared and sent (aka a full SSR). Normally a measure of the hosting server rather.
 
 ### No-JS / zero JS {#zero-js}
 
@@ -118,11 +118,11 @@ Something with no JS running **ever**. This includes [3rd party scripts](#3rd-pa
 
 ### Sprinkles
 
-Using JS to add interactivity to certain parts of a server rendered UI in small amounts. (This is not [progressive-enhancement](#progressive-enhancement) as it doesn't require implement server functionality)
+Using JS to add interactivity to certain parts of a server-rendered UI in small amounts. (This is not [progressive enhancement](#progressive-enhancement) as it doesn't require implementing server functionality)
 
 ### 3rd party scripts
 
-A script written out of house. Examples including Google Analytics, Google Tag Manager etc
+A script that is written *out of house*. Examples include Google Analytics, Google Tag Manager, etc
 
 ### Static trees
 
@@ -138,9 +138,9 @@ const not_static = <h2>{new Date()}</h2>
 
 ### Re-render
 
-For VDOM or systems that need to recalculate trees after the result of a action. This term is given to the calculations for recomputing UI. Later the result of the re-render requires diffing to efficiently update the new UI.
+For VDOM or systems that need to recalculate trees after the result of an action. This term is given to the calculations for recomputing UI. Later the result of the re-render requires diffing to efficiently update the new UI.
 
-### Fine grained reactivity
+### Fine-grained reactivity
 
 Reactivity in which knows about parts of the states and only does work in those areas.
 
@@ -151,23 +151,23 @@ Reactivity in which knows about parts of the states and only does work in those 
 
 E.g. changing `content` should not result in calculating `title.toUppercase()`
 
-**This is to do with partial updates to state. Something that skips static trees is not really fine grained reactivity.**
+**This is to do with partial updates to the state. Something that skips static trees is not really fine-grained reactivity.**
 
-Note that fine grained reactivity may include re-rendering sections that are dynamic under the state.
+Note that fine-grained reactivity may include re-rendering sections that are dynamic under the state.
 
 ### Server component
 
-Any component where its content is produced on the server either in HTML or a intermediate format.
+Any component where its content is produced on the server either in HTML or an intermediate format.
 
 ### Memoization
 
 The process of caching function return values against the inputs. If a function takes a long to compute the result and is rerun a lot then this can speed up getting the result as it takes a map lookup rather than a re-computation. 
 
-A auto-memoization compiler can wrap function calls with a cache lookup and storage.
+An auto-memoization compiler can wrap function calls with a cache lookup and storage.
 
-Note that this is a optimization at call sites, this can be avoided via rearranging when data is calculated and is passed through. 
+Note that this is an optimization at call sites, this can be avoided via rearranging when data is calculated and passed through. 
 
-This technique incurs memory overhead due needing to storing all results of the function. And for many cases a map lookup can be slower than just doing the operation. 
+This technique incurs memory overhead due to the need to store all results of the function. And for many cases a map lookup can be slower than just doing the operation. 
 
 ### Actions
 
@@ -179,17 +179,11 @@ Results of those actions. e.g. changing a value may require updating the content
 
 ### Diffing
 
-Finding differences between a existing representation and a new representation.
+Finding differences between an existing representation and a new representation.
 
 Diffing techniques do not always apply to VDOM. Diffing can be done on structures that do not look like DOM. Such as a flat list.
 
-Produces a diff / difference that can be used for reconciliation.
-
-### Virtual DOM / VDOM {#vdom}
-
-The virtual DOM is a structure similar to the DOM. It is slimmer and has a subset of the API of the structures defined in the DOM JS spec e.g. HTMLElement. VDOM is a representation, actual DOM has functionality (. `.click()` isn't on VDOM structures).
-
-It is used to build new UI and 
+Produces a diff/difference that can be used for reconciliation.
 
 ### Conciliation / reconciliation {#conciliation}
 
@@ -203,11 +197,11 @@ Some notion of writing styles in JS. Normally via object literals that look like
 
 ### Frontend
 
-What is interpreted on the client. Public and visible to all. Includes communication with backend (but not implementation). 
+Frontend is what is interpreted by the client. Public and visible to all. Includes communication with backend (but not implementation). 
 
 ### Backend
 
-Something that does not run on the client. Owned by a operator, distributes data and effects across clients. Backend includes the serving of content and HTTP responses etc
+Something that does not run on the client. Owned by an operator, distributes data and effects across clients. The backend includes the serving of content and HTTP responses etc
 
 ### Full stack
 
@@ -215,9 +209,9 @@ The combination of frontend and backend. Full stack knowledge is knowing both si
 
 ### Single page application (SPA) {#spa}
 
-A page that does not use the browsers built in navigation to do page transitions. **It is does not mean that there is only one page, only that the browser internally thinks it on the same page**. 
+A page that does not use the browser's built-in navigation to do page transitions. **It does not mean that there is only one page, only that the browser internally thinks it is on the same page**. 
 
-Can be faster as only have to update regions between pages, can retain state between navigations. Implementations should be using the history api so that the browser's back buttons still function. New page contents can be generated using client side rendering or by retrieving and injecting server rendered content (e.g. turbolinks).
+Can be faster as only have to update regions between pages, and can retain state between navigations. Implementations should be using the history API so that the browser's back buttons still function. New page contents can be generated using client-side rendering or by retrieving and injecting server-rendered content (e.g. turbolinks).
 
 A SPA can be server rendered initially.
 
@@ -225,31 +219,37 @@ This architecture makes it simple to build a [PWA](#pwa).
 
 ### Multi page application (MPA) {#mpa}
 
-A page of which links cause inbuilt browser navigation. Pages are exclusively server rendered (but parts of them can be changed via the client).
+A page of which links cause inbuilt browser navigation. Pages are exclusively server-rendered (but parts of them can be changed via the client).
 
 ### Progressive web application (PWA) {#pwa}
 
 This encompasses a lot, but the main points are that it is built using web technologies but can do the following:
 
 - Installable (act like a native app)
-- Work offline (functionality does not require talking to server *all* the time, *some* content stored on device)
-- Doesn't have to but uses several native apis: camera, clipboard, background fetch, push notifications
+- Work offline (functionality does not require talking to a server *all* the time, *some* content is stored on the device)
+- Doesn't have to but uses several native APIs: camera, clipboard, background fetch, push notifications
 
 ### Static
 
-Does not change.
+Cannot change.
 
 ### Dynamic
 
-Does change.
+Can change.
 
 ### DOM (Document object model) {#dom}
 
-The API for HTML elements. Every HTML element has some attributes and some children either being more elements, text or comments. DOM elements can also be interacted with things like `.click()`.
+The API for HTML elements. Every HTML element has some attributes and some children either being more elements, text, or comments. DOM elements can also interact with methods like `.click()`.
 
 ### Shadow DOM
 
-A special form of DOM that is encapsulated inside the element. The internals are isolated from the whole DOM so that outside JS and CSS cannot affect the internals. CSS defined internally is scoped to the internal tree. 
+A special form of DOM that is encapsulated inside the element. The internals of shadow dom are isolated from the whole DOM so that outside JS cannot reference and CSS cannot affect. CSS defined internally is scoped to the internal tree. 
+
+### Virtual DOM / VDOM {#vdom}
+
+The virtual DOM is a structure akin to the DOM. It is slimmer and has a subset of the API of the structures defined in the DOM JS spec e.g. `HTMLElement.` VDOM is a *virtual* representation of the document, actual DOM references the document (e.g. `.click()` isn't on VDOM structures).
+
+It is used to add to or update the existing actual DOM / UI.
 
 ### Universal JavaScript / Universal rendering {#universal-javascript}
 
@@ -263,7 +263,7 @@ Use of this should be discouraged as the (proper) definition of *isomorphic* in 
 
 ### Meta framework
 
-A framework that is built upon one or more existing frameworks and wraps functionality. For example nextjs that extends React.
+A framework that is built upon one or more existing frameworks and wraps functionality. For example, nextjs that extends React.
 
 ### Templating language
 
@@ -271,27 +271,25 @@ A language that can describe how to build some form of markup.
 
 ### Imperative templating
 
-A template language that has imperative notions of declarative source.
+A template language that has imperative notions of a declarative source.
 
 ### Streaming
 
-Something of which can start working without the whole of the resource being present. e.g a streaming renderer can start returning results before the whole thing has been rendered. Streaming hydration can start hydrating nodes before all the nodes are on the client. 
+Streaming is incremental sending parts enabling work to start happening without the whole of the resource being present. e.g a streaming renderer can start returning results before the whole thing has been rendered. Streaming hydration can start hydrating nodes before all the nodes are on the client. 
 
 ### Static analysis
 
-Something in which interpretations can be made from reading source.
-
-Something that is statically analyzable is something of which behavior can be worked out ahead of time. It should be noted that somethings that are deemed not to be statically analyzable can be made statically analyzable by introducing constraints on what can be written. It should also be used with caution as somethings named under statically analyzable actually are but whose implementation is incredible complex to build.  
+Something that is statically analyzable is something of which behavior can be worked out ahead of time. It should be noted that some things that are deemed not to be statically analyzable can be made statically analyzable by introducing constraints on what can be written. It should also be used with caution as some things named under statically analyzable are but whose implementation is incredibly complex to build.  
 
 ### Markup
 
-Some kind of language that is centred on content first. Markdown, HTML and yml are based on content. 
+Some kind of language that is centered on content first. Markdown, HTML, and YML are based on content. 
 
 ### Compiler
 
 A program that:
 
-- Parses input into abstract syntax trees, concrete syntax trees, or some other source based IR
+- Parses input into abstract syntax trees, concrete syntax trees, or some other source-based IR
 - Transforms IR
 - Returns some evaluatable result, or a collection of errors found
 
@@ -299,9 +297,9 @@ A program that:
 
 ### Transpiler
 
-Similar to a compiler it is a source to source compiler. Source to source meaning the output is in the same format as the input. A transpiler is a subset of compilers.
+Similar to a compiler it is a source-to-source compiler. Source to source meaning the output is in the same format as the input. A transpiler is a subset of compilers.
 
-"transpiling" is a transpiling at work.
+"transpiling" is a transpiler at work.
 
 ### Intermediate representation (IR) {#ir}
 
@@ -309,17 +307,17 @@ A more abstract representation of the source, may not be reversible to the origi
 
 ### Serverless
 
-Non centralized computation. Similar to a pure function (without side effects) these should be small map like functions.
+Non-centralized computation. Similar to a pure function (without side effects) these should be small map-like functions.
 
 Note this is still run on serverless just that it abstracts away a lot of the behaviors of centralized server computations.
 
 ### API
 
-The definition / interface for interaction with something.
+The definition/interface for interaction with something.
 
 ### Headless browser
 
-A browser controlled by a server rather than a user. Examples of headless browser tools includes puppeteer, selinum, playright.
+A browser that is controlled by a server rather than a user. Examples of headless browser tools include puppeteer, selinum and playright.
 
 ### Tooling
 
@@ -342,7 +340,7 @@ There are several kinds:
 
 ##### HTTP framework
 
-A abstraction for a server in receiving HTTP requests and returning HTTP responses. Examples: [express](https://github.com/expressjs/express), [oak](https://github.com/oakserver/oak) and [axum](https://github.com/tokio-rs/axum).
+An abstraction for a server in receiving HTTP requests and returning HTTP responses. Examples: [express](https://github.com/expressjs/express), [oak](https://github.com/oakserver/oak) and [axum](https://github.com/tokio-rs/axum).
 
 ##### Frontend framework
 
@@ -354,7 +352,7 @@ Code that only executes on the frontend and backend
 
 ### Library
 
-Something that exposes functions that can called and returns results.
+Something that exposes functions that can be called and returns results.
 
 <!-- ### Primitive
 
@@ -366,11 +364,11 @@ Concatenation of source code from multiple sources and files into one or more fi
 
 ### Dead code elimination (DCE) {#dead-code-elimination}
 
-Finding code that is never ran or has no effect and making sure its representation doesn't end up in the final output.
+Finding code that is never run or has no effect and making sure its representation doesn't end up in the final output.
 
 ### Tree shaking
 
-Tree shaking is a subset of DCE that mostly refers to removing top level function declarations (from the abstract syntax tree, which is what the tree part refers to).
+Tree shaking is a subset of DCE that mostly refers to removing top-level function declarations (from the abstract syntax tree, which is what the tree part refers to).
 
 ### (whitespace) Minification {#minification}
 
@@ -382,7 +380,7 @@ The whole operation or managing and running the program.
 
 ### Standard
 
-A API formalized in a specification and implemented by other parties.
+An API that is formalized in a specification and implemented by other parties.
 
 ### Type checking
 
@@ -406,4 +404,4 @@ Can change
 
 ### Cache
 
-A map that may or may not contain a already processed or downloaded asset
+A map that may or may not contain an already processed or downloaded asset
