@@ -13,6 +13,7 @@
     "author": "kaleidawave",
     "devDependencies": {
         "@11ty/eleventy": "^1.0.0",
+        "@11ty/eleventy-plugin-rss": "^1.2.0",
         "@types/mathjax": "^0.0.36",
         "cross-env": "^7.0.3",
         "eleventy-google-fonts": "^0.0.5",

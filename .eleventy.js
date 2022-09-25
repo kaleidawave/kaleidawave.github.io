@@ -13,12 +13,15 @@ const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItAttrs = require("markdown-it-attrs");
 const markdownItShiki = require("markdown-it-shiki").default;
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 let mathjax_instance;
 
 const mediaCacheFile = ".mediasizecache";
 
 module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(pluginRss);
+
     eleventyConfig.setWatchThrottleWaitTime(100);
 
     eleventyConfig.addPlugin(eleventyGoogleFonts);
