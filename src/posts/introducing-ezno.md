@@ -48,7 +48,7 @@ Scaling this up you can now see this working for both identifying an invalid pro
 
 ```tsx
 const obj = {
-	key3() { return "test" }
+	key3() { return { someProp: 2 } }
 }
 
 obj["key" + (2 + 1)]().nonProp;
@@ -86,7 +86,7 @@ if (func === func2()) {
 
 {% image "/media/ezno-screenshots/02-dependent-objects.png", "Expression is always true, Expression is always true, Expression is always false" %}
 
-## Making all function parameters generic/dependent:
+## Making all function parameters generic/dependent
 
 While the examples showcase great static analysis of a sequence of statements. Synthesis can be more difficult when it breaks into functions and knowing what happens across call sites. Ezno can trace the flow of data and actions on it **by treating every parameter as what most languages refer to as *generic***:
 
@@ -121,9 +121,9 @@ assertType<"x">(id("x"));
 
 > Here when the `id` function is synthesized it infers the `a` parameter as being generic and thus the function takes the type `<T extends any>(a: T) => T`.
 
-### Inferred generic restrictions:
+### Inferred generic restrictions
 
-In the above usage, the constraint of `a` is initialized to be `any` and never require any more properties on it. Now moving on to a little bit of a more complex function:
+In the above usage, the constraint of parameter `a` is initialized as `any` . Its usage in the block didn't require narrowing it down so it stayed as `any`. Now moving on to a little bit of a more complex function:
 
 ```tsx
 function runMap(obj, func) {
@@ -285,7 +285,7 @@ Firstly a definition of the VDOM (from [web definitions](/posts/web-terminology/
 
 VDOM implements declarative programming. When state changes it recreates the UI by rerunning the method with the declaration method. This allows programming as a *map* state of the rather than **manually** adding the imperative updates to the document at every state change.
 
-### The VDOM isn't free:
+### The VDOM isn't free
 
 Before we go into eliminating it we have to deal with the why? As well as the downsides that should occur in the alternative.
 
@@ -305,7 +305,7 @@ Every time an update to state happens, the runtime needs to rebuild the UI whole
 
 Unless using event listener delegation ahead of time, when adding event listeners to existing markup VDOM requires a representation of the whole tree to find event listeners. And even if the event listeners are delegated, a VDOM framework requires creating the existing UI tree to perform updates on an existing server-rendered tree, which requires all loading state that only may be read by the UI.
 
-## VDOM without the VDOM:
+## VDOM without the VDOM
 
 Again, One of the questions for this project was 'what analysis do you need to do to use JSX and the full range of JS expressions that React works with, without running into the complexities and execution expensiveness of a VDOM'.
 
@@ -346,7 +346,7 @@ input.addEventListener("change", ({ target }) => {
 
 Here the type information enables generation of this direct update instead of relying on a VDOM at runtime to find this change.
 
-### State objects:
+### State objects
 
 ```tsx
 const value = useProxy({ count: 2 });
@@ -380,13 +380,13 @@ Ezno compiles JSX trees to string concatenation methods. Most compiled framework
 
 Here are some of the features and problems at play...
 
-### Hydration:
+### Hydration
 
 Hydration is a bit of a thrown-around word but it really refers to **how to get "state" into some existing object**. 
 
 One problem is: where does this state come from...?
 
-### The double data problem:
+### The double data problem
 
 One thing with a lot of frameworks is that server-side rendered pages send down JSON blob with the state. The site effectively has to server-side render twice. Once mapped into HTML and secondly as a JSON blob. JSON serializing and deserialization is not free:
 
@@ -449,7 +449,7 @@ document.body.addEventListener("click", async ({ target }) => {
 });
 ```
 
-## Other ideas:
+## Other ideas
 
 Some other ideas that type information enables:
 
@@ -471,17 +471,17 @@ There is quite a lot a more you can do with a type system other that checking yo
 
 As Ezno knows at compile time what functions have been bound to certain event listeners plus the internal effects it knows to extract runtime state mutations to the server to add a backup to client side interactions if JavaScript fails to load. 
 
-## Plugins and extensibility:
+## Plugins and extensibility
 
 Ezno is written in Rust and has several places/hooks for adding additional functionality:
 
-### Exterior type safety:
+### Exterior type safety
 
 Because [Ezno treats functions as unique](#objects) it allows for special handling of functions via Ezno's plugin system.
 
 For example, the `fetch` function could be overwridden and for known strings could return a more precise type based of knowledge of what a endpoint returns.
 
-### Build tool front-ends:
+### Build tool front-ends
 
 Aside from the CLI, there is a language server plugin (LSP) so you can use it in a editor. For those who don’t like the command line build step, there is a half-working Nodejs runner, this means you can integrate the build step into the runner compressing running the source into a single command. For the web there is a WASM service worker runner that shouldn't need to touch the filesystem during development. 
 
@@ -508,9 +508,9 @@ From the previous section on events and some notions around generics, understand
 
 **Don’t take this as a knock on TypeScript, TypeScript is great**. Ezno started off as pet project to re-implementing the features of TSC in Rust. But as things started to go well after adding more and more TSC features, it was apparent that bigger such as hydration and the reactive system goals weren’t going to be possible directly following its path. It isn’t possible to detect what can happen to state when called through a term that represents `any`. TypeScript *holes* aren’t particularly critical if you just want code completions and some level of type safety. They allow the more complex parts to not be blocked by compiler errors. **But for doing optimizations a single unknown result can make it impossible**. 
 
-Currently Ezno isn’t a feature-complete type checker. There are still a lot of things to still work on. For example Ezno "proof via predicates" is in the works  to add to the existing "proof by definition" type system. So far the first section goes over the analysis on completely static code. The next steps are to apply these ideas to more dynamic structures. There are also some ideas not mentioned here to prevent this post from being too long 👀.  
+Currently Ezno isn’t a feature-complete type checker. There are still a lot of things to still work on. For example Ezno "proof via predicates" is in the works to add to the existing "proof by definition" type system. So far the first section goes over the analysis on completely static code. The next steps are to apply these ideas to more dynamic structures. There are also some ideas not mentioned here to prevent this post from being too long 👀.  
 
-### Frameworks:
+### Frameworks
 
 The output of the framework is still work in progress. There is still a few things to add to the type checker that are necessary to get "the framework" plugin to work in edge cases. Thus no benchmarks or definite output in this post. Most benchmarks show hand written JavaScript code to be the most efficient so the idea is to take the syntax and information about it to squeeze it into the closest of the hand written forms. The performance gains from all this optimisations are probably un-noticeable. This is really an exercise in attempting to get to the least amount of code to run to make a page interactive. 
 

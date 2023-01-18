@@ -167,7 +167,7 @@ In the following HN clone you can see HTML come down the wire for rendering `sto
 
 {% video "/media/full-server-component-data-hydration.mp4" %}
 
-From this you can see the `story-preview` components content is coming from the server as HTML. The rendered markup only contains one instance of the components `title`, `score` and `url` properties thus **no double data**. `temp1._d` shows what data the component was given during instantiation but when `JSON.stringify(temp1.data)` it evaluates every property through looking it up in the components server rendered DOM. The comments (`<!---->`) in the response are to break up text nodes. You can try this demo out [here](http://40.115.126.159/).
+From this you can see the `story-preview` components content is coming from the server as HTML. The rendered markup only contains one instance of the components `title`, `score` and `url` properties thus **no double data**. `temp1._d` shows what data the component was given during instantiation but when `JSON.stringify(temp1.data)` it evaluates every property through looking it up in the components server rendered DOM. The comments (`<!---->`) in the response are to break up text nodes.
 
 Not only is the state available to the component but is also public to other components. Running `JSON.stringify(document.querySelector("index-page").data, 0, 4)` should see a object with a array of stories. Those stories exist on the individual components but modifying externally is permitted: `document.querySelector("index-page").data.stories[2].title = "Hello World"`
 
@@ -264,7 +264,7 @@ One of the arguments behind Hotwire is that it's system *works* for server rende
 
 **So for Prism I added the ability to target Rust for it's server side rendering output**. The HN demo is written as Rust+ActixWeb server. Speed was a focus for this site which is why [ActixWeb was chosen as it is one of the fastest backend frameworks](https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=fortune). The deserializing from the HN REST API is done with [Serde](https://serde.rs/) which is renowned for it's speed. And of course the compiler based GC heavily optimized Rust language base is key to these results. [Comparing ActixWeb against Express](https://medium.com/@maxsparr0w/performance-of-node-js-compared-to-actix-web-37f20810fb1a), Actix excels the node framework in every benchmark. The biggest standout of this article though is that Actix is 6x more efficient than node. This is great for lowering server runnings costs and most importantly a sixth of the electricity 🌲🌳. Additionally Prism server side rendering is also available for node & Deno.
 
-For those building a Rust REST backend to a client side rendered site it means you can add SSR to it without having to deal with both a node and a rust server and communication between the two. 
+For those building a Rust REST backend to a client side rendered site it means you can add SSR to it without having to deal with both a node and a Rust server and communication between the two. 
 
 Yep thats right Rust {% icon "rust" %} server side rendered web components, never thought you'd see those words together.
 
@@ -522,7 +522,7 @@ export interface IStoryItem {
     time: Date,
     @useRustStatement(`#[serde(default)]`)
     kids: Array<number>,
-    // This is "type" in hn api but rust does not like "type"
+    // This is "type" in hn api but Rust does not like "type"
     @useRustStatement(`#[serde(rename(deserialize = "type"))]`)
     storyType: "job" | "story" | "comment" | "poll" | "pollopt",
     text?: string,

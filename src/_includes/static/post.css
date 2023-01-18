@@ -104,10 +104,6 @@
     padding: 10px 30px;
 }
 
-.post li {
-    margin: 10px 0;
-}
-
 .post .note {
     font-style: italic;
     font-size: 12pt;
@@ -195,4 +191,8 @@ blockquote > p {
         font-size: 10px;
         overflow-x: scroll;
     }
+}
+
+.discussions {
+    margin: 80px 0px;
 }

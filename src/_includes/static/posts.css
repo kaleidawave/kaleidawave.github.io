@@ -1,8 +1,3 @@
-.posts ul {
-    list-style: none;
-    padding-left: 0;
-}
-
 .posts h3 {
     font-size: 32px;
     font-weight: lighter;
@@ -12,7 +7,9 @@
 .posts > ul {
     display: grid;
     grid-auto-rows: min-content;
-    gap: 28px;
+    gap: 16px;
+    list-style: none;
+    padding-left: 0;
 }
 
 .posts > ul > li {

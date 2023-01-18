@@ -134,7 +134,7 @@ em {
     left: -2px;
 }
 
-ul {
+ul, ol {
     margin: 0px;
     padding-left: 20px;
 }

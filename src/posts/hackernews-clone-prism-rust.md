@@ -34,13 +34,13 @@ Which are all big drawbacks
 
 So I created my own framework Prism to fix this:
 
-Prism can compile to native fast rust functions. All `.prism` components are compiled to native rust string concatenation functions. Changes to `.prism` component markup will change the rust functions thus there are no desync issues. This has many benefits:
+Prism can compile to native fast Rust functions. All `.prism` components are compiled to native Rust string concatenation functions. Changes to `.prism` component markup will change the Rust functions thus there are no desync issues. This has many benefits:
 
 - Single source, DX speed, no need to rewrite for server contexts
-- Changes to prism components are reflected and kept inline with the rust methods
+- Changes to prism components are reflected and kept inline with the Rust methods
 - Client side markup and server side markup are kept in sync preventing hydration issues.
 
-It also compiles across the interface to struct which retains the strong type safety. The rust compiler will pick up any other issues with the outputted rust functions. This is a step above handlebars where malformed errors are left to runtime.
+It also compiles across the interface to struct which retains the strong type safety. The Rust compiler will pick up any other issues with the outputted Rust functions. This is a step above handlebars where malformed errors are left to runtime.
 
 It is not as complete as Nextjs as where it builds the whole backend for you. Prism only builds out functions which then must be connected up. But I prefer this design as getting data on the server and the client is very different (not for this example but for applications where you have full control over the stack). Prism is not really a isomorphic framework but more a frontend framework which compiles to Rust modules that expose render methods.
 
