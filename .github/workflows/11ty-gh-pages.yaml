@@ -11,16 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache multiple paths
-        uses: actions/cache@v2
+      - name: Cache NPM paths
+        uses: actions/cache@v3
         with:
           path: |
             ~/.npm
             .mediasizecache
-            
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - uses: actions/cache@v3
+        with:
+          path: '.jampack'
+          key: jampack-${{ github.run_id }}
+          restore-keys: |
+            jampack
 
       - uses: FedericoCarboni/setup-ffmpeg@v1
         with:

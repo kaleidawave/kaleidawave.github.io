@@ -23,11 +23,11 @@
     overflow: hidden;
     max-height: 200px;
     border-radius: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 8px;
 }
 
 .posts > ul > li > p {
-    margin: 6px 0 12px;
+    margin: 0 0 8px;
 }
 
 .posts > ul > li img {

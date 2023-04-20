@@ -21,25 +21,16 @@
     font-size: 1.6rem;
 }
 
-@media screen and (min-width: 480px) {
-    .post img,
-    .post video,
-    .post pre:not(.shiki) {
-        width: 110%;
-        align-self: center;
-        height: auto;
-    }
-}
-
-@media print {
-    .post video {
-        display: none;
-    }
-}
-
+.post img,
+.post pre,
 .post video,
-.post img {
+.post inline-html {
     margin: 20px 0;
+}
+
+.post inline-html > svg {
+    width: 100%;
+    height: max-content;
 }
 
 .post img {
@@ -167,6 +158,10 @@ blockquote > p {
     margin: 0;
 }
 
+.discussions {
+    margin: 80px 0px;
+}
+
 @media screen and (max-width: 480px) {
     .center {
         text-align: center;
@@ -182,7 +177,8 @@ blockquote > p {
 
     .post img,
     .post pre,
-    .post video {
+    .post video,
+    .post inline-html {
         width: 100%;
         height: auto;
     }
@@ -193,6 +189,19 @@ blockquote > p {
     }
 }
 
-.discussions {
-    margin: 80px 0px;
+@media screen and (min-width: 480px) {
+    .post img,
+    .post video,
+    .post inline-html,
+    .post pre:not(.shiki) {
+        width: 110%;
+        align-self: center;
+        height: auto;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
 }

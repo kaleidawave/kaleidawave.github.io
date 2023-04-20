@@ -33,7 +33,7 @@ HTML (or VDOM) over the wire:
 Both are interesting ideas. Hotwire is a interesting take on how to use server side rendering for more than initial page load. And React server components are a acknowledgment that strictly client side design isn't perfect.
 
 <h4 class="center">
-    But looking at both notice that they have heavy constraints and their performance claims may be overstated. For Prism, I wanted to capitalize on some of the benefits of rendering on the server but in a more flexible and low runtime way. 
+    But looking at both notice that they have heavy constraints and their performance claims may be overstated. For Prism, I wanted to capitalize on some of the benefits of rendering on the server but in a more flexible and low runtime way.
 </h4>
 
 All frameworks are based on components so to start we can send the following HTML down the wire:
@@ -145,11 +145,11 @@ As we have seen just looking at the HTML response it is impossible to pull data 
 
 <h6 role="caption">From <a href="https://github.com/kaleidawave/hackernews-prism/blob/4537652060e0011e2e34be5de64036302d739a03/src/views/story-preview.component.prism">story-preview on hackernews-prism</a></h6>
 
-The template reveals what is interpolated where. Comparing it to the previously shown response you can begin to see where values match up to the server response. For example there is a variable/property named `score` which comes before "points". 
+The template reveals what is interpolated where. Comparing it to the previously shown response you can begin to see where values match up to the server response. For example there is a variable/property named `score` which comes before "points".
 
 <h4 class="center">
     Knowing how the data maps in the template, a sufficiently smart compiler could generate JS getters for retrieving data from the server rendered DOM.
-</h4> 
+</h4>
 
 In the above example, title could be retrieved at runtime with the following getter:
 
@@ -159,7 +159,7 @@ get title() {
 }
 ```
 
-Using this method, state could be brought into JS from the server rendered content making a JSON blob redundant. No more JSON state reduces the bytes sent over the wire. 
+Using this method, state could be brought into JS from the server rendered content making a JSON blob redundant. No more JSON state reduces the bytes sent over the wire.
 
 And this is how the state hydration system in Prism works. The compiler builds a table of bindings in the template. From that it can generate code similar to the above statement. This same binding table is also used to generate set bindings for reactivity.  
 
@@ -173,7 +173,7 @@ Not only is the state available to the component but is also public to other com
 
 The resolved data is being pulled from the HTML content of the component.
 
-With fast and efficient hydration Prism server components can send standard HTML down with interactivity on the client. A component can mark that its content should be from the server via the `@RenderFromEndpoint` decorator which takes a parameterized url which points to endpoint which returns the content of the component. 
+With fast and efficient hydration Prism server components can send standard HTML down with interactivity on the client. A component can mark that its content should be from the server via the `@RenderFromEndpoint` decorator which takes a parameterized url which points to endpoint which returns the content of the component.
 
 ```js
 @RenderFromEndpoint("/story-preview/:id")
@@ -216,7 +216,7 @@ Prism already has incredible bundle sizes. Without server components the total u
 
 ##### Some other features Prism has around JIT hydration
 
-- *Getting* values is lazy. The get logic is only called when the value is evaluated 
+- *Getting* values is lazy. The get logic is only called when the value is evaluated
 - *Getting* values is done on a **per property basis**. `title` can be in the JS runtime but not `time`
 - Caches the returned value as to not be a call to the DOM every time
 - Events are attached during hydration via compiled methods which finds elements and calls `addEventListener`. Unlike others, Prism does not do any sort of rerendering in order to add event listeners. This results in super quick TTI
@@ -264,7 +264,7 @@ One of the arguments behind Hotwire is that it's system *works* for server rende
 
 **So for Prism I added the ability to target Rust for it's server side rendering output**. The HN demo is written as Rust+ActixWeb server. Speed was a focus for this site which is why [ActixWeb was chosen as it is one of the fastest backend frameworks](https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=fortune). The deserializing from the HN REST API is done with [Serde](https://serde.rs/) which is renowned for it's speed. And of course the compiler based GC heavily optimized Rust language base is key to these results. [Comparing ActixWeb against Express](https://medium.com/@maxsparr0w/performance-of-node-js-compared-to-actix-web-37f20810fb1a), Actix excels the node framework in every benchmark. The biggest standout of this article though is that Actix is 6x more efficient than node. This is great for lowering server runnings costs and most importantly a sixth of the electricity 🌲🌳. Additionally Prism server side rendering is also available for node & Deno.
 
-For those building a Rust REST backend to a client side rendered site it means you can add SSR to it without having to deal with both a node and a Rust server and communication between the two. 
+For those building a Rust REST backend to a client side rendered site it means you can add SSR to it without having to deal with both a node and a Rust server and communication between the two.
 
 Yep thats right Rust {% icon "rust" %} server side rendered web components, never thought you'd see those words together.
 
@@ -287,7 +287,7 @@ async fn story_page(web::Path((story_id,)): web::Path<(i32,)>) -> HttpResponse {
 }
 ```
 
-The fact that React server components were restricted to a node backend was discussed in the [comments of the RFC](https://github.com/reactjs/rfcs/pull/188). Without embedding v8 and making calls it looks pretty distant that React SSR could be fully functioning on non node backends. The difficulty with embedding v8 is that you lose strong typing from Typescript. 
+The fact that React server components were restricted to a node backend was discussed in the [comments of the RFC](https://github.com/reactjs/rfcs/pull/188). Without embedding v8 and making calls it looks pretty distant that React SSR could be fully functioning on non node backends. The difficulty with embedding v8 is that you lose strong typing from Typescript.
 
 I should also mention WASM & Rust based "frontend-frameworks" [yew](https://yew.rs/), [percy](https://github.com/chinedufn/percy) & [seed](https://github.com/seed-rs/seed) here. They look very interesting, make effective use of procedural macros, have Rust SSR support and are really the first real way to write DOM based client side code in a non compile to JS language. However WASM has a few disadvantages for the client side apps. First the size of WASM bytecode seems to be larger than if the logic was written in JS. I don't quite know the specifics of WASM bytecode but from for machine bytecode know that things like generic implementations, bundling standard library and inlining bumps up the size. All of which JS doesn't suffer from. Yew states that its examples bundle is ~`100kb` which is similar in size to React which isn't great for slower connections. Also the component sizes are likely to be larger than if they were written in JS. Yes their bundle is faster to parse and compile but TTI is hampered from loading over the network. Secondly they seem to use VDOM and diffing (rather than a compiled reactivity approach) so while being close to the metal they still generally do more computation vs direct compiled setters. That also means they probably suffer from the double data issues that Prism escapes. Also the fact that WASM can't call arbitrary JS methods and instead has to be passed them. So fetching etc still requires writing JS and passing references to the instance. Cool at the moment for canvas rendering etc but generally not the silver bullet for JS based frontend frameworks.
 
@@ -344,6 +344,7 @@ Here the interpolation of `this.counter` is done imperatively. And due to this i
 The reactivity issue is further amplified when work is shared between the client and server. For this example a *"post"* is sent down with some interpolated data.
 
 `server.js`:
+
 ```js
 res.send(`
     <h1>${postTitle}</h1>
@@ -355,6 +356,7 @@ res.send(`
 And after some action on the frontend incrementing `this.upvotes`. Updating the text of the span is done with:
 
 `client.js`:
+
 ```js
 document.querySelector("span#upvotes").innerText = this.upvotes += 1;
 ```
@@ -365,7 +367,7 @@ This is not great because there is a loose reference to `span#upvotes`. The serv
 
 There is also the fact that the above server code is a raw string literal. It does not check if it is valid HTML at compile time (some templating languages may do not quite sure) so I have often lost time after writing something like `<h1 ${someX}</h1>`. With Prism it will always concatenate to valid HTML and as a compiler it also catches syntax errors when parsing templates. The Svelte framework takes this checking a step further linting the template with rules to ensure accessible HTML. This is only really possible with the template DSL of Svelte as a template literal can still be valid without knowing whats interpolated.
 
-The other thing Prism does is add `disabled` to buttons with events which it then removes on adding event listeners during hydration. Also the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape safe calls. The other thing is Prism auto generates non-clashing ids. The incrementing example above would break if I added a new element on the page with a id `#upvotes`. 
+The other thing Prism does is add `disabled` to buttons with events which it then removes on adding event listeners during hydration. Also the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape safe calls. The other thing is Prism auto generates non-clashing ids. The incrementing example above would break if I added a new element on the page with a id `#upvotes`.
 
 ##### Lists
 
@@ -406,6 +408,7 @@ So frameworks implement some sort of single source. For example in Prism:
 The template is declarative. It abstracts on the imperative `document.createElement` and `attachEventListener` calls. The template is much more akin to HTML and understanding the structure of this component is more accessible. The span <-> `upvotes` binding is only written once. And so if `span` was changed to `p` there are no other handwritten references of this binding and compiling would take care of updating all references to span with references to the `p` element. For full reactivity and JIT hydration, Prism will take the single source and generate the n number of implementations. These would be tricky to manage if written manually. For example the upvotes binding eventually ends up in four places:
 
 `client.js`:
+
 ```js{data-highlight=2,8,9}
 // Initial render
 render() {
@@ -422,6 +425,7 @@ bindings = {
 ```
 
 `server.rs`:
+
 ```rust{data-highlight=8}
 pub struct PostData {
     postTitle: String, 
@@ -437,7 +441,7 @@ fn render_post(post: IPost) -> String {
 }
 ```
 
-In terms of doing this, to get the biggest abstraction at a low cost requires a build step to do static analysis on ASTs and do specific code generation. 
+In terms of doing this, to get the biggest abstraction at a low cost requires a build step to do static analysis on ASTs and do specific code generation.
 
 The other benefit of Prism, Svelte and Vue is that they use single file components. These allow you to write css in the same file as the components.
 
@@ -477,7 +481,7 @@ class MyComponent {
 }
 ```
 
-Frameworks have something where you tell it to update with the new state. React's `setState` is a abstraction over rerendering the DOM as React doesn't really have a concept of state. It should be `rerenderWithTheseValues`. Simply setting a property in a React will not make the view update. 
+Frameworks have something where you tell it to update with the new state. React's `setState` is a abstraction over rerendering the DOM as React doesn't really have a concept of state. It should be `rerenderWithTheseValues`. Simply setting a property in a React will not make the view update.
 
 Svelte is better in that its state updates are triggered around the assignment operator. Which is a step towards more "native" JavaScript. However there are still issues around internal changes. You cannot use push in svelte, instead `x = [...x, newItem]` is required for the compiler to realise a update has happened. This also the case for for the `Date` instance, calling `setMonth` etc does not cause the view to be updated. With Prism I wanted to allow internal mutation in the same way JS works. So I implemented this for `Date`.
 
@@ -495,7 +499,7 @@ Text can now be interpolated when alongside other tags. There are fixes for gett
 
 Prism is not designed to be the next new framework. Instead it is a implementation in attempting to fix some of the biggest issues around SSR and hydration in currently popular frontend frameworks.
 
-One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (csr, ssr, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name. 
+One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (csr, ssr, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name.
 
 The compiler is a little rough around the edges. Prism will fail both silently and loudly. It is not intended for production but if you want to try out JIT hydration or Rust compilation you can try the [quickstart](https://github.com/kaleidawave/prism/blob/main/docs/quickstart.md) or fork the [HN repo](https://github.com/kaleidawave/hackernews-prism).
 
@@ -533,12 +537,12 @@ class StoryPage extends Component<IStoryItem>
 ```
 
 <h6 role="caption">
-    The types are also used to build Rust struct definition for definite types on their render methods. <code>@useRustStatement</code> allows for adding attributes to the struct members. 
+    The types are also used to build Rust struct definition for definite types on their render methods. <code>@useRustStatement</code> allows for adding attributes to the struct members.
 </h6>
 
 <h6 id="foot3">(3) Non reversible expressions</h6>
 
-Some expressions cannot be reversed. For example the `date` in markup is rendered as a relative string. From `"1 day ago"` it isn't possible to construct a `Date` instance of that value as it could be any hour, minute etc of the previous day. There are a possible `86400000` different `Date` objects which could have been rendered to say `"1 day ago"`. Information has been lost in converting it a relative string. So instead a ISO string representation of that `Date` is added as a attribute on one of the elements so the hydration logic can do `return new Date(elem.getAttribute())`. 
+Some expressions cannot be reversed. For example the `date` in markup is rendered as a relative string. From `"1 day ago"` it isn't possible to construct a `Date` instance of that value as it could be any hour, minute etc of the previous day. There are a possible `86400000` different `Date` objects which could have been rendered to say `"1 day ago"`. Information has been lost in converting it a relative string. So instead a ISO string representation of that `Date` is added as a attribute on one of the elements so the hydration logic can do `return new Date(elem.getAttribute())`.
 
 Prism can reverse some expressions e.g. from `/i/${id}` it produces this expression `result.slice(3)`. See [this issue](https://github.com/kaleidawave/prism/issues/11) for further details.
 

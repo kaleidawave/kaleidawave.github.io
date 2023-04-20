@@ -40,7 +40,7 @@ If your implementation of hydration starts by walking from a top-level node and 
 
 Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with static UI. This includes static components render methods and any dependencies those render methods pull in. If the state is also serialized as a JSON blob then partial hydration can remove data used by static trees.
 
-The saving is a ratio of how *dynamic* the page is. Partial hydration doesn't make the interactive parts faster just removes the costs of additional serialized state and additional code sent down, so overall the page should be faster than the "hydrating" the whole page. And note this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% reduction in payload size). 
+The saving is a ratio of how *dynamic* the page is. Partial hydration doesn't make the interactive parts faster just removes the costs of additional serialized state and additional code sent down, so overall the page should be faster than the "hydrating" the whole page. And note this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% reduction in payload size).
 
 Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. Partial hydration is an architecture, not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement)
 
@@ -48,7 +48,7 @@ Note that this architecture is difficult to implement for [SPAs](#spa) as the ro
 
 Doing the process of hydration on interaction with a component or some other time after the page load.
 
-It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture instead refers to other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree that can make the component interactive sooner. 
+It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture instead refers to other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree that can make the component interactive sooner.
 
 ### JIT Hydration {#jit-hydration}
 
@@ -61,17 +61,17 @@ The act of server rendering markup that has functionality using HTML features su
 - Forms with endpoints
 - Anchor tags with href
 
-The above features are available without JS running on the client. A server should be ready to receive the browser's requests and do stuff. 
+The above features are available without JS running on the client. A server should be ready to receive the browser's requests and do stuff.
 
 Progressive enhancement can be implemented in any framework that supports server-side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally, the [hydration](#hydration)](#hydration) step can then add event listeners to override the default browser functionality.
 
 Note that not every interaction can be implemented using the HTML features (e.g. mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do [full page reloads](#full-page-reloads) which can disrupt the state present on the client (e.g. other input contents, background audio). Overriding the behavior to be a [spa](#spa) allows for transitions between and in some places can be faster as only a partial amount of the new page data needs to be changed. Sometimes using the browser functionality can be easier, and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
 
-But doing PE is better than not doing PE. The site should be as functional as it can be because JS (the hydration) may have not run yet, at all or may have failed. 
+But doing PE is better than not doing PE. The site should be as functional as it can be because JS (the hydration) may have not run yet, at all or may have failed.
 
-PE is disjoint from load performance. PE does not mean better performance either, using JS to only get partials from the server sends less than the content from a full page refresh thus is better performance. 
+PE is disjoint from load performance. PE does not mean better performance either, using JS to only get partials from the server sends less than the content from a full page refresh thus is better performance.
 
-**Progressive enhancement is not [partial hydration](#partial-hydration).** 
+**Progressive enhancement is not [partial hydration](#partial-hydration).**
 
 ### Design system
 
@@ -87,19 +87,19 @@ The server renders pages with data on demand.
 
 ### HTML Frames
 
-Sections of which content is purely server-side rendered. Note that server components may or may not be HTML frames if they don't serve HTML strings. 
+Sections of which content is purely server-side rendered. Note that server components may or may not be HTML frames if they don't serve HTML strings.
 
 ### Static site generation (SSG) {#ssg}
 
-Generation of static HTML through server-side rendering (or some bad methods that do client-side rendering and then capture the result on a headless browser). Normally done at build time. Note that SSGs can have dynamism through client-side rendering. If a tool has server-side rendering then that mechanism can be used to store the HTML content in a file to implement SSG. 
+Generation of static HTML through server-side rendering (or some bad methods that do client-side rendering and then capture the result on a headless browser). Normally done at build time. Note that SSGs can have dynamism through client-side rendering. If a tool has server-side rendering then that mechanism can be used to store the HTML content in a file to implement SSG.
 
 ### Incremental static generation (ISG) {#isg}
 
-Similar to a static site generation. Where a static site generates on build/deploy. Incremental static generation is linked to a timed interval or a hook on the change of a data source. The hook fires an event that generates new pages to reflect the new data. 
+Similar to a static site generation. Where a static site generates on build/deploy. Incremental static generation is linked to a timed interval or a hook on the change of a data source. The hook fires an event that generates new pages to reflect the new data.
 
 ### Time to interactive (TTI) {#tti}
 
-The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**. 
+The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**.
 
 - Event handlers are registered for the most visible page elements
 - **The page responds to user interactions within 50 milliseconds**
@@ -161,13 +161,13 @@ Any component where its content is produced on the server either in HTML or an i
 
 ### Memoization
 
-The process of caching function return values against the inputs. If a function takes a long to compute the result and is rerun a lot then this can speed up getting the result as it takes a map lookup rather than a re-computation. 
+The process of caching function return values against the inputs. If a function takes a long to compute the result and is rerun a lot then this can speed up getting the result as it takes a map lookup rather than a re-computation.
 
 An auto-memoization compiler can wrap function calls with a cache lookup and storage.
 
-Note that this is an optimization at call sites, this can be avoided via rearranging when data is calculated and passed through. 
+Note that this is an optimization at call sites, this can be avoided via rearranging when data is calculated and passed through.
 
-This technique incurs memory overhead due to the need to store all results of the function. And for many cases a map lookup can be slower than just doing the operation. 
+This technique incurs memory overhead due to the need to store all results of the function. And for many cases a map lookup can be slower than just doing the operation.
 
 ### Actions
 
@@ -197,7 +197,7 @@ Some notion of writing styles in JS. Normally via object literals that look like
 
 ### Frontend
 
-Frontend is what is interpreted by the client. Public and visible to all. Includes communication with backend (but not implementation). 
+Frontend is what is interpreted by the client. Public and visible to all. Includes communication with backend (but not implementation).
 
 ### Backend
 
@@ -209,7 +209,7 @@ The combination of frontend and backend. Full stack knowledge is knowing both si
 
 ### Single page application (SPA) {#spa}
 
-A page that does not use the browser's built-in navigation to do page transitions. **It does not mean that there is only one page, only that the browser internally thinks it is on the same page**. 
+A page that does not use the browser's built-in navigation to do page transitions. **It does not mean that there is only one page, only that the browser internally thinks it is on the same page**.
 
 Can be faster as only have to update regions between pages, and can retain state between navigations. Implementations should be using the history API so that the browser's back buttons still function. New page contents can be generated using client-side rendering or by retrieving and injecting server-rendered content (e.g. turbolinks).
 
@@ -243,7 +243,7 @@ The API for HTML elements. Every HTML element has some attributes and some child
 
 ### Shadow DOM
 
-A special form of DOM that is encapsulated inside the element. The internals of shadow dom are isolated from the whole DOM so that outside JS cannot reference and CSS cannot affect. CSS defined internally is scoped to the internal tree. 
+A special form of DOM that is encapsulated inside the element. The internals of shadow dom are isolated from the whole DOM so that outside JS cannot reference and CSS cannot affect. CSS defined internally is scoped to the internal tree.
 
 ### Virtual DOM / VDOM {#vdom}
 
@@ -259,7 +259,7 @@ Running JavaScript produced that is derived or is the same source on both the cl
 
 Same meaning as [universal JavaScript](#universal-javascript).
 
-Use of this should be discouraged as the (proper) definition of *isomorphic* in category theory doesn't make sense here. 
+Use of this should be discouraged as the (proper) definition of *isomorphic* in category theory doesn't make sense here.
 
 ### Meta framework
 
@@ -267,7 +267,7 @@ A framework that is built upon one or more existing frameworks and wraps functio
 
 ### Templating language
 
-A language that can describe how to build some form of markup. 
+A language that can describe how to build some form of markup.
 
 ### Imperative templating
 
@@ -275,7 +275,7 @@ A template language that has imperative notions of a declarative source.
 
 ### Streaming
 
-Streaming is incremental sending parts enabling work to start happening without the whole of the resource being present. e.g a streaming renderer can start returning results before the whole thing has been rendered. Streaming hydration can start hydrating nodes before all the nodes are on the client. 
+Streaming is incremental sending parts enabling work to start happening without the whole of the resource being present. e.g a streaming renderer can start returning results before the whole thing has been rendered. Streaming hydration can start hydrating nodes before all the nodes are on the client.
 
 ### Static analysis
 
@@ -283,7 +283,7 @@ Something that is statically analyzable is something of which behavior can be wo
 
 ### Markup
 
-Some kind of language that is centered on content first. Markdown, HTML, and YML are based on content. 
+Some kind of language that is centered on content first. Markdown, HTML, and YML are based on content.
 
 ### Compiler
 
@@ -338,15 +338,15 @@ There are several kinds:
 - Test frameworks
 - Benchmark frameworks
 
-##### HTTP framework
+#### HTTP framework
 
 An abstraction for a server in receiving HTTP requests and returning HTTP responses. Examples: [express](https://github.com/expressjs/express), [oak](https://github.com/oakserver/oak) and [axum](https://github.com/tokio-rs/axum).
 
-##### Frontend framework
+#### Frontend framework
 
 Code that only executes on the frontend
 
-##### Fullstack framework
+#### Fullstack framework
 
 Code that only executes on the frontend and backend
 

@@ -177,11 +177,13 @@ pre code {
     tab-size: 4;
 }
 
-code,
-pre {
-    background-color: var(--muted-background) !important;
+:is(div, p, a, li) > code, div > pre {
     border-radius: 4px;
     font-size: 15px;
+}
+
+pre, code {
+    background-color: var(--muted-background) !important;
     font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
 }
 

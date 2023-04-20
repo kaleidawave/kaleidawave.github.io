@@ -7,18 +7,23 @@
     "scripts": {
         "start": "eleventy --serve",
         "start-production": "cross-env PRODUCTION=true eleventy --serve",
-        "build": "eleventy --quiet"
+        "build": "eleventy --quiet && npm run optimize-build-output",
+        "optimize-build-output": "jampack pack ./dist",
+        "serve-dist": "http-server ./dist"
     },
     "keywords": [],
     "author": "kaleidawave",
     "devDependencies": {
-        "@11ty/eleventy": "^1.0.0",
+        "@11ty/eleventy": "^2.0.0",
         "@11ty/eleventy-plugin-rss": "^1.2.0",
+        "@divriots/jampack": "^0.9.0",
         "@types/mathjax": "^0.0.36",
+        "ansi-to-html": "^0.7.2",
         "cross-env": "^7.0.3",
         "eleventy-google-fonts": "^0.0.5",
         "get-video-dimensions": "^1.0.0",
         "html-minifier": "^4.0.0",
+        "http-server": "^14.1.1",
         "image-size": "^0.9.7",
         "markdown-it": "^12.3.2",
         "markdown-it-anchor": "^8.4.1",
