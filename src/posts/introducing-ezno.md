@@ -34,7 +34,7 @@ One of the key ideas with Ezno is that it attempts "maximum" knowledge of a sour
 - Expressions that could be collapsed to reduce work
 - Mutations to data
 
-Because of the dynamism of JavaScript, this requires including references to constants (aka known numbers, bools, strings, etc) in the type-system.
+Because of the dynamism of JavaScript, this requires including references to constants (aka known numbers, booleans, strings, etc) in the type-system.
 
 While TypeScript includes constant equality, Ezno has built on top of that doing more such as constant operator evaluation.
 
@@ -101,7 +101,7 @@ const four = addOne(3);
 assertType<4>(four);
 ```
 
-> Here the `addOne` function is annotated that it returns a `number`. But instead internally in Ezno the actual result is what it synthesised that it returned. The `number` in the return type is only used as a constraint on the type returned in body. The synthesized return type that Ezno uses in this case is `Add<T, 1>`. In total Ezno internally views the function as: `addOne: <T extends number>(x: T): Add<T, 1>`
+> Here the `addOne` function is annotated that it returns a `number`. But instead internally in Ezno the actual result is what it synthesised that it returned. The `number` in the return type is only used as a constraint on the type returned in body. The synthesised return type that Ezno uses in this case is `Add<T, 1>`. In total Ezno internally views the function as: `addOne: <T extends number>(x: T): Add<T, 1>`
 
 ## Untyped parameters
 
@@ -164,7 +164,7 @@ assertType<Window>(getThis());
 assertType<2>(getThis.call(2));
 ```
 
-Variables in parent scopes work similary to this. Rather than being passed through the call site it instead exists in a parent of the current environment as:
+Variables in parent scopes work similarly to this. Rather than being passed through the call site it instead exists in a parent of the current environment as:
 
 ```tsx
 let a = {};
@@ -294,7 +294,7 @@ Before we go into eliminating it we have to deal with the why? As well as the do
 
 Every time an update to state happens, the runtime needs to rebuild the UI whole tree. This is necessary to find that any of the nodes have changed, but the majority of the new UI hasn't changed and you have to create and store duplicate nodes. The UI can require evaluating expensive calculations that often returns the existing value.
 
-> Memoization partially solves this, parts of the tree can be wrapped and when compute them it looks for cached versions of the computation. While this solves the recreation time there is additional memory overhead to hold the cached results and hashing and lookup is not free. It is also developer overhead to realise what is static and independent. Extra explicivity-ness in the syntax (unless a auto memoising compiler was added), just overall more complicated.
+> Memoization partially solves this, parts of the tree can be wrapped and when compute them it looks for cached versions of the computation. While this solves the recreation time there is additional memory overhead to hold the cached results and hashing and lookup is not free. It is also developer overhead to realise what is static and independent. Extra explicit-ness in the syntax (unless a auto memoising compiler was added), just overall more complicated.
 
 #### Memory, computation and library overhead
 
@@ -383,23 +383,19 @@ Here are some of the features and problems at play...
 
 ### Hydration
 
-Hydration is a bit of a thrown-around word but it really refers to **how to get "state" into some existing object**.
-
-One problem is: where does this state come from...?
+Hydration is a bit of a thrown-around word but it really refers to *how to get "state" into some existing object*. One problem is: where does this state come from...?
 
 ### The double data problem
 
 One thing with a lot of frameworks is that server-side rendered pages send down JSON blob with the state. The site effectively has to server-side render twice. Once mapped into HTML and secondly as a JSON blob. JSON serializing and deserialization is not free:
 
-A larger document leads to a longer time to generate on the server and a longer time to parse on the client. GZIP / brotli compression reduces the size over network and the size of the cached document as it can mark and reference duplicated strings. **However it doesn't completely zero the costs because the keys and other JSON related structure is not in the DOM**. If you only want one property of the state it requires deserializing everything.
+A larger document leads to a longer time to generate on the server and a longer time to parse on the client. GZIP / brotli compression reduces the size over network and the size of the cached document as it can mark and reference duplicated strings. *However it doesn't completely zero the costs because the keys and other JSON related structure is not in the DOM**. If you only want one property of the state it requires deserializing everything.
 
 These problems are also true for other serialization formats not just JSON. So where else can you get state? Well most of the state is rendered in the initial UI as HTML. **If the type information knows how state maps to UI the reverse of this information could be used to get state on the client using the initial HTML**. This way the JSON blob could be dropped reducing the size of the document!
 
 ### Lazy state loading mechanism
 
-Aside from size, with a monolithic JSON string object, everything must be deserialized at once.
-
-**Because Ezno reads from values in an existing parsed tree the properties can be independently hydrated. Additionally Ezno can do this lazily only when the value is actually read rather at initial load.**. Because of the type information, it knows how to convert the string and other representations of data in the DOM on the ones necessary on the client. Therefore generating something like:
+Aside from size, with a monolithic JSON string object, everything must be deserialized at once. *Because Ezno reads from values in an existing parsed tree the properties can be independently hydrated*. Additionally Ezno can do this lazily only when the value is actually read rather at initial load.. Because of the type information, it knows how to convert the string and other representations of data in the DOM on the ones necessary on the client. Therefore generating something like:
 
 ```tsx
 const [a, setA] = useState(0);
@@ -416,15 +412,11 @@ button.addEventListener("click", ({ target }) => {
 
 ### Reversibility and the fallback for non-injective UI
 
-Firstly only data that is read needs to be hydrated on the client. For state that needs to be read but isn't directly in the HTML, it gets a little bit more complicated. Some expressions like `y = x + 1` can be easily reversed, expressions such as `Math.sin(x)` require a bit more information but with the information about unique functions it isn't impossible.
-
-<h3 class="center">For data not present in the UI or not reversable that needs to be on the client Ezno falls back to adding this data to attributes of local elements.</h3>
-
-This is the least amount of data that needs to be added to the body for it be interactive. Using localized attributes instead of a JSON blob enables lazy and partial state loading.
+Firstly only data that is read needs to be hydrated on the client. For state that needs to be read but isn't directly in the HTML, it gets a little bit more complicated. Some expressions like `y = x + 1` can be easily reversed, expressions such as `Math.sin(x)` require a bit more information but with the information about unique functions it isn't impossible. For data not present in the UI or not reversible that needs to be on the client Ezno falls back to adding this data to attributes of local elements. This is the least amount of data that needs to be added to the body for it be interactive. Using localized attributes instead of a JSON blob enables lazy and partial state loading.
 
 ### Downsides of reversibility
 
-Aside from being complex to implement, there are some non-obvious downsides. Firstly lazily pulling data from the HTML can be slower than pulling it from a eagerly hydrated JSON blob, especially if it requires reverse transformations. Also logic for retreival increases the bundle size a little bit.
+Aside from being complex to implement, there are some non-obvious downsides. Firstly lazily pulling data from the HTML can be slower than pulling it from a eagerly hydrated JSON blob, especially if it requires reverse transformations. Also logic for retrieval increases the bundle size a little bit.
 
 ### Page loading, adding event listeners and the double run problem
 
@@ -456,7 +448,7 @@ Some other ideas that type information enables:
 
 ### Server side rendering out of the JavaScript runtime
 
-One of the problems with JavaScript frontend server rendering implementations is that SSR / "string builders" run on JavaScript which means they are locked into a server runtime like Node or Deno. This is perfectly fine for most things but I think this is generally quite a heavy restriction, which prevents using a lot of cool backend technologies written in other languages like Rust, Python etc. Some tools have embeded a JavaScript runtime into the application (such as [rusty_v8](https://github.com/denoland/rusty_v8)). However joining these two systems together *can* lost type safety bridge and data often has to be copied into the runtime which seems to void the performance improvements.
+One of the problems with JavaScript frontend server rendering implementations is that SSR / "string builders" run on JavaScript which means they are locked into a server runtime like Node or Deno. This is perfectly fine for most things but I think this is generally quite a heavy restriction, which prevents using a lot of cool backend technologies written in other languages like Rust, Python etc. Some tools have embedded a JavaScript runtime into the application (such as [rusty_v8](https://github.com/denoland/rusty_v8)). However joining these two systems together *can* lost type safety bridge and data often has to be copied into the runtime which seems to void the performance improvements.
 
 With type information it could allow Ezno to generate some format that is tightly integrate with the server language. This is quite simple to do for string elements and Ezno knows the shape of data and the pointer to every function it could easily transpile some of this stuff. However it is still up in the air how this would work if the server has to do something more complicated mutating data and I don't have a clear idea of what the format would be that could be used across languages would look like?
 
@@ -507,7 +499,7 @@ TypeScript has a bit of a funky implementation around `any` allowing `a` to be c
 
 From the previous section on events and some notions around generics, understandably, the information needed is more complex (and verbose) than simple annotations allow, thus treating Ezno types as the source of truth rather than annotations in the source code. However, some of these annotations are possible. To describe the "root environment" of the JS standard library, Ezno uses modified TypeScript definition files peppered with decorators that register information associated with functions such as function bindings and effects they can run.
 
-**Don’t take this as a knock on TypeScript, TypeScript is great**. Ezno started off as pet project to re-implementing the features of TSC in Rust. But as things started to go well after adding more and more TSC features, it was apparent that bigger such as hydration and the reactive system goals weren’t going to be possible directly following its path. It isn’t possible to detect what can happen to state when called through a term that represents `any`. TypeScript *holes* aren’t particularly critical if you just want code completions and some level of type safety. They allow the more complex parts to not be blocked by compiler errors. **But for doing optimizations a single unknown result can make it impossible**.
+**Don’t take this as a knock on TypeScript, TypeScript is great**. Ezno started off as pet project to re-implementing the features of TSC in Rust. But as things started to go well after adding more and more TSC features, it was apparent that optimisations such as the hydration reactive systems weren’t going to be possible directly following its path. It isn’t possible to detect what can happen to state when called through a term that represents `any`. TypeScript *holes* aren’t particularly critical if you just want code completions and some level of type safety. They allow the more complex parts to not be blocked by compiler errors. **But for doing optimizations a single unknown result can make it impossible**.
 
 Currently Ezno isn’t a feature-complete type checker. There are still a lot of things to still work on. For example Ezno "proof via predicates" is in the works to add to the existing "proof by definition" type system. So far the first section goes over the analysis on completely static code. The next steps are to apply these ideas to more dynamic structures. There are also some ideas not mentioned here to prevent this post from being too long 👀.  
 
@@ -521,6 +513,6 @@ Some frameworks abstract through libraries and structure of functions. Some comp
 
 I am still unsure on the name. I think it is fun short and quirky and most importantly, not taken on package managers. It has a little bit of a hidden meaning (*"easy? no"* referring to doing static analysis on JavaScript).
 
-I want to keep things moving but slowly. On initial viewing incomplete projects seem bad but I think that there is a good as they have space to add additional features and improve. Some projects I see which seem in closer to their goal have problems with improving. I think some tools are built too quickly and I don’t want Ezno to fall into that category. It is a bit earlier than I want to speak about the project but I am keen to see feedback about what issues this fixes as well as other ideas to pursue.
+I want to keep things moving but slowly. I think incomplete projects are good as they have space to add additional features and improve. Some projects I see which seem in closer to their goal have less space to improve. I also think some tools are built too quickly and I don’t want Ezno to fall into that category.
 
 No demo binary out yet, need to finish of some things on more advanced events to get some of the cooler demos to work. Hoping for something demonstrable before the end of this year 🤞

@@ -3,7 +3,7 @@ layout: post.njk
 title: Definitions of web terminology
 description: A bunch of definitions for terms thrown around in web development
 date: 2022-03-31
-editDate: 2022-05-23
+editDate: 2023-04-30
 image: /media/books1.jpg
 includeImage: true
 tags: posts
@@ -23,36 +23,19 @@ A string/text representation of HTML or `HTMLElement`s that is created locally o
 
 ### Hydration
 
-Hydration is the running of code that enables client-side interactivity on server-side rendered DOM. [It has origins in databases](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object) and refers to how data is deserialized from some string buffer form. The reference of the term with the web is now more prevalent than with databases.
-
-More recently it has been unfortunately been expanded to cover other aspects such as code bundling/elimination and execution.
-
-Typically the term encompasses the following steps that many (*but not all*) frameworks use:
-
-- Parsing state from a JSON blob that is sent with the server-side rendered markup
-- Running any component initialization logic
-- Pairing up client-side rendered DOM elements with server-side rendered elements and adding event listeners, making corrections. Most frameworks do this via rendering VDOM.
-    - Something said is *"nuke server-side rendered"* DOM, which is when the client rendered DOM does not match the server-side rendered DOM and removes the server tree and uses the client rendered version
+Hydration is the running of code that [associates state with an existing object](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object). On the web, this refers to associating state with [server-side rendered](#ssr) DOM enabling client-side interactivity. [It has origins in databases](https://hydrate.sourceforge.net/).
 
 ### Partial hydration / Island architecture {#partial-hydration}
 
-If your implementation of hydration starts by walking from a top-level node and ends up running over the whole UI, evaluating components, and deserializing **the full state** then partial hydration is identifying and instead running the above-mentioned hydration steps only on dynamic trees (aka not [static trees](#static-trees)). The islands refer to the dynamic trees.
+Partial hydration (for a full page) is only hydrating certain dynamic elements (not [static trees](#static-trees)). The islands refer to the dynamic trees.
 
 Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with static UI. This includes static components render methods and any dependencies those render methods pull in. If the state is also serialized as a JSON blob then partial hydration can remove data used by static trees.
 
-The saving is a ratio of how *dynamic* the page is. Partial hydration doesn't make the interactive parts faster just removes the costs of additional serialized state and additional code sent down, so overall the page should be faster than the "hydrating" the whole page. And note this is not a linear ratio, often dynamic parts contain larger code than the static parts (e.g. 90% static ≠ 90% reduction in payload size).
-
-Note that this architecture is difficult to implement for [SPAs](#spa) as the router is often *dynamic* and therefore so is everything below. Partial hydration is an architecture, not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement)
+Partial hydration is an architecture, not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement).
 
 ### Progressive hydration / Lazy hydration {#progressive-hydration}
 
 Doing the process of hydration on interaction with a component or some other time after the page load.
-
-It is important to note that this can make things noticeably slower as interactions have to do work after interaction they would have done at idle on the page load. So this architecture instead refers to other functionality at play such as reducing JS over the wire by sending granular component code and stopping at hydrating the whole subtree that can make the component interactive sooner.
-
-### JIT Hydration {#jit-hydration}
-
-Lazily initializing the client's state using data present in the UI (as HTML) rather than a JSON blob or additional source.
 
 ### Progressive enhancement (PE) {#progressive-enhancement}
 
@@ -63,15 +46,11 @@ The act of server rendering markup that has functionality using HTML features su
 
 The above features are available without JS running on the client. A server should be ready to receive the browser's requests and do stuff.
 
-Progressive enhancement can be implemented in any framework that supports server-side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally, the [hydration](#hydration)](#hydration) step can then add event listeners to override the default browser functionality.
+Progressive enhancement can be implemented in any framework that supports server-side rendering. Although some frameworks have helpers for making this easier or the cow path. Additionally, the [hydration](#hydration) step can then add event listeners to override the default browser functionality. *progressive enhancement is not [partial hydration](#partial-hydration).*
 
-Note that not every interaction can be implemented using the HTML features (e.g. mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do [full page reloads](#full-page-reloads) which can disrupt the state present on the client (e.g. other input contents, background audio). Overriding the behavior to be a [spa](#spa) allows for transitions between and in some places can be faster as only a partial amount of the new page data needs to be changed. Sometimes using the browser functionality can be easier, and sometimes it is not (e.g. [post request without redirect](https://stackoverflow.com/a/28060195/10048799)).
+Note that not every interaction can be implemented using the HTML features (e.g. mouse drawing on a canvas) so JS is required in many scenarios and often doing it in JS has a better experience. Forms and anchor tags both do full page reloads which can disrupt the state present on the client (e.g. other input contents, background audio).
 
 But doing PE is better than not doing PE. The site should be as functional as it can be because JS (the hydration) may have not run yet, at all or may have failed.
-
-PE is disjoint from load performance. PE does not mean better performance either, using JS to only get partials from the server sends less than the content from a full page refresh thus is better performance.
-
-**Progressive enhancement is not [partial hydration](#partial-hydration).**
 
 ### Design system
 
@@ -102,11 +81,11 @@ Similar to a static site generation. Where a static site generates on build/depl
 The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**.
 
 - Event handlers are registered for the most visible page elements
-- **The page responds to user interactions within 50 milliseconds**
+- The page responds to user interactions within 50 milliseconds
 
 ### First contentful paint (FCP) {#fcp}
 
-The time to display content from when the page starts loading (e.g. server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client-side rendering then the time it takes for the JS to start running and produce the elements). This also includes initial layout working and image rendering.
+The time to display content from when the page starts loading (e.g. server initially responds, so this does not include the time to establish a connection). If SSR this is the time it takes to produce the HTML string and if doing purely client-side rendering then the time it takes for the JS to start running and produce the elements. This also includes initial layout working and image rendering.
 
 ### Time to first byte (TTFB) {#ttfb}
 
@@ -126,7 +105,7 @@ A script that is written *out of house*. Examples include Google Analytics, Goog
 
 ### Static trees
 
-A tree that does not change
+A tree that does not change / depend on variable data
 
 ```jsx
 const static_tree = <h1>Hello</h1>;
@@ -211,11 +190,9 @@ The combination of frontend and backend. Full stack knowledge is knowing both si
 
 A page that does not use the browser's built-in navigation to do page transitions. **It does not mean that there is only one page, only that the browser internally thinks it is on the same page**.
 
-Can be faster as only have to update regions between pages, and can retain state between navigations. Implementations should be using the history API so that the browser's back buttons still function. New page contents can be generated using client-side rendering or by retrieving and injecting server-rendered content (e.g. turbolinks).
+Can be faster as only have to update regions between pages, and can retain state between navigations. Implementations should be using the history API so that the browser's back buttons still function. New page contents can be generated using client-side rendering or by retrieving and injecting server-rendered content.
 
-A SPA can be server rendered initially.
-
-This architecture makes it simple to build a [PWA](#pwa).
+A SPA can be server rendered initially and this architecture makes it simple to build a [PWA](#pwa).
 
 ### Multi page application (MPA) {#mpa}
 
@@ -323,9 +300,9 @@ A browser that is controlled by a server rather than a user. Examples of headles
 
 A single or a collection of programs that are used to build a program.
 
-<!-- ### Hoisting
+### Hoisting
 
-The use and calling of functions (and vars) before being defined. -->
+The use of functions before their definition in the source program.
 
 ### Framework
 
@@ -354,9 +331,9 @@ Code that only executes on the frontend and backend
 
 Something that exposes functions that can be called and returns results.
 
-<!-- ### Primitive
+### Primitive
 
-Something of which its internals cannot be read -->
+Something of which its internals cannot be read.
 
 ### Bundling
 
@@ -404,4 +381,4 @@ Can change
 
 ### Cache
 
-A map that may or may not contain an already processed or downloaded asset
+A map like data structure that may or may not contain an already processed or downloaded asset

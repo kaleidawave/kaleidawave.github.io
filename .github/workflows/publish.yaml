@@ -1,0 +1,59 @@
+name: Build and publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache NPM paths
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            .mediasizecache
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - uses: actions/cache@v3
+        with:
+          path: '.jampack'
+          key: jampack-${{ github.run_id }}
+          restore-keys: |
+            jampack
+
+      - uses: FedericoCarboni/setup-ffmpeg@v1
+        with:
+          # Not strictly necessary, but it may prevent rate limit
+          # errors especially on GitHub-hosted macos machines.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: dist
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Discord
+        uses: dusmartijngames/discord-webhook-notify@master
+        with:
+          severity: info
+          text: "Updated blog"
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_ENDPOINT }}

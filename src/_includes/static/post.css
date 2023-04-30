@@ -101,6 +101,10 @@
     opacity: 0.8;
 }
 
+*:is(h1, h2, h3, h4, h5, h6) > code {
+    font-size: 0.8em;
+}
+
 *:is(h1, h2, h3, h4, h5, h6, p, li) > code {
     padding: 2px 6px;
 }

@@ -488,6 +488,6 @@ Behind the scenes it updates the packages in the order of least dependency (I do
 
 ---
 
-I didn't have space but two more crates I have made are: [multiline-term-input](https://crates.io/crates/multiline-term-input), which is a way to break into new lines during console input ([It need a wiz to add Linux support](https://github.com/kaleidawave/multiline-term-input/issues/1)) and [temporary-annex](https://crates.io/crates/temporary-annex) that helps to work with appending data temporarily while reusing **the same** backing (linear) buffer.
+I didn't have space but two more crates I have made are: [multiline-term-input](https://crates.io/crates/multiline-term-input), which is a way to break into new lines during console input ([I need a wiz to add Linux support](https://github.com/kaleidawave/multiline-term-input/issues/1)) and [temporary-annex](https://crates.io/crates/temporary-annex) that helps to work with appending data temporarily while reusing **the same** backing (linear) buffer.
 
 And that is all. If you have built or use any cool Rust libraries or additional tools let me know in the comments!
