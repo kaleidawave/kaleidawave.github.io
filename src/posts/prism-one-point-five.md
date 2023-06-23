@@ -155,7 +155,7 @@ get title() {
 }
 ```
 
-Using this method, state could be brought into JS from the server rendered content making a JSON blob redundant. No more JSON state reduces the bytes sent over the wire.
+Using this method, state could be brought into JS from the server rendered content making a JSON blob redundant. No more JSON state leads to a reduction the bytes sent over the wire.
 
 And this is how the hydration system in Prism works. The compiler builds a table of bindings in the template. From that it can generate code similar to the above statement. This same binding table is also used to generate set bindings for reactivity.  
 
@@ -167,7 +167,7 @@ From this you can see the `story-preview` components content is coming from the 
 
 Not only is the state available to the component but is also public to other components. Running `JSON.stringify(document.querySelector("index-page").data, 0, 4)` should see a object with a array of stories. Those stories exist on the individual components but modifying externally is permitted: `document.querySelector("index-page").data.stories[2].title = "Hello World"`
 
-The resolved data is being pulled from the HTML content of the component when evaluated. I called this [JIT hydration](/posts/jit-hydration)
+The resolved data is being pulled from the HTML content of the component when evaluated. I called this implementation [JIT hydration](/posts/jit-hydration).
 
 Using this, Prism server components can send standard HTML down and become interactive on the client. A component can mark that its content should be from the server via the `@RenderFromEndpoint` decorator which takes a parameterized url which points to endpoint which returns the content of the component.
 
