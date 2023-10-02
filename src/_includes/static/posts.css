@@ -1,47 +1,70 @@
+.posts {
+    margin: 0 auto;
+}
+
 .posts h3 {
     font-size: 32px;
     font-weight: lighter;
     text-align: center;
 }
 
-.posts > ul {
+.posts>ul {
     display: grid;
     grid-auto-rows: min-content;
-    gap: 16px;
     list-style: none;
     padding-left: 0;
+    gap: 16px;
 }
 
-.posts > ul > li {
+.posts>ul>li {
     background-color: var(--muted-background);
-    padding: 12px;
     border-radius: 6px;
-    display: grid;
 }
 
-.posts > ul > li > .post-image {
+.posts>ul>li>.post-image {
+    display: flex;
+    align-items: center;
     overflow: hidden;
     max-height: 200px;
-    border-radius: 6px;
-    margin-bottom: 8px;
+    border-radius: 6px 6px 0 0;
 }
 
-.posts > ul > li > p {
-    margin: 0 0 8px;
+.posts>ul>li>p,
+.posts .date,
+.posts>ul>li h5 {
+    margin: 12px;
 }
 
-.posts > ul > li img {
+.posts>ul>li img {
     width: 100%;
     height: auto;
 }
 
-.posts > ul > li h5 {
+.posts>ul>li h5 {
     font-weight: lighter;
-    font-size: 28px;
-    margin: 0;
+    font-size: 24px;
 }
 
 .posts .date {
     font-size: 12px;
     letter-spacing: .5px;
+    display: block;
+}
+
+@media screen and (min-width: 780px) {
+    .posts>ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .posts>ul>li p {
+        font-size: 14px;
+    }
+
+    .posts>ul>li>.post-image {
+        height: 120px;
+    }
+
+    .posts {
+        max-width: min(80vw, 980px);
+    }
 }

@@ -2,101 +2,112 @@
 title: Ben's Engineering Blog
 image: null
 description: writings on the things
+text: true
 ---
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-        <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
-        <meta name="referrer" content="no-referrer-when-downgrade">
 
-        {% if production %}
-        <!-- Cloudflare Web Analytics -->
-        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
-        <!-- End Cloudflare Web Analytics -->
-        {% endif %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs" />
+    <meta name="referrer" content="no-referrer-when-downgrade">
 
-        <title>{{ title }}</title>
+    {% if production %}
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    {% endif %}
 
-        <meta name="title" content="{{title}}">
-        <meta property="og:title" content="{{title}}">
-        <meta property="twitter:title" content="{{title}}">
+    <title>{{ title }}</title>
 
-        <meta name="description" content="{{description}}">
-        <meta property="og:description" content="{{description}}">
-        <meta property="twitter:description" content="{{description}}">
+    <meta name="title" content="{{title}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="twitter:title" content="{{title}}">
 
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://kaleidawave.github.io/">
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="https://kaleidawave.github.io/">
+    <meta name="description" content="{{description}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="twitter:description" content="{{description}}">
 
-        {% if image === null %} 
-            <meta property="twitter:image" content="https://kaleidawave.github.io/media/banner.jpg">
-            <meta property="og:image" content="https://kaleidawave.github.io/media/banner.jpg">
-        {% elif image.startsWith("/") %}
-            <meta property="twitter:image" content="https://kaleidawave.github.io{{image}}">
-            <meta property="og:image" content="https://kaleidawave.github.io{{image}}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    {% if image === null %}
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banner.jpg">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banner.jpg">
+    {% elif image.startsWith("/") %}
+    <meta property="twitter:image" content="https://kaleidawave.github.io{{image}}">
+    <meta property="og:image" content="https://kaleidawave.github.io{{image}}">
+    {% else %}
+    <meta property="twitter:image" content="{{image}}">
+    <meta property="og:image" content="{{image}}">
+    {% endif %}
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    {% eleventyGoogleFonts
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto+Serif&family=JetBrains+Mono:wght@200&display=swap"
+    %}
+
+    <style>{% include "static/index.css" %}</style>
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img src="/media/icon.png" width="256" height="256" alt="">
+                {% if not production %}
+                <span>(dev)</span>
+                {% endif %}
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% if text %}
+        <div class="width-box">
+            {{ content | safe }}
+        </div>
         {% else %}
-            <meta property="twitter:image" content="{{image}}">
-            <meta property="og:image" content="{{image}}">
+        {{ content | safe }}
         {% endif %}
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter {% icon "twitter" %}</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub {% icon "github" %}</a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/">{% icon "eleventy" %} Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        {% include "static/script.js" %}
+    </script>
+</body>
 
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-
-        {% eleventyGoogleFonts "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Vollkorn:wght@600&family=JetBrains+Mono:wght@200&display=swap" %}
-        
-        <style>
-            {% include "static/index.css" %}
-        </style>
-    </head>
-    <body>
-        <header>
-            <div class="width-box">
-                <a class="title" href="/">
-                    <h1>Ben's Engineering Blog</h1>
-                    <img src="/media/icon.png" width="256" height="256" alt="">
-                    {% if not production %}
-                        <span>(dev)</span>
-                    {% endif %}
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="/posts">Posts</a></li>
-                        <li><a href="/about">About</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div class="width-box">
-                {{ content | safe }}
-            </div>
-        </main>
-        <footer>
-            <div class="width-box">
-                <form>
-                    <label for="toggle-theme">Light Mode</label>
-                    <input type="checkbox" name="toggle-theme" id="toggle-theme">
-                </form>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="https://twitter.com/kaleidawave">Twitter {% icon "twitter" %}</a>
-                            <a href="https://github.com/kaleidawave">GitHub {% icon "github" %}</a>
-                        </li>
-                        <li>
-                            Built with <a href="https://www.11ty.dev/">{% icon "eleventy" %} Eleventy</a> and 
-                            <a href="/architecture">others</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </footer>
-        <script>
-            {% include "static/script.js" %}
-        </script>
-    </body>
 </html>

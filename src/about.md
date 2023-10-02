@@ -3,11 +3,9 @@ layout: main_layout.njk
 title: About me
 ---
 
-Hey 👋 I am Ben, currently 22, living in the UK and a mathematics major!
+Hey 👋 I am Ben and am currently 22! I am interested in language design, type theory and the compilers. I built this site to showcase and do a deeper dive on some of my projects.
 
-I am interested in language design, type theory, *zero cost abstractions* and the web. Also skateboarding, hiking, graphics and video editing!
-
-You can support the writing of these posts:
+You can support the writing of these posts and other projects:
 
 <iframe src="https://github.com/sponsors/kaleidawave/button" title="Sponsor kaleidawave" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 

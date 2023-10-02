@@ -4,8 +4,7 @@ title: Definitions of web terminology
 description: A bunch of definitions for terms thrown around in web development
 date: 2022-03-31
 editDate: 2023-04-30
-image: /media/books1.jpg
-includeImage: true
+image: /media/banners/web-terminology.png
 tags: posts
 ---
 

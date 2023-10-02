@@ -2,6 +2,7 @@
 layout: post.njk
 title: JIT Hydration
 description: JIT hydration is a technique for incrementally hydrating state from the HTML when building universally rendered sites
+image: /media/banners/jit-hydration.png
 date: 2020-11-24
 tags: posts
 ---

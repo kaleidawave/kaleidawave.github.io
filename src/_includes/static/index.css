@@ -1,6 +1,7 @@
 :root {
     font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-weight: 400;
+
     --text-color: #1a1a1a;
     --background: #ffffff;
     --muted-background: rgb(247, 247, 247);
@@ -8,6 +9,8 @@
     --accent: #5c3bb6;
     --muted-accent: #4e3399;
     --code-highlight: #bfb7e2;
+
+    --muted-heading: #3f3f3a;
 }
 
 @media screen {
@@ -23,11 +26,11 @@
 }
 
 :root:not(.dark) strong {
-    font-weight: bold;
+    color: var(--muted-heading);
 }
 
 :root:not(.dark) *:is(h1, h2, h3, h4, h5, h6) {
-    font-weight: 100;
+    color: var(--muted-heading);
 }
 
 :root.dark .shiki-light {
@@ -81,7 +84,7 @@ header h1>a {
     color: var(--text-color) !important;
 }
 
-header .title {
+header .icon-title {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -120,7 +123,7 @@ h2,
 h3,
 h4,
 h5 {
-    font-family: 'Vollkorn', serif;
+    font-family: 'Roboto Serif', serif;
     scroll-margin: 100px;
 }
 
@@ -134,7 +137,8 @@ em {
     left: -2px;
 }
 
-ul, ol {
+ul,
+ol {
     margin: 0px;
     padding-left: 20px;
 }
@@ -177,12 +181,14 @@ pre code {
     tab-size: 4;
 }
 
-:is(div, p, a, li) > code, div > pre {
+:is(div, p, a, li)>code,
+div>pre {
     border-radius: 4px;
     font-size: 15px;
 }
 
-pre, code {
+pre,
+code {
     background-color: var(--muted-background) !important;
     font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
 }
@@ -208,9 +214,13 @@ footer h3 {
 footer nav ul {
     list-style: none;
     display: flex;
-    gap: 4px;
-    flex-direction: column;
-    text-align: right;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--code-highlight);
+    padding-left: 6px;
 }
 
 footer>div>*:nth-child(2n) {
@@ -226,6 +236,11 @@ footer>div>*:nth-child(2n) {
     body {
         width: 100vw;
         box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -247,9 +262,5 @@ footer>div>*:nth-child(2n) {
     .width-box {
         width: 100%;
         max-width: min(80vw, 780px);
-    }
-
-    .post-image img {
-        transform: translateY(-20%);
     }
 }

@@ -3,7 +3,7 @@ layout: post.njk
 title: Prism Compiler 1.5
 description: Updates to Prism compiler, server side rendering and why frameworks
 date: 2021-03-22
-image: /media/prism-one-five-banner.png
+image: /media/banners/prism-one-five.png
 includeImage: false
 tags: posts
 ---

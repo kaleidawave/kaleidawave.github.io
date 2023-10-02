@@ -3,7 +3,7 @@ layout: post.njk
 title: My Rust infrastructure
 description: Some libraries and tools I have built to help with writing Rust.
 date: 2023-04-20
-image: /media/rust-infrastructure-banner.png
+image: /media/banners/rust-infrastructure.png
 tags: posts
 ---
 I have written a lot of Rust over the last couple of years. Along the way of building a [compiler](https://github.com/kaleidawave/ezno), I have built up a few smaller, generic crates and tools (infrastructure) to assist with writing Rust. I realised I haven't really shared much about some of these, so I thought it would be a good opportunity to do give an overview now.

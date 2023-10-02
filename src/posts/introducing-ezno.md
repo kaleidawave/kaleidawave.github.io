@@ -3,7 +3,7 @@ layout: post.njk
 title: Introducing Ezno
 date: 2022-09-22
 description: Introducing Ezno and the current state of the project.
-image: /media/introducing-ezno-banner.png
+image: /media/banners/introducing-ezno.png
 tags: posts
 ---
 
@@ -11,7 +11,7 @@ Ezno is an experimental compiler I have been working on and off for a while. **I
 
 This post is just an overview of some of the features I have been working on which I think are quite cool as well a bit on the project philosophy ;)
 
-*it is still work in progress, all the examples work but the tool is still in its infancy*
+> It is still work in progress, all the examples work but the tool is still in its infancy
 
 # Type synthesis and checking
 

@@ -3,7 +3,7 @@ layout: post.njk
 title: Ezno in '23
 description: Where is Ezno? What's next?
 date: 2023-01-18
-image: /media/ezno-2023-banner.png
+image: /media/banners/ezno-2023.png
 tags: posts
 ---
 It's been a minute since the previous announcement so I thought would give some updates and share some upcoming problems. This follows the initial announcement and includes all of some smaller things I [shared on Twitter](https://twitter.com/kaleidawave) since the announcement post.

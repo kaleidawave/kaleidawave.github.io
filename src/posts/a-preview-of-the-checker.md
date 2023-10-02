@@ -13,7 +13,7 @@ This post will give an overview of the current status of the project, give a bit
 
 ### The aims/direction of the project
 Two things:
-1) It is not aimed at being one-to-one parity with TSC. I made the [point last year](/posts/introducing-ezno/#types-and-typescript) that TypeScript's implementation of `any` (and its other backdoors behaviours) make doing type based optimisations and full type safety impossible. Later in the post, you will also see a benefit of its divergence that is not present in TSC. **In my opinion, 90% of TSC features' are great, so the aim is to be able to use existing syntax and not to break things in a bad way**.
+1) It is not aimed at being one-to-one parity with TSC. I made the [point last year](/posts/introducing-ezno/#types-and-typescript) that TypeScript's implementation of `any` (and its other *backdoor* behaviours) make doing type based optimisations and full type safety impossible. Later in the post, you will also see a benefit of its divergence that is not present in TSC. **In my opinion, 90% of TSC features' are great, so the aim is to be able to use existing syntax and not to break things in a bad way**.
 2) Following on from 1) this is an experimental project. I want to explore new techniques and make previously not possible things possible! Building it from scratch makes it a lot more fun and easier to build for me.
 
 **There is still a lot to do, a lot of JS features are still unimplemented**. I am only human 😀, while I can implement features quickly, some others things will require time (also not to overwhelm myself).
@@ -60,11 +60,11 @@ The system is: high level memory of the program (it's sort of its heap), it stor
 
 **Synthesis on the other hand is taking AST and forming types from it.**
 
-Due to some [issues with Ezno's own parser](https://github.com/kaleidawave/ezno/issues/1) and after an offer to help from [Boshen](https://twitter.com/boshen_c/status/1666633387073761281) I figured it would be a good idea to make the synthesis work under other AST crates. To do this required some changes to split the checker logic from AST synthesis and the creation of [a new bridge crate](https://github.com/Boshen/oxc/tree/main/crates/oxc_type_synthesis) between Oxc AST and Ezno checker.
+Due to some [issues with Ezno's own parser](https://github.com/kaleidawave/ezno/issues/1) and after an offer to help from [Boshen](https://twitter.com/boshen_c/status/1666633387073761281) I figured it would be a good idea to make the synthesis work under other AST crates. To do this required some changes to split the checker logic from AST synthesis and the creation of [a new bridge crate](https://github.com/web-infra-dev/oxc/tree/main/crates/oxc_type_synthesis) between Oxc AST and Ezno checker.
 
 {% image "/media/ezno-screenshots/ezno-oxc-crates-diagram.png", "Ezno and Oxc crates diagram" %}
 
-The bridge crate consists of thing like [code that turns `oxc_ast::ast::Expression` into a type](https://github.com/Boshen/oxc/blob/main/crates/oxc_type_synthesis/src/expressions.rs)
+The bridge crate consists of thing like [code that turns `oxc_ast::ast::Expression` into a type](https://github.com/web-infra-dev/oxc/blob/main/crates/oxc_type_synthesis/src/expressions.rs)
 
 ```rust
 pub(crate) fn synthesize_expression<T: FSResolver>(
@@ -86,7 +86,7 @@ Thanks to this, a `check` command got added to Oxc CLI and type checking got add
 
 > The playground is currently work in progress as I only added support in an a hour, expect some crashes that will show up in the browser console
 
-As [Oxc has an incredibly fast](https://rustmagazine.org/issue-3/javascript-compiler/) and [correct](https://github.com/Boshen/oxc#parser-conformance) parser it will be a great way to use Ezno's checker!
+As [Oxc has an incredibly fast](https://rustmagazine.org/issue-3/javascript-compiler/) and [correct](https://github.com/web-infra-dev/oxc#parser-conformance) parser it will be a great way to use Ezno's checker!
 
 > This isn't the end of Ezno's own parser and CLI. It was incredibly useful building it, and it's 95% of the way there. It is great that the bindings exist with Oxc to offer a fast and reliable option to use Ezno's checker.
 
@@ -116,7 +116,7 @@ Less theory, let's see how it works. The next part [goes over some code that is 
 ## Inside the checker and its features
 The checker is currently just under 9000 lines of code (and `oxc_type_synthesis` is around 2k). A lot of the code is densely abstracted to be more manageable to work under.
 
-There are a lot of features, so to keep this as a blog post rather than a book, I can't go into all the depth. I am happy to go into more detail and explain certain code and characteristics preferable in GitHub issues. There is no 'Ezno Discord' but you may be able to catch me in [Oxc Discord with others building JS tools in Rust](https://discord.gg/9uXCAwqQZW).
+There are a lot of features, so to keep this as a blog post rather than a book, I can't go into all the depth. I am happy to go into more detail and explain certain code and characteristics preferable in GitHub issues. There is no 'Ezno Discord' but you may be able to catch me in [Oxc Discord with others building JavaScript and TypeScript tooling in Rust](https://discord.gg/9uXCAwqQZW).
 
 **Note that a lot of this is work in progress and things might have changed after the publishing of this post.**
 
@@ -135,7 +135,7 @@ They also contain a reference to the parent. Which it can get properties from:
 
 {% image "/media/ezno-screenshots/context-hierarchy.png", "Context hierarchy" %}
 
-#### What kinds of contexts are there
+#### What kinds of contexts are there?
 - Root
 - Module
 - Functions
@@ -306,7 +306,7 @@ Constants are great, however places where something can't be represented as a co
 #### Parameters
 Alongside explicit function parameters (such as `x` in `function func(x) { ... }`) there are other places in JS where a function can be parameterized. For example, closed over variables and `this`. These are the most common poly type.
 
-#### Constructors: Higher poly types
+#### Constructors, the higher poly types
 Parameters are root poly types. All that is known is the origin. However, we want to carry more information. This is where [constructors come in](https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/types/mod.rs#L275), they wrap **any** poly type with additional information about its usage.
 
 #### Closed and open poly types
@@ -338,6 +338,34 @@ So variables such as `document` are considered similar to parameters. These are 
 
 > This is still experimental and will probably be changed in some way at some point. Some open poly traces are completely useless, such as `Math`.
 
+#### Is subtype
+The `type_is_subtype` function compares types. It is used when checking a argument is valid against a parameter, or a value assigned to variable meets it's constraint. It returns the following result:
+
+```rust
+#[derive(Debug)]
+pub enum SubTypeResult {
+	IsSubtype,
+	IsNotSubType(NonEqualityReason),
+}
+```
+
+The function checks whether the RHS has all the 'properties' of the LHS.
+
+#### Specialisation
+In TypeScript (and Rust), call site generics can be inferred. This means that when calling function with generic type parameters, the type parameters can be derived from the types of arguments if they were not already explicitly given
+
+```ts
+function identity<T>(a: T) {
+	return a
+}
+
+const x = identity(console)
+```
+
+The other thing is that in Ezno, every function parameter (apart from functions behind a generic) is generic (cascades information). So these *auto generics* cannot be explicit set for parameters not explicitly generic.
+
+Ezno could resolve these types by scanning the argument list first. Instead during equality, while checking it [adds these values to a `SeedingContext`](https://github.com/kaleidawave/ezno/blob/7fc78261e9aa1d9012ff7e8cc7d07488459bf045/checker/src/types/subtyping.rs#L67).
+
 #### Constraint inference
 [This is something being worked out](https://github.com/kaleidawave/ezno/issues/35). Most parameters have a fixed and known space they operate in. However, to enable full checking on sources without annotation, this restriction could be generated from its usage. See more in the issue.
 
@@ -349,23 +377,6 @@ const sinPlusOne = (x) => {
     // constraint needs to be modified to reflect this
 }
 ```
-
-### Operators as functions
-One of the ways to keep things simple is to treat operators as functions. This way it can reuse basic equality checking and results.
-
-```ts
-interface Operators {
-    Add<T extends StringOrNumber, U extends StringOrNumber>(a: T, b: U): (T extends string ? string : U extends string ? string: number) & Ezno.ConstantFunction<'add'>;
-
-    Mul(a: number, b: number): number & Ezno.ConstantFunction<'mul'>;
-
-    StrictEqual(a: any, b: any): boolean & Ezno.ConstantFunction<'equal'>;
-
-	// ...
-}
-```
-
-[Operator logic then reuses the same code for calling a function](https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/types/operations.rs#L74)
 
 ### Constant functions
 Some functions have a constant identifier (as shown above in the return annotation). Functions with this try and evaluate a result using [custom Rust code](https://github.com/kaleidawave/ezno/blob/main/checker/src/behavior/constant_functions.rs). The Rust code only works for constants and so if it can't compute a result it will fail and [resort back to specializing the return type of the function](https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/types/calling.rs#L82-L150).
@@ -392,14 +403,18 @@ The above is a bit more complicated because it is throwing a parameter type. The
 - They reuse types so can be specialized like the above
 - Catch a lot of side effect cases, which can give more information rather than resorting to unknown-ness
 - Calling functions to tracks what functions are called, which allows tree shaking of associated functions (functions under objects)
-- **They could be used as IR for generating more optimised output**
+- **They could be used as IR for generating more optimized output**
 
 ### Some extras
+
 #### Hoisting passes
-Currently work in progress, but you can see how interfaces are checker before functions which is checked before any other structure in [hoist_statements](https://github.com/Boshen/oxc/blob/b31819d7a1b6708121f25ae8f314abc40ad68cf3/crates/oxc_type_synthesis/src/statements_and_declarations.rs#L20)
+Currently work in progress, but you can see how interfaces are checker before functions which is checked before any other structure in [hoist_statements](https://github.com/web-infra-dev/oxc/blob/b31819d7a1b6708121f25ae8f314abc40ad68cf3/crates/oxc_type_synthesis/src/statements_and_declarations.rs#L20)
 
 #### Printing types
 Turning types into strings is done [here](https://github.com/kaleidawave/ezno/blob/main/checker/src/types/printing.rs).
+
+This also has to handle some other things:
+- Recording what types have been printed types to not stack overflow in the case of cyclic types
 
 #### `Diagnostic`s, registering errors and warnings
 [diagnostics.rs](https://github.com/kaleidawave/ezno/blob/main/checker/src/diagnostics.rs) has a long list of errors and how to turn them into a general `Diagnostic`s which can be printed to the CLI or presented in a LSP.
@@ -420,6 +435,6 @@ There is a still more to do
 ### However I am now on break
 Unfortunately I have other priorities for the next two months, so I can't [spearhead additions and fixes](https://github.com/kaleidawave/ezno/pull/31). I will be around though to respond to certain things but development will be slower.
 
-Incredibly grateful for current [sponsors](https://github.com/sponsors/kaleidawave). Any contributions including [one-time](https://github.com/sponsors/kaleidawave?frequency=one-time) are important for this project to keep going. For now GH seems to be the best way to do this.
+Incredibly grateful for current [sponsors](https://github.com/sponsors/kaleidawave). Any contributions including [one-time](https://github.com/sponsors/kaleidawave?frequency=one-time) are important for this project to keep going. For now GitHub sponsors seems to be the easiest way to do this.
 
 Hopefully I can keep this going as a chill experimental project without strings attached that I can keep improving part time!

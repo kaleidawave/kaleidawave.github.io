@@ -1,22 +1,20 @@
-<style>
-    {% include "static/posts.css" %}
-</style>
+<style>{% include "static/posts.css" %}</style>
 
-<div class="posts">
-    <h3>All Posts:</h3>
+<div class="posts list-view">
+    <h3>All Posts</h3>
     <ul>
-    {%- for post in collections.sortedPosts -%}
+        {%- for post in collections.sortedPosts -%}
         <li>
-            {% if post.data.image and post.data.includeImage %}
-                <div class="post-image">
-                    {% image post.data.image, "" %}
-                </div>
-            {% endif %}
-            <a href="{{ post.url }}">
-                <h5>{{ post.data.title }}</h5>
-            </a>
+            <div class="post-image">
+                {% image post.data.image, "" %}
+            </div>
+            <h5>
+                <a href="{{ post.url }}">
+                    {{ post.data.title }}
+                </a>
+            </h5>
             {% if post.data.description %}
-                <p>{{ post.data.description }}</p>
+            <p>{{ post.data.description }}</p>
             {% endif %}
             {% if post.data.date %}
             <span class="date">
@@ -24,6 +22,6 @@
             </span>
             {% endif %}
         </li>
-    {%- endfor -%}
+        {%- endfor -%}
     </ul>
 </div>
