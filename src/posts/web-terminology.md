@@ -22,7 +22,7 @@ A string/text representation of HTML or `HTMLElement`s that is created locally o
 
 ### Hydration
 
-Hydration is the running of code that [associates state with an existing object](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object). On the web, this refers to associating state with [server-side rendered](#ssr) DOM enabling client-side interactivity. [It has origins in databases](https://hydrate.sourceforge.net/).
+Hydration is the code that [associates state with an existing object](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object). On the web, this refers to creating state in JS that matches [server-side rendered](#ssr) DOM, which then enables client-side interactivity. It has origins in [database](https://www.snaplogic.com/glossary/data-hydration) and originates from the [hydrate project from 2006](https://hydrate.sourceforge.net/).
 
 ### Partial hydration / Island architecture {#partial-hydration}
 

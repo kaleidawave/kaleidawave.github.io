@@ -17,7 +17,7 @@ Many frameworks do this by rendering the markup again. The rendering identifies 
 
 {% image "/media/react-hydration.gif", "react-hydration" %}
 
-(Something like that I think)
+*(Something like that I think)*
 
 But the issue here is to add the event listeners the component needs to be *rendered* and for it to be rendered it needs to have some data / state.
 
@@ -25,7 +25,7 @@ This is where hydration comes in. In order to render this "frame" it needs some 
 
 Standard client side rendered sites would make a HTTP request to the backend API to get the data on initial mount. But this is a separate request, there may have been changes to the data in the time between rendering the page, getting it to the client and the client parsing and running the script. The difference in the data could break things. The other issue is that this is a totally new request and (without backend caching) would have to make another request to the database which is expensive.
 
-So the solution a lot of frameworks use is to send the data down as a JSON blob with the request.
+#### So the solution a lot of frameworks use is to send the data down as a JSON blob with the request {#double-data}
 
 ```html{data-highlight=6,15}
 <head>
@@ -48,7 +48,7 @@ So the solution a lot of frameworks use is to send the data down as a JSON blob 
 </body>
 ```
 
-[This is has some overhead because the data is effectively sent down twice](https://youtu.be/CQaDl9Fu0W0?t=365)
+##### [This is has some overhead because the data is effectively sent down twice](https://youtu.be/CQaDl9Fu0W0?t=365)
 
 There is also the fact JSON is difficult to work with due to its difficult to represent complex types such as `Date` and other things like cyclic references etc. Also that some JSON blobs are quite large especially if there are long lists of objects. And using raw JS object literals can be slow [due to the way they are parsed](https://www.youtube.com/watch?v=ff4fgQxPaO0).
 
@@ -75,7 +75,7 @@ And this is what I have written into my own framework [Prism](https://github.com
 
 {% image "/media/prism-hydration.gif", "prism-hydration" %}
 
-And this is working quite well here on my [Hacker News clone](https://github.com/kaleidawave/hackernews-prism)
+#### And this is working quite well here on my [Hacker News clone](https://github.com/kaleidawave/hackernews-prism) {#demo}
 
 {% image "/media/hackernews-prism-hydration.gif", "hackernews-prism-hydration" %}
 
@@ -85,22 +85,21 @@ You can read more about the Hacker News clone [here](/posts/hackernews-clone-pri
 
 JIT hydration has the effect of a fully hydrated page but at lower cost to the client.
 
-### So what are the benefits of JIT hydration? {#benefits}
+### So what are the features and benefits of Prism's JIT hydration? {#benefits}
 
-- Prioritizes adding events.
-- State loading is deferred until needed
+- On load, the only logic is attaching event listeners. This leads to a decrease in the time to interactive (TTI)
+- Loading state is deferred until needed
 - Loading in state is done on a per property basis rather than everything at once so the lazy-ness does not come at a significant cost
-- TTI (time to interactive) increases ⏫⏫
-- Smaller payload sizes due to not needing JSON state
-- Resolved complications for objects that cannot be represented in JSON (DateTime 👀), cycles etc
+- Smaller HTML payload sizes due to not needing JSON state
+- Resolved complications for objects that cannot be represented in JSON (looking at you `Date` 👀), cycles etc
 
 Although values in the DOM are all strings Prism converts the strings to the correct types. As can been seen from the `id` and `score` value on each story in the state. Values are also cached after being pulled in during hydration. The logic for doing is invariant and JS is cached between requests. The JSON blob is different and so is sent down on ever new full page.
 
 ### Conclusion
 
-JIT hydration is good on paper but it is difficult to implement. For it to work effectively there needs to be more complex work done at build time. State needs to be established where interpolated and at runtime it requires compiling bindings to a fixed location.
+While it has it's benefits, JIT hydration is difficult to implement. For it to work effectively there needs to be more complex and analysis and code generation work done at build time. It needs to be established where state is interpolated and how that can be reversed to be read at runtime.
 
-There are also complications as now components have a *virtualized* state. Also the fact that a child can have state before its parent does. To do the immediate event listeners addition without state there needs to be markers in the markup as where elements are. Prism does this with a combination of classes added at build time and custom elements. Using these markers alleviates the need to "render" the whole application.
+There are also complications as components now have a *virtualized* or computed state. Another fact is that child components can have state before the parent does. To do the immediate event listeners addition without state there needs to be markers in the markup as where elements are. Prism does this with a combination of classes added at build time and custom elements. Using these markers alleviates the need to "render" the whole application.
 
 There is also complexities around values that are not represented literally in the DOM. For example the `href` on the link tags are interpreted as `/i/${id}`. Prism has a limited expression reversal and here creates a `slice` expression to get the `id` value. But for more complex expressions it breaks down, especially for not 1:1 expressions where it is impossible.
 

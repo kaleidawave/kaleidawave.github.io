@@ -297,8 +297,8 @@ For Prism the most promising feature with WASM is the available runners. If Pris
 With Prism I took a lot of the problems around frontend frameworks today in to account with the design. I hope I at least made a dent on some of these issues:
 
 - Double data from SSR
-- SSR in non node languages (e.g. Rust)
-- Large bundle sizes
+- SSR in languages other than JavaScript (in this case Rust)
+- Large runtime size of a framework
 
 At this point it seems necessary to mention why frameworks? and why plain JS or no build step is insufficient in many cases.
 
@@ -498,7 +498,7 @@ Text can now be interpolated when alongside other tags. There are fixes for gett
 
 Prism is not designed to be the next new framework. Instead it is a implementation in attempting to experiment on improving the implementations of SSR and hydration in current popular frontend frameworks.
 
-One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (csr, ssr, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name.
+One thing is that it unfortunate same name with syntax highlighting library [prism.js](https://github.com/PrismJS/prism/) which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is *split* into the various paths (CSR, SSR, bindings, hydration logic, etc). I wasn't aware of prism.js and it's prevalence until shortly after releasing it under that name. It also unintentionally a extremely similar logo to database ORM [prisma](https://github.com/prisma/prisma). If interest were to pick up then I may make features more reliable and release it under a new name.
 
 The compiler is a little rough around the edges. It is not intended for production but if you want to try out JIT hydration or Rust compilation you can try the [quick start](https://github.com/kaleidawave/prism/blob/main/docs/quickstart.md) or fork the [HN repo](https://github.com/kaleidawave/hackernews-prism).
 
@@ -506,7 +506,7 @@ The compiler is a little rough around the edges. It is not intended for producti
 
 <h6 id="foot1">(1) Render to hydrate</h6>
 
-For event listeners to be added the runtime needs to find the elements first. Many frontend frameworks do this via "rendering" their tree and comparing the result with the markup. Therefore **all** the data is hydrated at the start of page load .
+For event listeners to be added the runtime needs to find the elements first. Many frontend frameworks do this via "rendering" their tree and comparing the result with the markup. Therefore **all** the data is hydrated at the start of page load.
 
 <h6 id="foot2">(2) Types</h6>
 
@@ -545,4 +545,4 @@ Prism can reverse some expressions e.g. from `/i/${id}` it produces this express
 
 <h6 id="foot4">(4) Streaming</h6>
 
-Currently the response from SSR is buffered and sent and appended as one. This isn't great as the server could start sending the first part of the markup while its waiting for the data source to respond. The first thing is that Prism doesn't have a way to mark async data (Svelte has `await` blocks and marko has `Await` elements) that are probably needed to do static analysis. The second is that [fetch response streaming is not yet stable](https://web.dev/fetch-upload-streaming/). Most streaming solutions currently use web sockets. Streaming content on initial page load is a feature by the browser but doing it after the page loads for web components is only possible via [this slight hack](https://jakearchibald.com/2016/fun-hacks-faster-content/). Also Rust generators (which would be preferred) for the compiled ssr functions [are not yet stable](https://github.com/rust-lang/rust/issues/43122), *(although something could be done with closures)*. Hacker News is a bad example due to not having a direct request to their database and the latency effects from buffering are visible. Streaming is planned for the future but not available in this release.
+Currently the response from SSR is buffered and sent and appended as one. This isn't great as the server could start sending the first part of the markup while its waiting for the data source to respond. The first thing is that Prism doesn't have a way to mark async data (Svelte has `await` blocks and marko has `Await` elements) that are probably needed to do static analysis. The second is that [fetch response streaming is not yet stable](https://web.dev/fetch-upload-streaming/). Most streaming solutions currently use web sockets. Streaming content on initial page load is a feature by the browser but doing it after the page loads for web components is only possible via [this slight hack](https://jakearchibald.com/2016/fun-hacks-faster-content/). Also Rust generators (which would be preferred) for the compiled SSR functions [are not yet stable](https://github.com/rust-lang/rust/issues/43122), *(although something could be done with closures)*. Hacker News is a bad example due to not having a direct request to their database and the latency effects from buffering are visible. Streaming is planned for the future but not available in this release.

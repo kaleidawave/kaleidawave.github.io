@@ -3,7 +3,7 @@ layout: post.njk
 title: A preview of Ezno's checker
 description: Try it out today, what is does and more!
 date: 2023-06-23
-image: /media/a-preview-of-the-checker.png
+image: /media/banners/a-preview-of-the-checker.png
 tags: posts
 ---
 ## The big news
