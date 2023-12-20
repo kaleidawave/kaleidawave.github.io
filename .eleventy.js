@@ -154,14 +154,14 @@ module.exports = function (eleventyConfig) {
         
     });
 
-    eleventyConfig.addShortcode("video", async function (src) {
+    eleventyConfig.addShortcode("video", async function (src, classes = "") {
         try {
             const {height, width} = mediaSizeCache.get(src) || await videoSize(path.join(__dirname, src));
             mediaSizeCache.set(src, {height, width});
-            return `<div style="display: contents;"><video controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
+            return `<div style="display: contents;"><video class="${classes}" controls loop src="${src}" width="${width}" height="${height}"></video></div>`;
         } catch (err) {
             console.error(`Error finding size of video ${src}`);
-            return `<div style="display: contents;"><video controls loop src="${src}"></video></div>`;
+            return `<div style="display: contents;"><video class="${classes}" controls loop src="${src}"></video></div>`;
         }
     });
 

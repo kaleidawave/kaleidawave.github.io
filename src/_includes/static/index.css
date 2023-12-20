@@ -9,8 +9,6 @@
     --accent: #5c3bb6;
     --muted-accent: #4e3399;
     --code-highlight: #bfb7e2;
-
-    --muted-heading: #3f3f3a;
 }
 
 @media screen {
@@ -23,14 +21,6 @@
         --muted-accent: #62d7a0;
         --code-highlight: #274d42;
     }
-}
-
-:root:not(.dark) strong {
-    color: var(--muted-heading);
-}
-
-:root:not(.dark) *:is(h1, h2, h3, h4, h5, h6) {
-    color: var(--muted-heading);
 }
 
 :root.dark .shiki-light {

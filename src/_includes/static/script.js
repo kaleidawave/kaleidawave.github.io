@@ -27,13 +27,15 @@ function updateThemeClass(value = null) {
     }
 }
 
-const themeSwitch = document.querySelector("#toggle-theme");
-themeSwitch.checked = localStorage.getItem("theme") !== "dark";
-themeSwitch.addEventListener("change", (ev) => {
-    const darkTheme = !ev.target.checked;
-    changeScheme(darkTheme);
-});
-
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+    
 document.addEventListener("click", (ev) => {
     if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
         const id = ev.target.getAttribute("id");

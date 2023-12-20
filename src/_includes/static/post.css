@@ -118,6 +118,10 @@
     width: 100%;
 }
 
+video.small {
+    max-height: 300px;
+}
+
 .callout {
     margin-top: 18px;
     padding: 20px;
