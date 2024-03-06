@@ -78,7 +78,7 @@
     opacity: 0.8;
 }
 
-.post .date {
+.post time {
     margin-top: 0;
     font-size: 11pt;
     font-family: monospace;
