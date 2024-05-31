@@ -22,17 +22,17 @@ A string/text representation of HTML or `HTMLElement`s that is created locally o
 
 ### Hydration
 
-Hydration is the code that [associates state with an existing object](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object). On the web, this refers to creating state in JS that matches [server-side rendered](#ssr) DOM, which then enables client-side interactivity. It has origins in [database](https://www.snaplogic.com/glossary/data-hydration) and originates from the [hydrate project from 2006](https://hydrate.sourceforge.net/).
+Hydration is the code that [associates the state of an item with an existing object](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object). On the web, this refers to creating state in JS that matches [server-side rendered](#ssr) DOM, which then enables client-side interactivity. It has origins in [database](https://www.snaplogic.com/glossary/data-hydration) and originates from the [hydrate project from 2006](https://hydrate.sourceforge.net/).
 
-### Partial hydration / Island architecture {#partial-hydration}
+### Partial hydration/Island architecture {#partial-hydration}
 
 Partial hydration (for a full page) is only hydrating certain dynamic elements (not [static trees](#static-trees)). The islands refer to the dynamic trees.
 
 Partial hydration is a form of [dead code elimination](#dead-code-elimination), where the code being removed is anything to do with static UI. This includes static components render methods and any dependencies those render methods pull in. If the state is also serialized as a JSON blob then partial hydration can remove data used by static trees.
 
-Partial hydration is an architecture, not a feature. Partial hydration / Island architecture is unrelated to [progressive enhancement](#progressive-enhancement).
+Partial hydration is an architecture, not a feature. Partial hydration/Island architecture is unrelated to [progressive enhancement](#progressive-enhancement).
 
-### Progressive hydration / Lazy hydration {#progressive-hydration}
+### Progressive hydration/Lazy hydration {#progressive-hydration}
 
 Doing the process of hydration on interaction with a component or some other time after the page load.
 
@@ -55,7 +55,7 @@ But doing PE is better than not doing PE. The site should be as functional as it
 
 A collection of colour themes, component designs, layouts, and assets encompassing brand image and packaged up to be easily reusable throughout the site.
 
-### Hot module reloading / swapping {#hmr}
+### Hot module reloading/swapping {#hmr}
 
 When changes happen during development it patches the changed functions rather than reloading the whole content and state.
 
@@ -77,7 +77,7 @@ Similar to a static site generation. Where a static site generates on build/depl
 
 ### Time to interactive (TTI) {#tti}
 
-The time to which some form of [hydration](#hydration) has finished adding event listeners with most of the functionality **ready**.
+The time to it takes to add event listeners with most of the functionality **ready**.
 
 - Event handlers are registered for the most visible page elements
 - The page responds to user interactions within 50 milliseconds
@@ -90,7 +90,7 @@ The time to display content from when the page starts loading (e.g. server initi
 
 The time it takes for the server to initially respond. If streaming, this is the time for the first chunk. If not (aka buffering) this is the time for the content to be prepared and sent (aka a full SSR). Normally a measure of the hosting server rather.
 
-### No-JS / zero JS {#zero-js}
+### No-JS/zero JS {#zero-js}
 
 Something with no JS running **ever**. This includes [3rd party scripts](#3rd-party-scripts). Again most pages require some form of JS, something that runs no JS is not necessarily better.
 
@@ -104,7 +104,7 @@ A script that is written *out of house*. Examples include Google Analytics, Goog
 
 ### Static trees
 
-A tree that does not change / depend on variable data
+A tree that does not change/depend on variable data
 
 ```jsx
 const static_tree = <h1>Hello</h1>;
@@ -163,7 +163,7 @@ Diffing techniques do not always apply to VDOM. Diffing can be done on structure
 
 Produces a diff/difference that can be used for reconciliation.
 
-### Conciliation / reconciliation {#conciliation}
+### Conciliation/reconciliation {#conciliation}
 
 This applies to virtual DOM and other representations e.g. lists.
 
@@ -183,7 +183,7 @@ Something that does not run on the client. Owned by an operator, distributes dat
 
 ### Full stack
 
-The combination of frontend and backend. Full stack knowledge is knowing both sides of the network. A full stack framework has features spread across frontend and backend
+The combination of frontend and backend. Full stack knowledge is knowing both sides of the network. A full-stack framework has features spread across frontend and backend
 
 ### Single page application (SPA) {#spa}
 
@@ -221,13 +221,13 @@ The API for HTML elements. Every HTML element has some attributes and some child
 
 A special form of DOM that is encapsulated inside the element. The internals of shadow dom are isolated from the whole DOM so that outside JS cannot reference and CSS cannot affect. CSS defined internally is scoped to the internal tree.
 
-### Virtual DOM / VDOM {#vdom}
+### Virtual DOM/VDOM {#vdom}
 
 The virtual DOM is a structure akin to the DOM. It is slimmer and has a subset of the API of the structures defined in the DOM JS spec e.g. `HTMLElement.` VDOM is a *virtual* representation of the document, actual DOM references the document (e.g. `.click()` isn't on VDOM structures).
 
-It is used to add to or update the existing actual DOM / UI.
+It is used to add to or update the existing actual DOM/UI.
 
-### Universal JavaScript / Universal rendering {#universal-javascript}
+### Universal JavaScript/Universal rendering {#universal-javascript}
 
 Running JavaScript produced that is derived or is the same source on both the client AND the server.
 
@@ -255,7 +255,7 @@ Streaming is incremental sending parts enabling work to start happening without 
 
 ### Static analysis
 
-Something that is statically analyzable is something of which behavior can be worked out ahead of time. It should be noted that some things that are deemed not to be statically analyzable can be made statically analyzable by introducing constraints on what can be written. It should also be used with caution as some things named under statically analyzable are but whose implementation is incredibly complex to build.  
+Something that is statically analyzable is something of which behaviour can be worked out ahead of time. It should be noted that some things that are deemed not to be statically analyzable can be made statically analyzable by introducing constraints on what can be written. It should also be used with caution as some things named under statically analyzable are but whose implementation is incredibly complex to build.  
 
 ### Markup
 
@@ -285,7 +285,7 @@ A more abstract representation of the source, may not be reversible to the origi
 
 Non-centralized computation. Similar to a pure function (without side effects) these should be small map-like functions.
 
-Note this is still run on serverless just that it abstracts away a lot of the behaviors of centralized server computations.
+Note this is still run on serverless just that it abstracts away a lot of the behaviours of centralized server computations.
 
 ### API
 
@@ -308,7 +308,7 @@ The use of functions before their definition in the source program.
 Something that acts as the entry point to a program. The framework interprets and operates over user code.
 
 There are several kinds:
-- Backend / HTTP frameworks
+- Backend/HTTP frameworks
 - Frontend frameworks
 - Parser frameworks
 - Test frameworks

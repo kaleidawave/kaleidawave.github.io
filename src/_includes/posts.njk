@@ -6,7 +6,7 @@
         {%- for post in collections.sortedPosts -%}
         <li>
             <div class="post-image">
-                {% image post.data.image, "" %}
+                <img src="{{ post.data.image }}" alt="{{ post.data.title }}">
             </div>
             <h5>
                 <a href="{{ post.url }}">

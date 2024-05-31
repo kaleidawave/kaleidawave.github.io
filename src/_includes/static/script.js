@@ -45,7 +45,7 @@ document.addEventListener("click", (ev) => {
     }
 });
 
-// TODO temp hack:
+// TODO temp hack for highlighted rows in code blocks
 for (const element of document.querySelectorAll("[data-highlight]")) {
     const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
     for (const pres of element.children[0].children) {

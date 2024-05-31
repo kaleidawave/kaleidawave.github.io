@@ -6,9 +6,10 @@ date: 2023-04-20
 image: /media/banners/rust-infrastructure.png
 tags: posts
 ---
-I have written a lot of Rust over the last couple of years. Along the way of building a [compiler](https://github.com/kaleidawave/ezno), I have built up a few smaller, generic crates and tools (infrastructure) to assist with writing Rust. I realised I haven't really shared much about some of these, so I thought it would be a good opportunity to do give an overview now.
 
-If you are interested in getting started with Rust: Last summer I wrote a collection of posts for [Shuttle](https://www.shuttle.rs/) (a great place to deploy Rust server applications). I wrote a bit about [patterns with Rust types](https://www.shuttle.rs/blog/2022/07/28/patterns-with-rust-types), [how Rust tackles error handling](https://www.shuttle.rs/blog/2022/06/30/error-handling) or [the builder pattern](https://www.shuttle.rs/blog/2022/06/09/the-builder-pattern) as [well as many others](https://www.shuttle.rs/blog/tags/all) . If you are looking to get started with Rust, check those posts out as well as their platform (IMO currently the easiest way to deploy a Rust server application).
+I have written a lot of Rust over the last couple of years. Along the way of building a [compiler](https://github.com/kaleidawave/ezno), I have built up a few smaller, generic crates and tools (infrastructure) to assist with writing Rust. I realised I haven't shared much about some of these, so I thought it would be a good opportunity to give an overview now.
+
+If you are interested in getting started with Rust: Last summer I wrote a collection of posts for [Shuttle](https://www.shuttle.rs/) (a great place to deploy Rust server applications). I wrote a bit about [patterns with Rust types](https://www.shuttle.rs/blog/2022/07/28/patterns-with-rust-types), [how Rust tackles error handling](https://www.shuttle.rs/blog/2022/06/30/error-handling) or [the builder pattern](https://www.shuttle.rs/blog/2022/06/09/the-builder-pattern) as [well as many others](https://www.shuttle.rs/blog/tags/all). If you are looking to get started with Rust, check those posts out as well as their platform (IMO currently the easiest way to deploy a Rust server application).
 
 > This post was meant to part of an upcoming post about the parser I just published, but this stuff didn't fit into that post. So I decided to split the content up. Look forward to a future post which includes things I learned about parsing and talks about some parser utility libraries I have written ([source-map](https://github.com/kaleidawave/source-map), [tokenizer-lib](https://github.com/kaleidawave/tokenizer-lib) and [derive-finite-automaton](https://github.com/kaleidawave/derive-finite-automaton)) etc.
 
@@ -16,20 +17,20 @@ I'll start off with a couple of libraries I've built that make it easier and sho
 
 ## Building macros with [syn-helpers](https://github.com/kaleidawave/syn-helpers)
 
-Proc(edural) macros are a way of generating Rust code. Derive proc macros are Rust's approach to reflection. I wrote at length about reflection, the use cases and an example with a comparison between vanilla JavaScript and Rust in [this post on Shuttle.rs](https://www.shuttle.rs/blog/2022/12/23/procedural-macros). In summary proc derive macros allow generating Rust `impl` blocks based on the content of `struct` and `enum` declarations. For example `#[derive(Debug)]` above a `struct` declaration finds fields and generates a `impl Debug for ...` with a implementation that prints the field name alongside it's runtime value.
+Proc(edural) macros are a way of generating Rust code. Derive proc macros are Rust's approach to reflection. I wrote at length about reflection, the use cases and an example with a comparison between vanilla JavaScript and Rust in [this post on Shuttle.rs](https://www.shuttle.rs/blog/2022/12/23/procedural-macros). In summary, proc derive macros allow for generating the Rust `impl` blocks based on the content of `struct` and `enum` declarations. For example, `#[derive(Debug)]` above a `struct` declaration finds fields and generates an `impl Debug for ...` with an implementation that prints the field name alongside its runtime value.
 
-One thing about with proc macros is that you will likely be reaching for the dependencies `syn` and `quote` when writing them. The [API](https://doc.rust-lang.org/stable/proc_macro/) for writing them only gives us a low-level sequence of tokens. Fortunately [syn](https://github.com/dtolnay/syn) exists and can parse the sequence into an [AST](https://docs.rs/syn/latest/syn/struct.DeriveInput.html), which makes it a lot easier to read of fields. Generating output code is also made easier as [quote](https://github.com/dtolnay/quote) offers a declarative using a macro: [`quote!`](https://docs.rs/quote/latest/quote/macro.quote.html) ([`parse_quote!`](https://docs.rs/syn/latest/syn/macro.parse_quote.html) is also a similar thing and equally useful).
+One thing about proc macros is that you will likely be reaching for the dependencies `syn` and `quote` when writing them. The [API](https://doc.rust-lang.org/stable/proc_macro/) for writing them only gives us a low-level sequence of tokens. Fortunately [syn](https://github.com/dtolnay/syn) exists and can parse the sequence into an [AST](https://docs.rs/syn/latest/syn/struct.DeriveInput.html), which makes it a lot easier to read fields. Generating output code is also made easier as [quote](https://github.com/dtolnay/quote) offers a declarative using a macro: [`quote!`](https://docs.rs/quote/latest/quote/macro.quote.html) ([`parse_quote!`](https://docs.rs/syn/latest/syn/macro.parse_quote.html) is also a similar thing and equally useful).
 
-But just these on these own, it can still be difficult and verbose to build actual proc macros ([the code in the post only worked for structs with named fields](https://www.shuttle.rs/blog/2022/12/23/procedural-macros#procedural-macro-time)). Syn and quote offer great building blocks but they don't give you much help handling the setup required for derive proc macros.
+But just these on their own, it can still be difficult and verbose to build actual proc macros ([the code in the post only worked for structs with named fields](https://www.shuttle.rs/blog/2022/12/23/procedural-macros#procedural-macro-time)). Syn and quote offer great building blocks but they don't give you much help handling the setup required for derive proc macros.
 
 Some of the problems I have run that make the code harder and longer to write and can also introduce bugs:
-- Writing logic that can handle both `struct`s and `enum`s and their variants. You can use `self` to reference data in a `struct` , **but not in** an `enum`
+- Writing logic that can handle both `struct`s and `enum`s and their variants. You can use `self` to reference data in a `struct`, **but not in** an `enum`
 - Creating expressions that access both named fields and unnamed fields
-- Handling generics that exist on either on the structure or the trait, and how to handle if the names clash
+- Handling generics that exist on either of the structure or the trait and how to handle if the names clash
 - How to handle attributes, how to access them at different levels
 - Forgetting to add `#[automatically_derived]`
 
-To make this easier, last year I wrote a *'procedural macro framework'* that abstracted `syn` and this process to handle all these cases for you. It's a bit difficult to explain in words so here is an example which calls `do_thing` for all fields except ones marked with `ignore`.
+To make this easier, last year I wrote a *'procedural macro framework'* that abstracted `syn` and this process to handle all these cases for you. It's a bit difficult to explain in words so here is an example that calls `do_thing` for all fields except ones marked with `ignore`.
 
 ```rust
 use syn_helpers::{
@@ -99,7 +100,7 @@ Benefits of using the crate here
 - For fields whose type contains generics, it can add necessary `where` clauses if the trait is called on that field
 - The macro also gets a structure. You get a more declarative code by laying out the [`Trait`](https://docs.rs/syn-helpers/0.4.3/syn_helpers/struct.Trait.html) with the items you need to implement. Those methods contain functions that handle generating the output.
 
-For example in the parser I currently have a way of *visiting nodes* (running a set of functions over them), automating this implementation becomes quite simple using the `syn-helpers` library.
+For example, in the parser, I currently have a way of *visiting nodes* (running a set of functions over them) and automating this implementation becomes quite simple using the `syn-helpers` library.
 
 ```rust
 use proc_macro::TokenStream;
@@ -248,12 +249,12 @@ fn generated_visit_item(
 }
 ```
 
-It takes around 140 lines to implement this trait. `syn-helpers` here handles cases when the AST contains generics. Using `syn-helpers` means the code can focus on the actual behaviour of the trait rather than handling all the different cases Rust declarations can be in.
+It takes around 140 lines to implement this trait. `syn-helpers` here can handle the cases when the AST contains generics. Using `syn-helpers` means the code can focus on the actual behaviour of the trait rather than handling all the different cases Rust declarations can be in.
 
 ---
-Although it is called `syn-helpers` and that was it's original aim, it has now grown out into a large framework focused on derive macros. So if you write derive macros and maybe struggle with keeping things concise. I want it to be used for more than my own work! If you have API/abstraction you want added for a proc-macro you are writing I am open [for discussion](https://github.com/kaleidawave/syn-helpers/issues).
+Although it is called `syn-helpers` and that was its original aim, it has now grown into a large framework focused on derive macros. So if you write derive macros and maybe struggle with keeping things concise. If you have API/abstraction you want to be added for a proc-macro you are writing I am open [for discussion](https://github.com/kaleidawave/syn-helpers/issues).
 
-Building this out I feel it might be close to a fully declarative macro implementation [notes here](https://github.com/kaleidawave/syn-helpers/issues/1). Rust current has declarative macros but anything `derive` based has to be done imperatively and there isn't a end to end declarative approach. Maybe it could be tried out in this library.
+Building this out I feel it might be close to a fully declarative macro implementation [notes here](https://github.com/kaleidawave/syn-helpers/issues/1). Rust current has declarative macros but anything `derive` based has to be done imperatively and there isn't an end-to-end declarative approach. Maybe it could be tried out in this library.
 
 ### Putting the framework to build more customisable `derive` implementations
 
@@ -286,10 +287,11 @@ But arguably my favourite one is [`#[debug_single_tuple_inline]`](https://github
 ```
 
 IMO, all unnamed fields when debugged should be on one line despite the pretty flag.
+
 ### `#[derive(PartialEqExtras)]`
 In a similar vein, [derive-partial-eq-extras](https://github.com/kaleidawave/derive-partial-eq-extras) adds a more customisable [PartialEq](https://doc.rust-lang.org/std/cmp/trait.PartialEq.html) implementation. It adds two new attributes for ignoring certain fields in the implementer.
 
-For example, in my parser, expressions have positions and IDs. However, when comparing two expressions I want to treat them on a value basis and not based on position or identifiers. For example, given the literal expression `5`, I want that AST to equal other `5`s, no matter where they have been parsed. To do this I simply add `#[partial_eq_ignore_types]`, which I can use really easily on expression AST:
+For example, in my parser, expressions have positions and IDs. However, when comparing two expressions I want to treat them on a value basis and not based on position or identifiers. For example, given the literal expression `5`, I want AST to equal other `5`s, no matter where they have been parsed. To do this I simply add `#[partial_eq_ignore_types]`, which I can use easily on the expression AST:
 
 ```rust
 #[derive(PartialEqExtras, Debug, Clone)]
@@ -374,11 +376,11 @@ for (at_end, item) in items.iter().endiate() {
 }
 ```
 
-Also adds the `nendiate` for when you are want to know you are not at the end
+Also adds the `nendiate` for when you want to know you are not at the end
 
 ## Enums and strings
 
-[Enum variants strings](https://github.com/kaleidawave/enum-variants-strings) is a library for converting between (yes, both ways) `&str` and `enum` structures. The derive macro handles generating this based of variant names. Mapping from a string to an `enum`, works for simple things that implement [`Default`](https://doc.rust-lang.org/stable/std/default/trait.Default.html).
+[Enum variants strings](https://github.com/kaleidawave/enum-variants-strings) is a library for converting between (yes, both ways) `&str` and `enum` structures. The derive macro handles generating this based on variant names. Mapping from a string to an `enum`, works for simple things that implement [`Default`](https://doc.rust-lang.org/stable/std/default/trait.Default.html).
 
 ```rust
 use enum_variants_strings::EnumVariantsStrings;
@@ -421,7 +423,7 @@ fn main() {
 
 ## Deploying Rust with GitHub actions
 
-I like GitHub actions because centralised compute. In my crates, I want the update commit to automatically push the version change back to the repository. If I do it manually, I always forget to push after, things get out of sync.
+In my crates, I want the update commit to automatically push the version change back to the repository. If I do it manually, I always forget to push after, things get out of sync.
 
 So I built a GitHub action for doing this: [crates-release-action](https://github.com/kaleidawave/crates-release-gh-action)
 
@@ -466,23 +468,23 @@ jobs:
 It handles:
 - Finding manifests
 - Applying `major`, `minor` or `patch` to a version (or an exact version) and updating the contents of `Cargo.toml`
-- Finding local manifests which reference it as a path dependency to update their version
+- Finding local manifests that reference it as a path dependency to update their version
 - Publishing to [crates.io](https://crates.io/)
-- Outputting the new version(s) in a machine readable format (so it can be referenced in commit names and tags)
+- Outputting the new version(s) in a machine-readable format (so it can be referenced in commit names and tags)
 
 You can run it through [github.com](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow)
 
-{% image "/media/github-publish-crate-ui.png" %}
+![GitHub publish crate UI](../../media/github-publish-crate-ui.png)
 
 Or from the command line with [gh](https://cli.github.com/)
 
-{% video "/media/crates-gh-push.mp4" %}
+<video src="../../media/crates-gh-push.mp4" controls title="Crates GH push"></video>
 
 Which I can watch
 
-{% image "/media/github-publish-crate-cl-watch.png" %}
+![GitHub publish crate watch](../../media/github-publish-crate-cl-watch.png)
 
-Behind the scenes it updates the packages in the order of least dependency (I don't want to rely on myself for ordering arguments, [it can be calculated](https://github.com/kaleidawave/crates-release-gh-action/blob/4dd293538aec8fc068acf08f35e60c0d015b7547/updater.py#L54-L66)). It also uses a TOML parser that retains the TOML formatting. It is currently written in Python. If anyone wants to rewrite it in Rust and/or add more functionality, LMK!.
+Behind the scenes, it updates the packages in the order of least dependency (I don't want to rely on myself for ordering arguments, [it can be calculated](https://github.com/kaleidawave/crates-release-gh-action/blob/4dd293538aec8fc068acf08f35e60c0d015b7547/updater.py#L54-L66)). It also uses a TOML parser that retains the TOML formatting. It is currently written in Python. If anyone wants to rewrite it in Rust and/or add more functionality, LMK!
 
 > It is a manual action currently, and isn't particularly automated. It doesn't track changes in a workspace, or figure out *Semver* or build changelogs. I want the base to be simple and un-opinionated
 
@@ -490,4 +492,4 @@ Behind the scenes it updates the packages in the order of least dependency (I do
 
 I didn't have space but two more crates I have made are: [multiline-term-input](https://crates.io/crates/multiline-term-input), which is a way to break into new lines during console input ([I need a wiz to add Linux support](https://github.com/kaleidawave/multiline-term-input/issues/1)) and [temporary-annex](https://crates.io/crates/temporary-annex) that helps to work with appending data temporarily while reusing **the same** backing (linear) buffer.
 
-And that is all. If you have built or use any cool Rust libraries or additional tools let me know in the comments!
+And that is all. If you have built or used any cool Rust libraries or additional tools let me know in the comments!
