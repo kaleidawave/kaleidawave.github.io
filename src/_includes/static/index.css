@@ -69,6 +69,10 @@ header>div {
     justify-content: space-between;
 }
 
+header video {
+    position: absolute;
+}
+
 header h1 {
     font-weight: 100;
     font-size: 20px;

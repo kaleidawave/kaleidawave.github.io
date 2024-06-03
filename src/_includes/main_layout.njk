@@ -53,9 +53,7 @@ text: true
     "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto+Serif&family=Be+Vietnam+Pro:wght@600&display=swap"
     %}
 
-    <style>
-        {% include "static/index.css" %}
-    </style>
+    <style>{% include "static/index.css" %}</style>
 </head>
 
 <body>
@@ -63,7 +61,7 @@ text: true
         <div class="width-box">
             <a class="icon-title" href="/">
                 <h1 class="header-title">Ben's Engineering Blog</h1>
-                <img src="/media/icon.png" width="256" height="256" alt="">
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
                 {% if not production %}
                 <span>(dev)</span>
                 {% endif %}

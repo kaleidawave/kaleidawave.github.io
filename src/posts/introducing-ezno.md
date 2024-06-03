@@ -473,7 +473,7 @@ Some frameworks abstract through libraries and the structure of functions. Some 
 
 ## Ezno today
 
-I think it is fun short and quirky and most importantly, not taken on package registries. It has a little bit of a hidden meaning (*"easy? no"* referring to doing static analysis on JavaScript).
+I think it is fun short and quirky and most importantly, not taken on package registries.
 
 I want to keep things moving but slowly. I think incomplete projects are good as they have space to add additional features and improve. Some projects I see which seem closer to their goal have less space to improve. I think some tools are built too quickly and I don't want Ezno to fall into that category.
 
