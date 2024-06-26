@@ -38,7 +38,7 @@
 }
 
 .posts>ul>li>p,
-.posts .date,
+.posts time,
 .posts>ul>li h5 {
     margin: 8px;
 }
@@ -53,7 +53,7 @@
     font-size: 20px;
 }
 
-.posts .date {
+.posts time {
     letter-spacing: .5px;
     display: block;
 }

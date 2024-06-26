@@ -17,9 +17,9 @@
             <p>{{ post.data.description }}</p>
             {% endif %}
             {% if post.data.date %}
-            <span class="date">
+            <time datetime="{{ post.data.date | formatDateShortDash }}">
                 {{ post.data.date | formatDateShort }}
-            </span>
+            </time>
             {% endif %}
         </li>
         {%- endfor -%}
