@@ -6,7 +6,7 @@ date: 2023-12-20
 image: /media/banners/cool-things-2023.png
 tags: posts
 ---
-I thought a good way to see the year out would be to show some appreciation for some tools and projects that I think made the *good list* this year as well as some things I am looking forward to next year.
+I thought a good way to see the year out would be to show some appreciation for some tools and projects that I think made the *good list* this year as well as some things I am looking for and forward to next year.
 
 ### Tools
 
@@ -20,9 +20,9 @@ Been using [Figma](https://www.figma.com/) as my main *graphics editor* for a li
 - Plugins such as [lorem-ipsum](https://www.figma.com/community/plugin/736000994034548392/lorem-ipsum), [swap](https://www.figma.com/community/plugin/739493471028643540), [quick-tracing](https://www.figma.com/community/plugin/1161618766697969707) and for more advanced things [scripter](https://www.figma.com/community/plugin/757836922707087381)
 - The free tier is enough to have infinite pages
 
-I also have been learning more about at pen / Bézier tool. Did you know you can press `ctrl` to break out of a spline and also click on the node to get out of *curvy* mode / make one-sided influence.
+I also have been learning more about at pen/Bézier tool. Did you know you can press `ctrl` to break out of a spline and also click on the node to get out of *curvy* mode/make one-sided influence.
 
-{% video "/media/figma-bezier-tool.mp4" "small" %}
+<video src="../../media/figma-bezier-tool.mp4" controls title="Figma"></video>{.small}
 
 > Also a tip here: if you are exporting a design to After Effects. As After Effects can't import SVGs you can instead export a EPS using [this plugin](https://www.figma.com/community/plugin/849159306117999028) and then import that into After Effects and break into a shape layer to keep the vector-ness of the graphics.
 
@@ -39,9 +39,9 @@ I also have been learning more about at pen / Bézier tool. Did you know you can
 - Split editors/panels are great
 - Mobile app (although debugging Obsidian plug-ins on mobile is impossible)
 - I always leave a couple of `#TODO`s tags in each document. It is nice it highlights it and can search it easily across documents. Although it really annoys me that an open parenthesis followed by hashtag doesn't create a tag in the case of `(#TODO some comment`. Hopefully, [despite being brought up years ago](https://forum.obsidian.md/t/parenthesis-and-more-will-block-hashtag-parsing/18479), it will be improved in the future
-- Viewing PDFs in the editor is incredibly useful. Although I wish it could natively render in dark mode (figures in white, background in black). I have tried with custom CSS with `filter: invert(1);` it works, but I get weird/annoying chromatic aberration (see image below) and has the comedic but slightly annoying effect of inverting any images. Also had issues with scrolling PDFs losing their position and going into a weird state when the native one first came out. Hopefully that has been fixed
+- Viewing PDFs in the editor is incredibly useful. Although I wish it could natively render in dark mode (figures in white, background in black). I have tried with custom CSS with `filter: invert(1);` it works, but I get weird/annoying chromatic aberration (see image below) and has the comedic but slightly annoying effect of inverting any images. Also had issues with scrolling PDFs losing their position and going into a weird state when the native one first came out. Hopefully, that has been fixed
 
-{% image "/media/obsidian-dark-mode-pdf-chromatic-aberration.png" %}
+![Chromatic aberration in obsidian](../../media/obsidian-dark-mode-pdf-chromatic-aberration.png)
 
 Problems I have in Obsidian are
 - Opening files can close a file I was working on. I wish it worked the same way as vscode
@@ -69,9 +69,9 @@ Some improvements I would like to see in Helix
 #### Rust
 I have [written a lot of Rust](https://github.com/kaleidawave/ezno/graphs/contributors) this year across a [number of projects](https://github.com/kaleidawave?tab=repositories&q=&type=&language=rust). What has been amazing to see is some of the minor crates I have built being used in other people's projects. Somehow the total downloads across my crates are [now over 200k](https://crates.io/users/kaleidawave?sort=downloads). Will be interesting to see the stats next year.
 
-{% image "/media/crates-io-download-2023.png" %}
+![crates-io-downloads in 2023](../../media/crates-io-download-2023.png)
 
-I also recently [received a PR that enabled clippy lints](https://github.com/kaleidawave/ezno/pull/91). I hadn't tried [clippy](https://doc.rust-lang.org/stable/clippy/usage.html) before, beyond its default mode. The PR tidied up a lot of Ezno's internal code and [also found a bug](https://github.com/kaleidawave/ezno/pull/91#discussion_r1409312732). If you use Rust you should check out the [page that lists all of the clippy lints](https://rust-lang.github.io/rust-clippy/stable/index.html) and consider turning on more by default.
+I also recently [received a PR that enabled clippy lints](https://github.com/kaleidawave/ezno/pull/91). I hadn't tried [`clippy`](https://doc.rust-lang.org/stable/clippy/usage.html) before, beyond its default mode. The PR tidied up a lot of Ezno's internal code and [also found a bug](https://github.com/kaleidawave/ezno/pull/91#discussion_r1409312732). If you use Rust you should check out the [page that lists all of the clippy lints](https://rust-lang.github.io/rust-clippy/stable/index.html) and consider turning on more by default.
 
 [Rust's online playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021) is still golden. It is a great way to start as a beginner or to test whether something works without spinning up a whole project. The option to build on nightly and do formatting are nice touches.
 
@@ -123,12 +123,12 @@ Now instead of any of the above, I always go for [Natto](https://natto.dev/). Na
 
 Here is a fun demo ([which you can even try here](https://natto.dev/@kaleidawave/49901c79ce564c2f9196423913aab52f)) I made where I used Natto to structure something I was experimenting with
 
-{% video "/media/natto-slider.mp4" %}
+<video src="../../media/natto-slider.mp4" controls title="Natto slider"></video>
 
 It has a nice interface (despite no dark mode, which should be a minimum for developer tools after the advent of CSS variables) and it is always instant to start. You can develop both private local nattos (which are saved as JSON files) as well as the option to publish them online. For one-offs, the default evaluation block prints the expression (rather than having to remember to `console.log` it). It also can render HTML directly which is great.
 
 However, I have problems with the following
-- I can't figure out a way to do timed iterations / run code at intervals. I think Natto is all built off React, so when using non-pure things like `setTimeout`, I need to add special clean-up logic
+- I can't figure out a way to do timed iterations/run code at intervals. I think Natto is all built off React, so when using non-pure things like `setTimeout`, I need to add special clean-up logic
 - I wish there was an easier way to switch evaluation block type (aka just type `/functionbody/html` in the editor)
 - `console.log` goes off to the left of the screen when evaluation blocks are fully windowed
 

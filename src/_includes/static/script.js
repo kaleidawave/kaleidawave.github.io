@@ -36,6 +36,7 @@ function updateThemeClass(value = null) {
     });
 }
     
+// Clicking on headers stores their reference
 document.addEventListener("click", (ev) => {
     if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
         const id = ev.target.getAttribute("id");
@@ -45,7 +46,26 @@ document.addEventListener("click", (ev) => {
     }
 });
 
-// TODO temp hack:
+const titleBar = document.querySelector("header .icon-title")
+
+console.log(titleBar.querySelector("img"))
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
 for (const element of document.querySelectorAll("[data-highlight]")) {
     const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
     for (const pres of element.children[0].children) {

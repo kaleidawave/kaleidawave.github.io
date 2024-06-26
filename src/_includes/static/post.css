@@ -17,19 +17,23 @@
 }
 
 .post img,
-.post pre,
 .post video,
-.post inline-html {
+.post pre:not(.shiki) {
     margin: 20px 0;
 }
 
-.post inline-html>svg {
-    width: 100%;
-    height: max-content;
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
 }
 
 .post img {
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 .post svg.icon {
@@ -44,7 +48,7 @@
 }
 
 .post .shiki-container {
-    margin: 20px;
+    padding: 20px;
 }
 
 .post .math {
@@ -119,7 +123,7 @@
 }
 
 video.small {
-    max-height: 300px;
+    max-height: 300px !important;
 }
 
 .callout {
@@ -155,12 +159,8 @@ video.small {
     font-size: 16px;
 }
 
-.post h1,
-.post h2,
-.post h3,
-.post h4,
-.post h5 {
-    letter-spacing: 1px;
+.post a.media-container>img {
+    width: 100%;
 }
 
 blockquote {
@@ -175,6 +175,10 @@ blockquote>p {
 
 .discussions {
     margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
 }
 
 @media screen and (max-width: 480px) {
@@ -192,27 +196,43 @@ blockquote>p {
 
     .post img,
     .post pre,
-    .post video,
-    .post inline-html {
+    .post video {
         width: 100%;
         height: auto;
     }
 
     .post pre {
-        font-size: 10px;
-        overflow-x: scroll;
+        overflow-x: auto;
     }
 }
 
 @media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
 
     .post img,
     .post video,
-    .post inline-html,
     .post pre:not(.shiki) {
-        width: 110%;
         align-self: center;
         height: auto;
+        /* TODO temp for older browsers */
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+
+    .post>img,
+    .post>video,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 110%;
+        align-self: center;
     }
 }
 
