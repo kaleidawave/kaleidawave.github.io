@@ -273,7 +273,7 @@ One of the arguments behind Hotwire is that its system *works* for server-render
 
 For those building a Rust REST backend to a client-side rendered site, it means you can add SSR to it without having to deal with both a node and a Rust server and communication between the two.
 
-Yep, that's right Rust {% icon "rust" %} server-side rendered web components, never thought you'd see those words together.
+Yep, that's right Rust {% icon "Rust" %} server-side rendered web components, never thought you'd see those words together.
 
 All that is required to render a Prism component/page is to wire up the generated method to an endpoint:
 

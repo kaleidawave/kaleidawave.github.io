@@ -107,7 +107,7 @@ Synthesizing .d.ts: 10.4137ms
 Reading from binary 988.5μs
 ```
 
-One of the benefits of being written in Rust {% icon "rust" %} is that dealing with low-level byte processing and access is nice and simple!
+One of the benefits of being written in Rust {% icon "Rust" %} is that dealing with low-level byte processing and access is nice and simple!
 
 Still unsure how the distribution of these will work. Also currently it only supports root contexts, haven't figured source splitting and referencing for child contexts yet.
 
@@ -199,4 +199,4 @@ In terms of the executable binary, I want to release it when it can check an act
 
 ### Other things coming up
 - I work on a few other [crates](https://crates.io/users/kaleidawave?sort=recent-updates). Some of those will be getting updates soon.
-- I have two posts coming out soon about Rust {% icon "rust" %} and procedural macros.
+- I have two posts coming out soon about Rust {% icon "Rust" %} and procedural macros.

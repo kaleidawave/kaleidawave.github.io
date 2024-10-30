@@ -53,7 +53,7 @@ text: true
     "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto+Serif&family=Be+Vietnam+Pro:wght@600&display=swap"
     %}
 
-    <style>{% include "static/index.css" %}</style>
+    {% includestyle "static/index.css" %}
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
 </head>
 
@@ -93,13 +93,16 @@ text: true
             <nav>
                 <ul>
                     <li>
-                        <a href="https://twitter.com/kaleidawave">Twitter {% icon "twitter" %}</a>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky {% icon "Bluesky" %}</a>
                     </li>
                     <li>
-                        <a href="https://github.com/kaleidawave">GitHub {% icon "github" %}</a>
+                        <a href="https://twitter.com/kaleidawave">Twitter {% icon "X" %}</a>
                     </li>
                     <li>
-                        Built with <a href="https://www.11ty.dev/">{% icon "eleventy" %} Eleventy</a> and
+                        <a href="https://github.com/kaleidawave">GitHub {% icon "Github" %}</a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/">{% icon "Eleventy" %} Eleventy</a> and
                         <a href="/architecture">others</a>
                     </li>
                 </ul>

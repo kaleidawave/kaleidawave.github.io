@@ -84,6 +84,7 @@
 
 .post time {
     margin-top: 0;
+    margin-bottom: 20px;
     font-size: 11pt;
     font-family: monospace;
 }
@@ -136,7 +137,7 @@ video.small {
 }
 
 .post h1.title {
-    font-size: 48px;
+    font-size: 40px;
 }
 
 .post h1 {
@@ -163,14 +164,36 @@ video.small {
     width: 100%;
 }
 
-blockquote {
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
     border-left: 4px solid var(--muted-accent);
     margin: 10px 0;
     padding: 0px 10px;
 }
 
-blockquote>p {
+.post blockquote>p {
     margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
 }
 
 .discussions {
@@ -196,6 +219,8 @@ blockquote>p {
 
     .post img,
     .post pre,
+    .post table,
+    .post .widget,
     .post video {
         width: 100%;
         height: auto;
@@ -228,10 +253,12 @@ blockquote>p {
 
     .post>img,
     .post>video,
+    .post table,
+    .post .widget,
     .post>a.media-container,
     .post>.parralel,
     .post>pre:not(.shiki) {
-        width: 110%;
+        width: 105%;
         align-self: center;
     }
 }

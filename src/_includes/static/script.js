@@ -35,7 +35,7 @@ function updateThemeClass(value = null) {
         changeScheme(darkTheme);
     });
 }
-    
+
 // Clicking on headers stores their reference
 document.addEventListener("click", (ev) => {
     if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
@@ -47,8 +47,6 @@ document.addEventListener("click", (ev) => {
 });
 
 const titleBar = document.querySelector("header .icon-title")
-
-console.log(titleBar.querySelector("img"))
 
 titleBar.querySelector("img").addEventListener("dragend", () => {
     const r = document.createElement("video");
@@ -78,6 +76,6 @@ for (const element of document.querySelectorAll("[data-highlight]")) {
             firstChild.childNodes[0].data = newContent;
             line.style.marginLeft = indent + 'ch';
             line.classList.add("highlight");
-        }   
+        }
     }
 }

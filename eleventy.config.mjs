@@ -1,16 +1,16 @@
-const simpleIcons = require("simple-icons");
-const imageSize = require("image-size");
-const videoSize = require("get-video-dimensions");
-const path = require("path");
-const mathjax = require("mathjax");
-const eleventyGoogleFonts = require("eleventy-google-fonts");
-const fs = require("fs");
-const markdownIt = require("markdown-it");
-const markdownItAnchor = require("markdown-it-anchor");
-const markdownItAttrs = require("markdown-it-attrs");
-const markdownItShiki = require("markdown-it-shiki").default;
-const eleventyRSS = require("@11ty/eleventy-plugin-rss");
-const cheerio = require("cheerio");
+import * as simpleIcons from "simple-icons"
+import imageSize from "image-size"
+import videoSize from "get-video-dimensions"
+import path from "path"
+import mathjax from "mathjax"
+import eleventyGoogleFonts from "eleventy-google-fonts"
+import fs from "fs"
+import markdownIt from "markdown-it"
+import markdownItAnchor from "markdown-it-anchor"
+import markdownItAttrs from "markdown-it-attrs";
+import markdownItShiki from "markdown-it-shiki"
+import eleventyRSS from "@11ty/eleventy-plugin-rss";
+import cheerio from "cheerio"
 
 let mathjax_instance;
 
@@ -19,15 +19,15 @@ const mediaCacheFile = ".mediasizecache";
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
     eleventyConfig.addPlugin(eleventyRSS);
 
     eleventyConfig.setWatchThrottleWaitTime(100);
 
     eleventyConfig.addPlugin(eleventyGoogleFonts);
-    
+
     eleventyConfig.addPassthroughCopy("media");
-    eleventyConfig.addPassthroughCopy({"media/icon.png": "favicon.ico"});
+    eleventyConfig.addPassthroughCopy({ "media/icon.png": "favicon.ico" });
 
     const options = { html: true };
     const markdownLibrary = markdownIt(options)
@@ -39,7 +39,7 @@ module.exports = function (eleventyConfig) {
         })
         .use(markdownItAttrs)
         .use(markdownItAnchor);
-    
+
     eleventyConfig.setLibrary("md", markdownLibrary);
 
     let mediaSizeCache;
@@ -48,11 +48,27 @@ module.exports = function (eleventyConfig) {
     } else {
         mediaSizeCache = new Map();
     }
-    
+
     const production = process.env.CI === "true";
-    
+
     eleventyConfig.addGlobalData("production", production);
     eleventyConfig.setUseGitIgnore(production);
+
+    // Include + wrap in style tag because include in style tags gets consistent broken
+    // by HTML formatters
+    eleventyConfig.addShortcode("includestyle", function (pathToStyle) {
+        const cssPath = path.resolve("src", "_includes", pathToStyle.replace("/", path.sep));
+        return `<style>${fs.readFileSync(cssPath)}</style>`
+    })
+
+    eleventyConfig.addShortcode("includewidget", function (pathToStyle) {
+        const widgetPath = path.resolve("src", "_includes", "widgets", pathToStyle);
+        // TODO some processing of HTML here
+        const content = fs.readFileSync(widgetPath, { encoding: "utf-8" });
+        // Empty lines break the markdown parser. So clear them here
+        const formatted = content.split("\n").filter(line => line.trim() !== "").join("\n");
+        return formatted
+    })
 
     eleventyConfig.addNunjucksFilter("formatDateLong", value => {
         const dayOfMonth = value.getDate();
@@ -76,14 +92,14 @@ module.exports = function (eleventyConfig) {
                     return "th";
             }
         })();
-        
+
         const day = days[value.getDay()];
         const month = months[value.getMonth()];
         const year = value.getFullYear();
         return `${day} ${dayOfMonth}<sup>${postfix}</sup> ${month} ${year}`;
     });
 
-    eleventyConfig.addCollection("sortedPosts", collectionApi => 
+    eleventyConfig.addCollection("sortedPosts", collectionApi =>
         collectionApi.getFilteredByTag("posts").sort((a, b) => b.date - a.date)
     );
 
@@ -103,14 +119,13 @@ module.exports = function (eleventyConfig) {
     );
 
     eleventyConfig.addShortcode("icon", function (iconName) {
-        const icon = simpleIcons.get(iconName);
+        const icon = Reflect.get(simpleIcons, `si${iconName}`);
         if (!icon) {
             throw Error(`Simple icon does not have ${iconName}`);
         }
-        const { svg } = icon;
-        return "<svg class=\"icon\"".concat(svg.slice(4));
+        return `<svg class=\"icon\" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="${icon.path}"></svg>`;
     });
-    
+
     eleventyConfig.addShortcode("mathinline", async function (source) {
         if (!mathjax_instance) {
             mathjax_instance = await mathjax.init({
@@ -120,7 +135,7 @@ module.exports = function (eleventyConfig) {
                 fontCache: 'local'
             });
         }
-        return mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(source, {display: false}));
+        return mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(source, { display: false }));
     });
 
     // Latex, Images and videos are wrapped in `div` to avoid markdown plugin wanting to wrap them in `p` tags
@@ -133,11 +148,11 @@ module.exports = function (eleventyConfig) {
                 fontCache: 'local'
             });
         }
-        const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(latex, {display: true}));
+        const output = mathjax_instance.startup.adaptor.innerHTML(mathjax_instance.tex2svg(latex, { display: true }));
         return `<div class="math">${output}</div>`;
     });
 
-    eleventyConfig.addPairedShortcode("parralel", function(content) {
+    eleventyConfig.addPairedShortcode("parralel", function (content) {
         const inner = markdownLibrary.render(content);
         const [left, right] = inner.split("<hr>");
         return `<div class="parralel">
@@ -146,23 +161,23 @@ module.exports = function (eleventyConfig) {
         </div>`
     });
 
-    eleventyConfig.addPairedShortcode("center", function(content) {
+    eleventyConfig.addPairedShortcode("center", function (content) {
         const inner = markdownLibrary.render(content);
         return `<h3 class="center">${inner}</h3>`
     });
 
-    eleventyConfig.addPairedShortcode("caption", function(content) {
+    eleventyConfig.addPairedShortcode("caption", function (content) {
         const inner = markdownLibrary.render(content);
         return `<h6 class="caption">${inner}</h6>`
     });
 
-    eleventyConfig.addPairedShortcode("footnote", function(content, id) {
+    eleventyConfig.addPairedShortcode("footnote", function (content, id) {
         const inner = markdownLibrary.render(content);
         return `<h6 id="foot${id}">(${id})>${inner}</h6>`
     });
 
-    eleventyConfig.addTransform("image & video size", async function (content, outputPath) {
-        if (outputPath && outputPath.endsWith(".html")) {
+    eleventyConfig.addTransform("image & video size", async function (content) {
+        if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {
             const $ = cheerio.load(content, { decodeEntities: false });
 
             $('p > a > img').each((_index, element) => {
@@ -181,14 +196,14 @@ module.exports = function (eleventyConfig) {
                     if (src == "/media/icon.png") {
                         return;
                     }
-                    const location = path.resolve(outputPath, "..", src.replace("/", path.sep));
+                    const location = path.resolve(this.page.inputPath, "..", "..", src.replace("/", path.sep).slice(1));
                     try {
-                        const {height, width} = mediaSizeCache.get(src) ?? imageSize(location);
+                        const { height, width } = mediaSizeCache.get(src) ?? imageSize(location);
                         mediaSizeCache.set(src, { height, width })
                         img.attr("height", height);
                         img.attr("width", width);
                     } catch (error) {
-                        console.error("image", outputPath, src, location)
+                        console.error("Could not resolve image (thus no image dimension calculations)", this.page.inputPath, src, location)
                     }
                 });
             }
@@ -196,17 +211,17 @@ module.exports = function (eleventyConfig) {
             $('video').each(async (_index, element) => {
                 const video = $(element);
                 let { src } = element.attribs;
-                const location = path.resolve(outputPath, "..", src.replace("/", path.sep));
+                const location = path.resolve(this.page.inputPath, "..", "..", src.replace("/", path.sep).slice(1));
                 try {
-                    const {height, width} = mediaSizeCache.get(src) ?? await videoSize(location);
+                    const { height, width } = mediaSizeCache.get(src) ?? await videoSize(location);
                     mediaSizeCache.set(src, { height, width })
                     video.attr("height", height);
                     video.attr("width", width);
                 } catch (error) {
-                    console.error("video", outputPath, src, location)
+                    console.error("video", this.page.inputPath, src, location)
                 }
             });
-            
+
             $('p > img:only-child').each((_index, element) => {
                 const img = $(element);
                 const parent = img.parent();

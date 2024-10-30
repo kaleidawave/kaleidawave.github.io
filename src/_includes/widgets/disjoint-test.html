@@ -1,0 +1,110 @@
+<style>
+    .draggable-disjoint {
+        background-color: white;
+    }
+
+    .draggable-disjoint>p {
+        color: black;
+    }
+
+    .draggable-disjoint .items {
+        position: relative;
+        border: 2px solid black;
+        isolation: isolate;
+        aspect-ratio: 2;
+        min-height: 300px;
+    }
+
+    .draggable-disjoint .items>.circle {
+        mix-blend-mode: screen;
+        border-radius: 50%;
+        width: 200px;
+        min-height: 200px;
+        position: absolute;
+        user-select: none;
+        cursor: grab;
+    }
+
+    .draggable-disjoint .items>.circle:nth-child(1) {
+        left: 40px;
+        top: 40px;
+        background-color: #2797ff;
+    }
+
+    .draggable-disjoint .items>.circle:nth-child(2) {
+        left: 50px;
+        top: 60px;
+        background-color: #ff822e;
+    }
+
+    .draggable-disjoint .items>.circle:active {
+        cursor: grabbing;
+    }
+</style>
+<div class="draggable-disjoint widget">
+    <p>Disjoint <span class="disjoint">false</span></p>
+    <div class="items">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+</div>
+<script>
+    for (const widget of document.body.querySelectorAll(".draggable-disjoint")) {
+        const disjointLabel = widget.querySelector(".disjoint");
+        const radius = 100;
+        const items = widget.querySelector(".items");
+        for (const item of items.children) { makeDraggable(item) };
+        const points = [...items.children].map(item => {
+            const { x, y } = item.getBoundingClientRect();
+            return [x + radius, y + radius]
+        });
+        function makeDraggable(item) {
+            let offsetX = 0, offsetY = 0, initialX = 0, initialY = 0, dragging = false;
+
+            const idx = [...item.parentElement.children].indexOf(item);
+
+            item.addEventListener('mousedown', function (e) {
+                if (!dragging) {
+                    e.preventDefault();
+                    initialX = e.clientX;
+                    initialY = e.clientY;
+                    dragging = true;
+                }
+            });
+
+            item.parentElement.addEventListener('mousemove', function drag(e) {
+                if (dragging) {
+                    offsetX = e.clientX - initialX;
+                    offsetY = e.clientY - initialY;
+
+                    const rect = item.parentElement.getBoundingClientRect(),
+                        circleRect = item.getBoundingClientRect();
+
+                    let newLeft = item.offsetLeft + offsetX;
+                    let newTop = item.offsetTop + offsetY;
+
+                    // Prevent moving out of bounds
+                    if (newLeft < 0) newLeft = 0;
+                    if (newTop < 0) newTop = 0;
+                    if (newLeft + circleRect.width > rect.width) newLeft = rect.width - circleRect.width;
+                    if (newTop + circleRect.height > rect.height) newTop = rect.height - circleRect.height;
+
+                    item.style.left = newLeft + 'px'; item.style.top = newTop + 'px';
+
+                    initialX = e.clientX; initialY = e.clientY;
+
+                    points[idx][0] = circleRect.x + radius; points[idx][1] = circleRect.y + radius;
+                    const distance = Math.sqrt(
+                        ((points[0][0] - points[1][0])) ** 2
+                        + ((points[0][1] - points[1][1])) ** 2
+                    );
+                    disjointLabel.innerText = distance > (2 * radius);
+                }
+            });
+
+            item.parentElement.addEventListener('mouseup', function stopDrag() {
+                dragging = false;
+            });
+        }
+    }
+</script>

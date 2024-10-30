@@ -7,14 +7,15 @@
     "scripts": {
         "start": "eleventy --serve",
         "start-production": "cross-env PRODUCTION=true eleventy --serve",
-        "build": "eleventy --quiet && npm run optimize-build-output",
+        "build": "eleventy",
+        "build-production": "eleventy --quiet && npm run optimize-build-output",
         "optimize-build-output": "jampack pack ./dist",
         "serve-dist": "http-server ./dist"
     },
     "keywords": [],
     "author": "kaleidawave",
     "devDependencies": {
-        "@11ty/eleventy": "^2.0.0",
+        "@11ty/eleventy": "^3.0.0",
         "@11ty/eleventy-plugin-rss": "^1.2.0",
         "@divriots/jampack": "^0.9.0",
         "@types/mathjax": "^0.0.36",
@@ -30,6 +31,6 @@
         "markdown-it-attrs": "^4.1.3",
         "markdown-it-shiki": "^0.4.0",
         "mathjax": "^3.2.0",
-        "simple-icons": "^4.14.0"
+        "simple-icons": "^13.15.0"
     }
 }
