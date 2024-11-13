@@ -7,6 +7,7 @@ image: /media/banners/sets-types-and-type-checking.png
 tags:
   - posts
 ---
+
 In the process of building [a type-checker](https://github.com/kaleidawave/ezno) I have learnt a lot of the details about the theory of types and sets. With all this information I thought I would unpack all the details I have encountered along the way.
 
 This first part of this post explains why type-checking exists and what the abstraction of types enables. After some justification for type-theory, we delve deep into what types are and details on the common constructions. In the finale we will put the definitions to work and explain the implementation of type checking including operations on types.
@@ -63,7 +64,7 @@ This encoding of properties as a types provides the information to reason about 
 
 > Types are slightly different to sets in which they are based on construction rather than predicates. Construction refers to building something given some input. We have some data we can form a member of the type via some constructor. I will write about the differences in a future post. But for the most part sets can be considered equivalent to types, with the same rules and uses.
 
-### Entries
+### Members
 In the world there exist entities that fall under these properties
 - Tomatoes, the YouTube logo and 🌉 are all red
 - Carbon dioxide and 🧯 can put out fires
@@ -73,21 +74,21 @@ To say that a value satisfies the property is often know as a typing judgement a
 
 > Note you will see the `:` come up a lot in type theory
 
-#### Facts about entries
-Like sets, types can be by description have an infinite number of distinct entries. However when it comes to programs on deterministic Turing machines (computers) there are only a finite amount of numbers that can be represented due to limitations of memory. Benefiting from exponential combinations, while finite it turns out even with 8 bytes of memory you can still [cover a very large amount of numbers](https://doc.rust-lang.org/std/primitive.u64.html#associatedconstant.MAX).
+#### Facts about members
+Like sets, types can be by description have an infinite number of distinct members. However when it comes to programs on deterministic Turing machines (computers) there are only a finite amount of numbers that can be represented due to limitations of memory. Benefiting from exponential combinations, while finite it turns out even with 8 bytes of memory you can still [cover a very large amount of numbers](https://doc.rust-lang.org/std/primitive.u64.html#associatedconstant.MAX).
 
-When encoding these sort of types we could treat them as collections of the individual members. However, storing the members of `u64` in some list would result in [`147 000 000 terabytes`](https://www.wolframalpha.com/input?i=2%5E64+*+8+bytes+as+terabytes) of data and individually I can't begin to count the CPU years it would take to iterate through all {% mathinline "2^{64}" %} entries of the data and comparing that each entry is valid for the program. So instead for types like this it is easier to represent `u64` as a number type that is unsigned (no negative values, zeroed out bytes is the number zero) and is 64 bits wide. With this information it covers all entries and we can more efficiently reason about the value, rather than querying each entry.
+When encoding these sort of types we could treat them as collections of the individual members. However, storing the members of `u64` in some list would result in [`147 000 000 terabytes`](https://www.wolframalpha.com/input?i=2%5E64+*+8+bytes+as+terabytes) of data and individually I can't begin to count the CPU years it would take to iterate through all {% mathinline "2^{64}" %} members of the data and comparing that each entry is valid for the program. So instead for types like this it is easier to represent `u64` as a number type that is unsigned (no negative values, zeroed out bytes is the number zero) and is 64 bits wide. With this information it covers all members and we can more efficiently reason about the value, rather than querying each entry.
 
-With entries, we have a implication from a valid judgement. If we have that `x = y` and that `x: number` then we can conclude that `y` is a number. This is generally a property you want to uphold when defining equality. The equality operator should be testing the all properties are equal and thus we can say they have equal types.
+With members, we have a implication from a valid judgement. If we have that `x = y` and that `x: number` then we can conclude that `y` is a number. This is generally a property you want to uphold when defining equality. The equality operator should be testing the all properties are equal and thus we can say they have equal types.
 
-Additionally a random last fact for entries: It is harder to find entries for types which have more properties (and so in general there are less entries for types with more properties).
+Additionally a random last fact for members: It is harder to find members for types which have more properties (and so in general there are less members for types with more properties).
 
 ### Fundamental types: `any` and `never`
 Two of the most fundamental types are `any` and `never`. These are polar opposites of each other.
 
 `any` can be considered as a type which doesn't have a single required property. We can say a fire truck, a spoon or the string `"Hello World"` is an element of `any` thing because there are no properties to satisfy. (If it helps this is a case of the [vacuous truth](https://en.wikipedia.org/wiki/Vacuous_truth) with respect to the number of properties to satisfies being vacuous). Therefore `any` contains every value you can construct.
 
-> `any` exists in TypeScript **but has slightly different behaviour in some cases** (explained later). But it is not just a property of the dynamically typed languages, Rust also has an [any type](https://doc.rust-lang.org/std/any/trait.Any.html) which works slightly differently but is used for general data.
+> `any` exists in TypeScript **but has slightly different behaviour in some cases** (explained later). But it is not just a property of the dynamically typed languages, Rust also has an [any type](https://doc.rust-lang.org/std/any/trait.Any.html) which works slightly differently but is used for general data. There also exists `unknown` which is `any` without the strange subtype behavior.
 
 `never` on the other hand has all the possible constructed properties. To be an item of never is to be in London and on the moon and a single colour and be blue and and green and purple. Because it requires every property there will exist two properties that are mutually exclusive. (this will be covered later). You cannot be a single colour and blue and green at the same time. **Thus there is no constructable* item that satisfies `never`**. Thus we can say that the collection of items that satisfies never is empty.
 
@@ -95,7 +96,7 @@ Two of the most fundamental types are `any` and `never`. These are polar opposit
 
 > As will be explained later these two types have very important positions in the hierarchy of types
 
-I don't think `never` is a good name. Maybe `impossible` or `CannotExist` is alternative better names for thinking about this type. We can reason that it has no entries as if ask for something `impossible`, then you are stuck. You can't pass `5`, or a `"Hello World"` or a `Boat` *as they all exist*.
+I don't think `never` is a good name. Maybe `impossible` or `CannotExist` is alternative better names for thinking about this type. We can reason that it has no members as if ask for something `impossible`, then you are stuck. You can't pass `5`, or a `"Hello World"` or a `Boat` *as they all exist*.
 
 ## Conjugations of types
 There are two forms of binary conjugations of types and their properties. Binary here meaning that there are two types being joined. This results in its own type as so we can form a recursive definition of a type.
@@ -103,7 +104,7 @@ There are two forms of binary conjugations of types and their properties. Binary
 > For implementing the definition of this type: you can represent both of these as a vector or a binary tree of other types.
 
 ### And types (set intersections)
-An `and / &` type represents a intersection of two types. This is equivalent to saying that entries of this type satisfy properties of **both** the LHS and RHS. For example we can define a rainforest as having a continuous tree canopy and high humidity. For an item to be considered to a rainforest it must both satisfies the properties of having a continuous tree canopy **AND** having high humidity. If either of this conditions is unmet then it cannot be considered under this type.
+An `and / &` type represents a intersection of two types. This is equivalent to saying that members of this type satisfy properties of **both** the LHS and RHS. For example we can define a rainforest as having a continuous tree canopy and high humidity. For an item to be considered to a rainforest it must both satisfies the properties of having a continuous tree canopy **AND** having high humidity. If either of this conditions is unmet then it cannot be considered under this type.
 
 ```typescript
 type RainForest = ContinousTreeCanopy & HighHumidity.
@@ -116,7 +117,7 @@ A definition of this type will be unique, however and types are symmetric. `A & 
 #### JavaScript objects are why we have intersection types
 You may be thinking what are the use cases for an intersection type?
 
-The first thing to know if that in TypeScript, object type annotations only specify their required properties and can allow entries to have more than specified. For example `⊢ { a: "hi", b: 4 }: { a: string }`. Just their definition doesn't require there to be an exact amount of properties.
+The first thing to know if that in TypeScript, object type annotations only specify their required properties and can allow members to have more than specified. For example `⊢ { a: "hi", b: 4 }: { a: string }`. Just their definition doesn't require there to be an exact amount of properties.
 
 Many languages don't have intersection type. Often the intersection types in set land are represented as products/tuples (fixed sized lists) in other languages.
 
@@ -131,7 +132,7 @@ Also most of the time, they are stored in flat representation. For example while
 > In some languages this can be considered as a refinement type. We have a base type but we adjoin extra required properties on-top of the LHS.
 
 #### Reducing intersection types
-Intersection types have a *diagonal identity*. `A & A = A`, so if we try to build an intersection with the same type we can just return the initial result. Additionally `never & A` is always `never`. While there might be entries for `A`, we don't have any entries for `never` and so the nothing exists in `never & A` and therefore it is equivalent to `never`.
+Intersection types have a *diagonal identity*. `A & A = A`, so if we try to build an intersection with the same type we can just return the initial result. Additionally `never & A` is always `never`. While there might be members for `A`, we don't have any members for `never` and so the nothing exists in `never & A` and therefore it is equivalent to `never`.
 
 Additionally there are some other reductions we can do (these include operations that will be covered later). The first is that if A is a subtype of B we can consider the **smaller** type (subtype): `A & B = A`. For example `4 & number = 4`. Additionally if type A is disjoint from B we can consider the result to be `never`: `A & B = never`. For example `number & string = never`.
 
@@ -199,6 +200,10 @@ Note that both of these are subject follow the roots of boolean algebra. Each op
 `(A | B) & C = (A & C) | (B & C)`
 
 In word terms: an apple or banana that is large is the same as a banana that is large or an apple that is large.
+
+#### All types are unions of intersections
+
+You can think of as all types as being a union of some intersection. These are cases of necessary conditions. The `{ a: string, b: number } | null` can be thought of as two cases `*object*` or `null`. In the first case there are two neccessary conditions that `obj.a: string` **and** `obj.b: number`. In a sense the reduction above is forming the minimum cases.
 
 ## Parametrised types
 Often called generics and used to model structures that are dependent on some type: parameter can be added to various definitions to specifying insertion of types at certain places. This can be useful for providing templates for types.
@@ -721,7 +726,7 @@ Here nominal is the same as mentioned above can be a `number`, `string` or a con
 
 Similar to the right hand side of subtyping, the `or` and `and` type use the opposite operator (this is probably because it is being framed from the point of view of disjoint-ness, if I reversed the name with "has some intersection" and changed the other cases then because of De Morgan identities it would use the result would be based on the same terminology as the inputs).
 
-Unlike subtyping, disjoint is symmetric (`disjoint A B = disjoint B A`), which is why I only put in entries for the first column because the results still stand swapping the left and right columns. This is why some of the [code looks repetitive](https://github.com/kaleidawave/ezno/blob/925cec9bd1cf03a7b845b84629c3b6f54b77fe5f/checker/src/types/disjoint.rs#L103-L114) but  it is the simplest way to account for both sides.
+Unlike subtyping, disjoint is symmetric (`disjoint A B = disjoint B A`), which is why I only put in members for the first column because the results still stand swapping the left and right columns. This is why some of the [code looks repetitive](https://github.com/kaleidawave/ezno/blob/925cec9bd1cf03a7b845b84629c3b6f54b77fe5f/checker/src/types/disjoint.rs#L103-L114) but  it is the simplest way to account for both sides.
 
 > Functions and objects do not have disjoint-ness implementations are not implemented in the ezno-checker, [you can help add them](https://github.com/kaleidawave/ezno/issues/212).
 
@@ -1048,6 +1053,9 @@ if (activity.kind === "follow") {
 > This pattern is a lot easier to understand than using `from in activity` checks.
 
 > You can also use unions of classes with `instanceof`. But functions such as `JSON.parse` and `Response.prototype.json` return objects without a prototype.
+
+### `5` as a type
+In a sense `5` as a type is the number type **with** a identity type from *itself* to the term `5`. For simplicity  sake and because ezno-checker is a not based on something that supports propositions-as-types is simpler just to define `Constant` as a variant of `Type` and say that similar to `number` having *properties*, the type `5` is something with all the behaviour/properties you would expect for a `5` term.
 
 #### `const` systems
 In some systems they allow dependent types only in certain places. Because in Rust, generics must extend specifically trait *types*, there is a special `const` modifier for parameters that reference types as the extends constraints instead so that these generic parameters expect arguments to be values rather than types. In Rust `const` parameters are used to set the number of *lanes* in its upcoming SIMD API. While you could create a `struct Eight;` etc. Using this `const` version means that you can use operators.

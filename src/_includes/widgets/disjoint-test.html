@@ -1,6 +1,7 @@
 <style>
     .draggable-disjoint {
         background-color: white;
+        touch-action: none;
     }
 
     .draggable-disjoint>p {
@@ -11,8 +12,8 @@
         position: relative;
         border: 2px solid black;
         isolation: isolate;
-        aspect-ratio: 2;
         min-height: 300px;
+        aspect-ratio: 2;
     }
 
     .draggable-disjoint .items>.circle {
@@ -63,7 +64,7 @@
 
             const idx = [...item.parentElement.children].indexOf(item);
 
-            item.addEventListener('mousedown', function (e) {
+            item.addEventListener('pointerdown', function (e) {
                 if (!dragging) {
                     e.preventDefault();
                     initialX = e.clientX;
@@ -72,7 +73,7 @@
                 }
             });
 
-            item.parentElement.addEventListener('mousemove', function drag(e) {
+            item.parentElement.addEventListener('pointermove', function drag(e) {
                 if (dragging) {
                     offsetX = e.clientX - initialX;
                     offsetY = e.clientY - initialY;
@@ -102,7 +103,7 @@
                 }
             });
 
-            item.parentElement.addEventListener('mouseup', function stopDrag() {
+            item.parentElement.addEventListener('pointerup', function stopDrag() {
                 dragging = false;
             });
         }

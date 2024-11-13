@@ -176,7 +176,16 @@ export default function (eleventyConfig) {
         return `<h6 id="foot${id}">(${id})>${inner}</h6>`
     });
 
-    eleventyConfig.addTransform("image & video size", async function (content) {
+    eleventyConfig.addTransform("image & video size and elements", async function (content) {
+        // This does a few things
+        // 1. images that are links get extracted from the single paragraph wrapper and have the `media-container` class added to them 
+        // 2. (not production as handled already) adds width and height attributes to images based on their dimensions in the filesystem
+        // 3. adds width and height attributes to VIDEOS based on their dimensions in the filesystem
+        // 4 & 5. extracts images and videos from the single paragraph wrapper element (I dislike why the markdown parser outputs this :( and copies attributes)
+
+        // TODO:
+        // - Lift <style> blocks to top
+        // - Lift <script> tags to end
         if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {
             const $ = cheerio.load(content, { decodeEntities: false });
 
