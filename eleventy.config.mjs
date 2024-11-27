@@ -54,6 +54,20 @@ export default function (eleventyConfig) {
     eleventyConfig.addGlobalData("production", production);
     eleventyConfig.setUseGitIgnore(production);
 
+    // Check data
+    eleventyConfig.addPreprocessor("check front-matter", "*", (data, content) => {
+        const { filePathStem } = data.page;
+        if (filePathStem !== "/posts/index" && filePathStem.startsWith("/posts")) {
+            if (data.image === null || !data.image.startsWith("/media")) {
+                console.error(`Post ${filePathStem}, has no image or not one starting with '/media'`);
+            }
+        }
+
+        if (content.includes("#TODO")) {
+            console.error(`Post ${filePathStem}, has unfinished content`);
+        }
+    });
+
     // Include + wrap in style tag because include in style tags gets consistent broken
     // by HTML formatters
     eleventyConfig.addShortcode("includestyle", function (pathToStyle) {

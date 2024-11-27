@@ -38,7 +38,7 @@ I also have been learning more about at pen/Bézier tool. Did you know you can p
 - Exporting to PDF (unfortunately no dark mode export)
 - Split editors/panels are great
 - Mobile app (although debugging Obsidian plug-ins on mobile is impossible)
-- I always leave a couple of `#TODO`s tags in each document. It is nice it highlights it and can search it easily across documents. Although it really annoys me that an open parenthesis followed by hashtag doesn't create a tag in the case of `(#TODO some comment`. Hopefully, [despite being brought up years ago](https://forum.obsidian.md/t/parenthesis-and-more-will-block-hashtag-parsing/18479), it will be improved in the future
+- I always leave a couple of `TODO`s tags in each document. It is nice it highlights it and can search it easily across documents. Although it really annoys me that an open parenthesis followed by hashtag doesn't create a tag. Hopefully, [despite being brought up years ago](https://forum.obsidian.md/t/parenthesis-and-more-will-block-hashtag-parsing/18479), it will be improved in the future
 - Viewing PDFs in the editor is incredibly useful. Although I wish it could natively render in dark mode (figures in white, background in black). I have tried with custom CSS with `filter: invert(1);` it works, but I get weird/annoying chromatic aberration (see image below) and has the comedic but slightly annoying effect of inverting any images. Also had issues with scrolling PDFs losing their position and going into a weird state when the native one first came out. Hopefully, that has been fixed
 
 ![Chromatic aberration in obsidian](../../media/obsidian-dark-mode-pdf-chromatic-aberration.png)

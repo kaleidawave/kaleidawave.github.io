@@ -3,7 +3,7 @@ layout: post.njk
 title: Experimental types
 date: 2024-11-13
 description: Extending the TypeScript type system with negation and refined number types
-image: media/banners/experimental-types.png
+image: /media/banners/experimental-types.png
 tags:
   - posts
 ---
@@ -11,7 +11,7 @@ Over this summer, while working on increasing TypeScript compatibility in the ch
 
 > For those who haven't heard of it before, the [Ezno](https://github.com/kaleidawave/ezno) type checker is a work-in-progress but fast and correct TypeScript type checker and compiler with additional experiments.
 
-### Not/complement types
+### The missing operation
 Set theory is based on three operations: unions, intersections and *one other*. We can build a union of a type with `|` and intersections with `&` but this third operation is less common and does not exist in the TypeScript type system.
 
 This means that the types of some expressions are hard to represent. We can see this here
