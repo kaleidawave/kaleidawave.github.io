@@ -30,7 +30,7 @@ HTML (or VDOM) over the wire:
     Read request → append request body as content to a node
 {% endcenter %}
 
-Both are interesting ideas, nut looking at both notice that they have constraints and still areas to improve performance. For Prism, I wanted to capitalize on some of the benefits of rendering on the server but in a more flexible and low runtime way.
+Both are interesting ideas, but looking at both notice that they have constraints and still areas to improve performance. For Prism, I wanted to capitalize on some of the benefits of rendering on the server but in a more flexible and low runtime way.
 
 ### Prism server components
 
@@ -165,7 +165,7 @@ And this is how the hydration system in Prism works. The compiler builds a table
 
 In the following HN clone you can see HTML come down the wire for rendering `story-preview` components:
 
-<video src="../../media/full-server-component-data-hydration.mp4" controls title="Full server component hydration"></video>
+<video src="../../media/demos/full-server-component-data-hydration.mp4" controls title="Full server component hydration"></video>
 
 From this, you can see the `story-preview` components content is coming from the server as HTML. The rendered markup only contains one instance of the component's `title`, `score` and `url` properties thus **no double data**. `temp1._d` shows what data the component was given during instantiation but when `JSON.stringify(temp1.data)` it evaluates every property by looking it up in the components server rendered DOM. The comments (`<!---->`) in the response are to break up text nodes.
 
@@ -197,7 +197,7 @@ render() {
 
 One nicety of this is that it associates data under an identifier. Prism (and most other frameworks) work by a parent component resolving data and then rendering a child component with that data. With this system, components are *self-aware* and rerender themselves on updating `id`:
 
-<video src="../../media/single-server-component.mp4" controls title="Single server component"></video>
+<video src="../../media/demos/single-server-component.mp4" controls title="Single server component"></video>
 
 The HTML is coming from a Prism compiled *toString* function which given data returns a string of the concatenated component markup. All that is required is hosting an endpoint that calls the generated function and returns the response:
 
@@ -495,7 +495,7 @@ Frameworks have something where you tell it to update with the new state. React'
 
 Svelte is better in that its state updates are triggered around the assignment operator. Which is a step towards more "native" JavaScript. However, there are still issues around internal changes. You cannot use push in Svelte, instead `x = [...x, newItem]` is required for the compiler to realise an update has happened. This is also the case for the `Date` instance, calling `setMonth` etc does not cause the view to be updated. With Prism I wanted to allow internal mutation in the same way JS works. So I implemented this for `Date`.
 
-<video src="../../media/date-reactivity-demo.mp4" controls title="Date reactivity"></video>
+<video src="../../media/demos/date-reactivity-demo.mp4" controls title="Date reactivity"></video>
 
 ([just don't look how I implemented this](https://github.com/kaleidawave/prism/blob/aa6a4f4e7c755076666efc16a984a663885e1674/src/bundle/observable.ts#L159))
 

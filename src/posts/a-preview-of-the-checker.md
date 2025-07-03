@@ -7,7 +7,9 @@ image: /media/banners/a-preview-of-the-checker.png
 tags: posts
 ---
 ## The big news
-[Ezno's checker has now been open-sourced](https://github.com/kaleidawave/ezno/discussions/21)! You can now try it out through the [Oxc CLI](https://gist.github.com/kaleidawave/5dcb9ec03deef1161ebf0c9d6e4b88d8) or [Oxc playground on the web](https://boshen.github.io/oxc/playground).
+[Ezno's checker has now been open-sourced](https://github.com/kaleidawave/ezno/discussions/21)!
+
+<!-- You can now try it out through the [Oxc CLI](https://gist.github.com/kaleidawave/5dcb9ec03deef1161ebf0c9d6e4b88d8) or [Oxc playground on the web](https://boshen.github.io/oxc/playground). -->
 
 This post is an overview of the current status of the project and goes into more detail about its unique approach to type-checking!
 
@@ -226,7 +228,7 @@ Similar logic is done for the value variables, which are stored in [`variable_cu
 
 This is done for all types for simplicity, including interfaces.
 
-> *The variable and property facts applies to many other dynamic and static languages, not just JavaScript.*
+> _The variable and property facts applies to many other dynamic and static languages, not just JavaScript._
 
 ### Scopes and dynamic scopes
 As said before, every environment has a scope type. When looking for things between scopes, it needs to know whether the facts are constant between the scopes. For example
@@ -288,7 +290,7 @@ The basics are:
 	- Constructors (usage of parameters)
 
 #### Categorising types
-There are many types that are considered restrictions/general spaces. *These cannot be variable or property current values!*
+There are many types that are considered restrictions/general spaces. _These cannot be variable or property current values!_
 - Interfaces
 - Intersection and unions
 - Functions from type annotation

@@ -13,7 +13,7 @@
     grid-auto-rows: min-content;
     list-style: none;
     padding-left: 0;
-    gap: 12px;
+    gap: 16px;
 }
 
 .posts>ul>li {
@@ -40,7 +40,7 @@
 .posts>ul>li>p,
 .posts time,
 .posts>ul>li h5 {
-    margin: 8px;
+    margin: 12px;
 }
 
 .posts>ul>li img {
@@ -50,10 +50,11 @@
 
 .posts>ul>li h5 {
     font-weight: lighter;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .posts time {
+    font-size: 12px;
     letter-spacing: .5px;
     display: block;
 }

@@ -58,13 +58,14 @@ export default function (eleventyConfig) {
     eleventyConfig.addPreprocessor("check front-matter", "*", (data, content) => {
         const { filePathStem } = data.page;
         if (filePathStem !== "/posts/index" && filePathStem.startsWith("/posts")) {
-            if (data.image === null || !data.image.startsWith("/media")) {
+            if (!data.image || !data.image.startsWith("/media")) {
+                console.log(data, data.image)
                 console.error(`Post ${filePathStem}, has no image or not one starting with '/media'`);
             }
         }
 
         if (content.includes("#TODO")) {
-            console.error(`Post ${filePathStem}, has unfinished content`);
+            console.error(`Post ${filePathStem}, has unfinished content (#TODO)`);
         }
     });
 

@@ -474,15 +474,15 @@ It handles:
 
 You can run it through [github.com](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow)
 
-![GitHub publish crate UI](../../media/github-publish-crate-ui.png)
+![GitHub publish crate UI](../../media/demos/github-publish-crate-ui.png)
 
 Or from the command line with [gh](https://cli.github.com/)
 
-<video src="../../media/crates-gh-push.mp4" controls title="Crates GH push"></video>
+<video src="../../media/demos/crates-gh-push.mp4" controls title="Crates GH push"></video>
 
 Which I can watch
 
-![GitHub publish crate watch](../../media/github-publish-crate-cl-watch.png)
+![GitHub publish crate watch](../../media/demos/github-publish-crate-cl-watch.png)
 
 Behind the scenes, it updates the packages in the order of least dependency (I don't want to rely on myself for ordering arguments, [it can be calculated](https://github.com/kaleidawave/crates-release-gh-action/blob/4dd293538aec8fc068acf08f35e60c0d015b7547/updater.py#L54-L66)). It also uses a TOML parser that retains the TOML formatting. It is currently written in Python. If anyone wants to rewrite it in Rust and/or add more functionality, LMK!
 

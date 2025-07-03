@@ -191,6 +191,7 @@ pre,
 code {
     background-color: var(--muted-background) !important;
     font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
 }
 
 footer {

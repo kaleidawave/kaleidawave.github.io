@@ -42,7 +42,7 @@ While TypeScript includes dependent types, Ezno has built on top of that doing m
 const x: 5 = 4 + 2;
 ```
 
-![Type '6' is not assignable to type '5'](/media/ezno-screenshots/00-constant-operators.png){.invertible}
+![Type '6' is not assignable to type '5'](../../media/ezno-screenshots/00-constant-operators.png){.invertible}
 
 Scaling this up you can now see this working for both identifying an invalid property and detecting dead code:
 
@@ -59,7 +59,7 @@ if (five + 5 !== 10) {
 }
 ```
 
-![Expression is always false, No property with 'nonProp' on { someProp: 2 }](/media/ezno-screenshots/01-constant-access.png){.invertible}
+![Expression is always false, No property with 'nonProp' on { someProp: 2 }](../../media/ezno-screenshots/01-constant-access.png){.invertible}
 
 ### Objects
 
@@ -84,7 +84,7 @@ if (func === func2()) {
 }
 ```
 
-![Expression is always true, Expression is always true, Expression is always false](/media/ezno-screenshots/02-dependent-objects.png){.invertible}
+![Expression is always true, Expression is always true, Expression is always false](../../media/ezno-screenshots/02-dependent-objects.png){.invertible}
 
 ## Making all function parameters generic/dependent
 
@@ -117,7 +117,7 @@ assertType<string>(id("Hello World"));
 assertType<"x">(id("x"));
 ```
 
-![assertion passed with: 2, 'Hello World', 'x'](/media/ezno-screenshots/04-inferred-as-any.png){.invertible}
+![assertion passed with: 2, 'Hello World', 'x'](../../media/ezno-screenshots/04-inferred-as-any.png){.invertible}
 
 > Here when the `id` function is synthesized it infers the `a` parameter as being generic and thus the function takes the type `<T extends any>(a: T) => T`.
 
@@ -178,7 +178,7 @@ a.doThing = () => console.log("Hello world");
 x();
 ```
 
-![Calling function requires 'a' to be { doThing(): any }, found {  }](/media/ezno-screenshots/07-free-variables.png){.invertible}
+![Calling function requires 'a' to be { doThing(): any }, found {  }](../../media/ezno-screenshots/07-free-variables.png){.invertible}
 
 This works using the same generic system that function parameters use. For variables without a type annotation on the variable, it reuses the inferred generic system.
 
@@ -205,7 +205,7 @@ assertType<1>(data.x);
 
 Here this function data-wise returns a number with proof of it being equal to `5`. But there are additional "effects" that aren't encoded into that return type. When synthesizing functions Ezno tracks mutations through a system in the context/environment called events. **Events in a function then get associated with the function referring to the "effects of the function".**
 
-![assert](/media/ezno-screenshots/08-effects.png){.invertible}
+![assert](../../media/ezno-screenshots/08-effects.png){.invertible}
 
 The events sequence is sort of a typed intermediate representation and is additionally used for optimisations involving used assignments and such. This has some similarities to SSA. But it is integrated into the checker and is based on types.
 

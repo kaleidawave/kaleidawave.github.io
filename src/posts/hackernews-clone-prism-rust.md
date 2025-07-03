@@ -50,7 +50,7 @@ When building isomorphic sites it often makes the frontend more confusing. Now t
 
 This is a common practice and can be seen on nytimes where (at the time of this being written) ~75% of the home page response is the state loaded into the `window.__preloadedData` variable:
 
-![lots of JSON](/media/new_york_times_preload_data.png)
+![lots of JSON](../../media/demos/new_york_times_preload_data.png)
 
 There are a few issues with this approach:
 

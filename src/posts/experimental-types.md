@@ -104,7 +104,7 @@ An example of the assignment case could be passing a `string` argument to a para
 
 For string to be a subtype of `Not<number>` (`string <: Not<number>`) is for the `number` and `string` types to be disjoint! And this is true, there is element that satisfies the contracts of both **string** and **number**.
 
-![negation](../../media/types-not-venn-diagram.png)
+![negation](../../media/diagrams/types-not-venn-diagram.png)
 
 And we already have a implementation of [disjoint checking]((https://github.com/kaleidawave/ezno/blob/main/checker/src/types/disjoint.rs)), which is used for the equality operator `===` etc.
 

@@ -1,6 +1,6 @@
 ---
 layout: post.njk
-title: Mapped types and properties
+title: Mapped types
 date: 2024-11-27
 description: Implementing mapped types
 image: /media/banners/mapped-types.png
@@ -8,7 +8,7 @@ tags:
   - posts
 ---
 
-At the start of this year, I started on implementing checking for [TypeScript's mapped type feature](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html). I always had it the back of my mind that this would be some of the hardest logic in TSC to re-implement. While I could have just skipped types using this mapped feature and treated them as `any`, I instead thought that having worked on some more realistic subtype and typed things, it would be an interesting challenge to get this complicated system verified by the Ezno type checker.
+At the start of this year, I started implementing checking for [TypeScript's mapped type feature](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html). I always had it in the back of my mind that this would be some of the hardest logic in TSC to re-implement. While I could have just skipped types using this mapped feature and treated them as `any`, I instead thought that having worked on some more realistic subtype and typed things, it would be an interesting challenge to get this complicated system verified by the Ezno type checker.
 
 > For those who haven't heard of it before, the [Ezno](https://github.com/kaleidawave/ezno) type checker is a work-in-progress but fast and correct TypeScript type checker and compiler with additional experiments.
 
@@ -763,8 +763,8 @@ Previously we saw that we needed a `readonly` annotation this value. But we can 
 
 [![object-define-property](../../media/ezno-screenshots/object-define-property.png)](https://kaleidawave.github.io/ezno/playground/?id=32i0ay)
 
-### Freeze and more
-The initial mapped type PR included basic support for `freeze`. But thanks to an [external PR](https://github.com/kaleidawave/ezno/pull/213) the logic is not extended to cover `preventExtensions` and`seal`
+### Locking objects with `freeze`, `seal` and `preventExtensions`
+The initial mapped type PR included basic support for `freeze`. But thanks to an [external PR](https://github.com/kaleidawave/ezno/pull/213) the logic is now extended to cover `preventExtensions` and`seal`
 
 [![object-seal](../../media/ezno-screenshots/object-seal.png)](https://kaleidawave.github.io/ezno/playground/?id=27wr9e)
 

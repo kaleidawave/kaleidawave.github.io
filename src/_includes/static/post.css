@@ -182,7 +182,8 @@ video.small {
 .post blockquote {
     border-left: 4px solid var(--muted-accent);
     margin: 10px 0;
-    padding: 0px 10px;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
 }
 
 .post blockquote>p {
@@ -246,9 +247,6 @@ video.small {
     .post pre:not(.shiki) {
         align-self: center;
         height: auto;
-        /* TODO temp for older browsers */
-        max-width: 100vw;
-        max-height: 100vh;
     }
 
     .post>img,

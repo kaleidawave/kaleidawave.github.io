@@ -30,7 +30,7 @@ The main association of "types" is in type-checking. Once the program types have
 
 For example here we find that a number is being multiplied by a string. In this example multiplication on strings is not defined and so we have a problem with the program. Information about this type can either be surfaced at runtime or like the below ahead-of-time. Either way, denoting the type of an expression has helped find an issue in the declaration of this program.
 
-![type checking playground](../../media/type-checking-playground.png)
+![type checking playground](../../media/diagrams/type-checking-playground.png)
 
 ### Information for build optimisations
 I will not go too much into it here, but type information is useful for making decisions for the program to run with less overhead. For example in C, giving type information about *numbers instructs more optimal registers to use in the CPU*.
@@ -110,7 +110,7 @@ An `and / &` type represents a intersection of two types. This is equivalent to 
 type RainForest = ContinousTreeCanopy & HighHumidity.
 ```
 
-![intersection venn diagram](../../media/types-venn-diagram.png)
+![intersection venn diagram](../../media/diagrams/types-venn-diagram.png)
 
 A definition of this type will be unique, however and types are symmetric. `A & B` is equivalent type to `B & A`.
 
@@ -478,7 +478,7 @@ type MyConditional = (A extends C ? X : Y) | (B extends C ? X : Y);
 > You can use the undistributed version by wrapping the two sides in unit tuples. `[A | B] extends [Type] ? X : Y`;
 
 ### Type hierarchy
-![hierarchy of types](../../media/types-hierarchy-diagram.png)
+![hierarchy of types](../../media/diagrams/types-hierarchy-diagram.png)
 
 <span style="color: #cceff1;">1 ∎</span> `any` contains everything below it. <span style="color: #bbbaeb;">2 ∎</span> here is where type classes (called traits in Rust which I think is a good name) exist. They are big unions of nominal types. <span style="color: #c2acd8;">3 ∎</span> is where smaller unions exist which are useful for representing data up of <span style="color: #d4a6dc;">4 ∎</span> nominal types. Boolean takes two to build its union. But `number` (which is normally a 64-bit floating point number has {% mathinline "2^{64}" %} members in the union). Exact object types could be considered here. <span style="color: #eda2dd;">5 ∎</span> is useful for tags and small amounts of types. <span style="color: #f3b4a0;">6 ∎</span> is dependent types. we know all the information about them and there is one entry. <span style="color: #fad3a4;"> 7 ∎</span> the `never` type. Can be considered as an intersection as anything on the row above
 
@@ -554,14 +554,19 @@ function func(x: string) {
 	const c: string = x; // string <= string and here
 }
 
-func("a") // Single check against parameter (aka doesn not result in 4 checks)
+func("a") // Single check against parameter (aka does not result in 4 checks)
 func("a") // Single check again
 ```
 
 #### How to do subtyping
 Subtyping is the asking of a question whether one type is contained in another two. We can extend our Venn diagrams with an extra dimension and consider by considering one type being overlaid by another type. *If I have it all working correctly*, you should be able to drag the sliders to move the sets each other. For the overlaid set to be a subtype we want to see no red colour here at the end of the end of the translation. We see that sets on the right end with items that don't fit into the base type and therefore is not a subtype. If we have no red, then we have that the top type is a subtype.
 
-{% includewidget "three-dimensional-set.html" %}
+<!--
+{  %
+ includewidget three-dimensional-set.html 
+ %  
+}
+-->
 
 > Note that this is a relation not an equality. At the end of the transition we can have left over yellow.
 
@@ -700,15 +705,19 @@ Apart from the primitives (`string`, `number`, `boolean`) there are no nominal t
 > However, in Flow and [Ezno](https://kaleidawave.github.io/ezno/comparison/#nominal-ness) classes are nominal
 
 ### Disjoint-ness
+
 Alongside subtyping, another less-referenced but equally important type comparison function is disjoint-ness.
 
 While subtyping tests subsets. Disjoint-ness is a test that the intersection is empty. This is equivalent to saying there does not exist an element that satisfies both of the types or that the properties of the types are mutually exclusive.
 
 If you consider these two in the Venn diagrammatic way you can consider two sets disjoint when there is no overlap.
 
-> I don't think this works on mobile for now :(
-
-{% includewidget "disjoint-test.html" %}
+<!--
+{
+% includewidget disjoint-test.html / 
+% 
+}
+-->
 
 #### Implementation
 Similarly as subtyping we can resolve the results based on their definition

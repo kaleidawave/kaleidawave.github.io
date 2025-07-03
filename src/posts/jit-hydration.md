@@ -15,7 +15,7 @@ So how do frameworks add event listeners to the existing markup?
 
 Many frameworks do this by rendering the markup again. The rendering identifies where the elements with listeners are. And from knowing their position they can attach to existing markup. To render the application first requires hydrating the state. For example with React:
 
-![react-hydration](/media/react-hydration.gif)
+![react-hydration](../../media/demos/react-hydration.gif)
 
 *(Something like that I think)*
 
@@ -73,11 +73,11 @@ The state still needs to be hydrated to be accessible at the JS runtime. **But t
 
 This is what I have implemented into my framework [Prism](https://github.com/kaleidawave/prism). One of the features is JIT hydration:
 
-![prism-hydration](/media/prism-hydration.gif)
+![prism-hydration](../../media/demos/prism-hydration.gif)
 
 #### And this is working quite well here on my [Hacker News clone](https://github.com/kaleidawave/hackernews-prism) {#demo}
 
-![hackernews-prism-hydration](/media/hackernews-prism-hydration.gif)
+![hackernews-prism-hydration](../../media/demos/hackernews-prism-hydration.gif)
 
 It is compiled with the Prism compiler and all the rendered data can be JIT hydrated while none of the payloads send any sort of JS(ON) state blobs.
 
