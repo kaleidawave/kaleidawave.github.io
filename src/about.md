@@ -9,11 +9,16 @@ You can support the writing of these posts and other projects:
 
 <iframe src="https://github.com/sponsors/kaleidawave/button" title="Sponsor kaleidawave" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 
-[This site supports RSS](https://kaleidawave.github.io/feed.xml). You can read a bit on [why I write and work on projects](/background) and also read [how this site is built](/architecture). 
+You can read a bit on [why I write and work on projects](/background) and also read [how this site is built](/architecture). 
 
+<p id="contact">
+	
 You can contact me on [Bluesky](https://bsky.app/profile/kaleidawave.bsky.social), [Twidder](https://twitter.com/kaleidawave) or via email `kaleidawave` at *Google mail*.
+</p>
 
 If you find any errors or improvements for this site please use the contacts above.
+
+[This site supports RSS](https://kaleidawave.github.io/feed.xml)
 
 ---
 

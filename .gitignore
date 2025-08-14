@@ -1,7 +1,6 @@
 node_modules
 .vscode
 dist
-TODO.txt
 private
 src/unpublished
 src/canned

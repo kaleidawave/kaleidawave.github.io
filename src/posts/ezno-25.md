@@ -157,10 +157,10 @@ I have had some ideas for syntax extensions. They have been sitting in my *priva
 
 ## Other information
 
-Soon I will be even more available, I am looking for preferable short-term/internship opportunities!
+Soon I will be even more available, I am looking for short-term/internship opportunities!
 
 - I have experience with: Rust, parsers/compilers, things that involve "types" and web (frontend/backend)
-- Random other current interests: natural language processing, *internal tooling*, databases and *video*.
+- Random other current interests: natural language processing, *internal tooling*, databases and *video*
 
 And again if there is a place that would be good to host a talk on the progress on the events system (or any other Rust and TypeScript stuff)! [You can contact me here](/about).
 
