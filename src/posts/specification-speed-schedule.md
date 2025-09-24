@@ -2,7 +2,7 @@
 layout: post.njk
 title: Specification, speed and (a) schedule
 date: 2025-09-24
-description: 365, 11.16 and a future 0.1.0 ?
+description: 356, 11.16 and a future 0.1.0 ?
 image: /media/banners/specification-speed-schedule.png
 tags:
   - posts
@@ -30,7 +30,7 @@ In the year after, working on more features the number of tests went from around
 
 The latest iteration of this markdown-testing idea has been in [a standalone tool called *spectra*](https://github.com/kaleidawave/experiments/pull/2). It is currently still as an experiement or a canary release but I have been using it with great success on [several](https://github.com/kaleidawave/simple-json-parser/blob/improvements/specification.md) [of](https://github.com/kaleidawave/simple-toml-parser/blob/improvements/specification.md) [my](https://github.com/kaleidawave/simple-markdown-parser/blob/improvements/tests/specification.md) [parsers](https://github.com/kaleidawave/experiments/blob/general-parser/general-parser/specification.md). 
 
-With some recent improvements, there are now 365 tests passing on Ezno. 
+With some recent improvements, [there are now 356 tests passing on Ezno](https://github.com/kaleidawave/ezno/actions/runs/17912411836/job/50926810577#step:10:515). 
 
 The next step is a [*v2* of the specification](https://github.com/kaleidawave/ezno/pull/230) with general improvements to split the [`specification.md`](https://github.com/kaleidawave/ezno/blob/main/checker/specification/specification.md) into multiple files and [add more detailed documentation into it](https://github.com/kaleidawave/ezno/blob/specification-two/specification/02-checker/01-types/03-generics/01-inference-and-substitution.md#implementation). 
 
@@ -80,7 +80,7 @@ This is on top of a the existing general principle of the project of writing min
 
 So with all these improvements, how is the performance going?
 
-Well using the [specification.md file](https://github.com/kaleidawave/ezno/blob/main/checker/specification/specification.md) [from earlier](#specification) we can build an amalgamation of examples on the specification. We remove `import` and `export` examples as we want to compile it to a single file and we do some transformations so there are no clashes with names. The [corpus](https://en.wikipedia.org/wiki/Text_corpus) contains a breadth of features (and so tests a wide range of behaviors that could exist in a program) and now with 365 (minus module tests) we get around 2k LOC of code to test against. It doesn't accurately reflect a program, but it alright at this stage. We know running performance results on this file are accurate because the examples covers all features and does not include stuff that is incomplete or can currently crash the checker. [You can view the whole file here](https://gist.github.com/kaleidawave/81066f322ed574b3373e27770137013f).
+Well using the [specification.md file](https://github.com/kaleidawave/ezno/blob/main/checker/specification/specification.md) [from earlier](#specification) we can build an amalgamation of examples on the specification. We remove `import` and `export` examples as we want to compile it to a single file and we do some transformations so there are no clashes with names. The [corpus](https://en.wikipedia.org/wiki/Text_corpus) contains a breadth of features (and so tests a wide range of behaviors that could exist in a program) and now with 356 (minus module tests) we get around 2k LOC of code to test against. It doesn't accurately reflect a program, but it alright at this stage. We know running performance results on this file are accurate because the examples covers all features and does not include stuff that is incomplete or can currently crash the checker. [You can view the whole file here](https://gist.github.com/kaleidawave/81066f322ed574b3373e27770137013f).
 
 And running in the new CI setup, we see the **latest** on the `general-fixes` branches [runs in around ~10ms](https://github.com/kaleidawave/ezno/actions/runs/17956348682). 
 

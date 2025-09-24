@@ -44,7 +44,7 @@ Types also help when understanding the unfamiliar. Whether that be a standard li
 
 Additionally types help with making changes to code. If we change a function, then we can see how that change affects code that it was relying on it. Additionally while changelogs are helpful, this abstraction is much more mechanised for upgrading 3rd party libraries.
 
-> I won't go fully into the ergonomics of types, but I think it is good point that types are not just for the machine. That also goes that types should be accessible and issues relating to them should be understandable as a user.
+> I won't go fully into the ergonomics of types, but I think it is good to state that types *are not just for the machine*.
 
 > Types are not the only components for the abstraction program, other properties such as intermediate representation (IR), control flow graphs, concrete and abstract-syntax-trees etc parts all with for different things for parts of program synthesis (program synthesis = a machine understanding what a program does)
 
@@ -160,7 +160,8 @@ Additionally like intersection types, we can reduce it based off of disjoint and
 > Ezno does not do eager reduction or test subtypes when. I have found that at some point causes more problems than it solves just for minor visual clean up and potential to do slightly less subtypes per usage. Especially when you consider the combinatoric scale of checks when comparing all the items large unions.
 
 #### Tagged vs untagged sum types
-Rust has both untagged unions with [`union`](https://doc.rust-lang.org/reference/items/unions.html) and tagged with [`enum`](https://doc.rust-lang.org/reference/items/enumerations.html). This tag is called the `discriminant` and retrieved with the titular [discriminant](https://doc.rust-lang.org/stable/std/mem/fn.discriminant.html) function ([which extracts tag data under the hood](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f422553e049465b220d48b486f2ff514)). This value / tag is unique between each defined variant.
+
+Rust has both untagged unions with [`union`](https://doc.rust-lang.org/reference/items/unions.html) and tagged with [`enum`](https://doc.rust-lang.org/reference/items/enumerations.html). This tag is called the `discriminant` and retrieved with the titular [discriminant](https://doc.rust-lang.org/stable/std/mem/fn.discriminant.html) function ([which extracts tag data under-the-hood](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f422553e049465b220d48b486f2ff514)). This value / tag is unique between each defined variant.
 
 In JavaScript each variant (before optimisations) has a tag. You can consider it *globally tagged*. This isn't exposed through memory but operations like `typeof` and `instanceof` are based reading this tag (*some of the time*). In this crude example we can consider the first four bits of a value to include its tag. For example booleans are `0`, numbers are `1`, strings are `2` and objects are something different all together maybe referencing something else in memory that contains there shape.
 
@@ -203,7 +204,7 @@ In word terms: an apple or banana that is large is the same as a banana that is 
 
 #### All types are unions of intersections
 
-You can think of as all types as being a union of some intersection. These are cases of necessary conditions. The `{ a: string, b: number } | null` can be thought of as two cases `*object*` or `null`. In the first case there are two neccessary conditions that `obj.a: string` **and** `obj.b: number`. In a sense the reduction above is forming the minimum cases.
+You can think of as all types as being a union of some intersection. These are cases of necessary conditions. The `{ a: string, b: number } | null` can be thought of as two cases `*object*` or `null`. In the first case there are two necessary conditions that `obj.a: string` **and** `obj.b: number`. In a sense the reduction above is forming the minimum cases.
 
 ## Parametrised types
 Often called generics and used to model structures that are dependent on some type: parameter can be added to various definitions to specifying insertion of types at certain places. This can be useful for providing templates for types.
