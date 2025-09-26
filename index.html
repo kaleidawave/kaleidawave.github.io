@@ -1,0 +1,973 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>Ben's Engineering Blog</title>
+
+    <meta name="title" content="Ben's Engineering Blog">
+    <meta property="og:title" content="Ben's Engineering Blog">
+    <meta property="twitter:title" content="Ben's Engineering Blog">
+
+    <meta name="description" content="writings on the things">
+    <meta property="og:description" content="writings on the things">
+    <meta property="twitter:description" content="writings on the things">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banner.jpg">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banner.jpg">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        
+<style>.posts {
+    margin: 0 auto;
+}
+
+.posts h3 {
+    font-size: 28px;
+    font-weight: lighter;
+    text-align: center;
+}
+
+.posts>ul {
+    display: grid;
+    grid-auto-rows: min-content;
+    list-style: none;
+    padding-left: 0;
+    gap: 16px;
+}
+
+.posts>ul>li {
+    background-color: var(--muted-background);
+    border-radius: 6px;
+}
+
+:root:not(.dark) .posts>ul>li {
+    border: 2px solid var(--border);
+}
+
+.posts>ul>li>.post-image {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    max-height: 200px;
+    border-radius: 6px 6px 0 0;
+}
+
+:root:not(.dark) .posts>ul>li>.post-image {
+    border-bottom: 2px solid var(--border);
+}
+
+.posts>ul>li>p,
+.posts time,
+.posts>ul>li h5 {
+    margin: 12px;
+}
+
+.posts>ul>li img {
+    width: 100%;
+    height: auto;
+}
+
+.posts>ul>li h5 {
+    font-weight: lighter;
+    font-size: 18px;
+}
+
+.posts time {
+    font-size: 12px;
+    letter-spacing: .5px;
+    display: block;
+}
+
+@media screen and (min-width: 780px) {
+    .posts>ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .posts>ul>li p {
+        font-size: 14px;
+    }
+
+    .posts>ul>li>.post-image {
+        height: 120px;
+    }
+
+    .posts {
+        max-width: min(80vw, 920px);
+    }
+}</style>
+
+<div class="posts list-view">
+    <h3>All Posts</h3>
+    <ul><li>
+            <div class="post-image">
+                <img src="/media/banners/ideas-on-inference.png" alt="Ideas on type inference">
+            </div>
+            <h5>
+                <a href="/posts/ideas-on-inference/">
+                    Ideas on type inference
+                </a>
+            </h5>
+            
+            <p>TypeScript sans annotations</p>
+            
+            
+            <time datetime="2025-09-26">
+                26/9/2025
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/specification-speed-schedule.png" alt="Specification, speed and (a) schedule">
+            </div>
+            <h5>
+                <a href="/posts/specification-speed-schedule/">
+                    Specification, speed and (a) schedule
+                </a>
+            </h5>
+            
+            <p>356, 11.16 and a future 0.1.0 ?</p>
+            
+            
+            <time datetime="2025-09-24">
+                24/9/2025
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/implementing-narrowing.png" alt="Implementing narrowing">
+            </div>
+            <h5>
+                <a href="/posts/implementing-narrowing/">
+                    Implementing narrowing
+                </a>
+            </h5>
+            
+            <p>Narrowing types</p>
+            
+            
+            <time datetime="2025-09-22">
+                22/9/2025
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/ii-lines-of-code.png" alt="II lines of code">
+            </div>
+            <h5>
+                <a href="/posts/formatting-and-parsing-numbers/">
+                    II lines of code
+                </a>
+            </h5>
+            
+            <p>On formatting and parsing representations of numbers</p>
+            
+            
+            <time datetime="2025-08-14">
+                14/8/2025
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/ezno-2025.png" alt="Ezno 2025">
+            </div>
+            <h5>
+                <a href="/posts/ezno-25/">
+                    Ezno 2025
+                </a>
+            </h5>
+            
+            <p>An update on the project</p>
+            
+            
+            <time datetime="2025-07-03">
+                3/7/2025
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/mapped-types.png" alt="Mapped types">
+            </div>
+            <h5>
+                <a href="/posts/mapped-types/">
+                    Mapped types
+                </a>
+            </h5>
+            
+            <p>Implementing mapped types</p>
+            
+            
+            <time datetime="2024-11-27">
+                27/11/2024
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/experimental-types.png" alt="Experimental types">
+            </div>
+            <h5>
+                <a href="/posts/experimental-types/">
+                    Experimental types
+                </a>
+            </h5>
+            
+            <p>Extending the TypeScript type system with negation and refined number types</p>
+            
+            
+            <time datetime="2024-11-13">
+                13/11/2024
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/sets-types-and-type-checking.png" alt="Sets, types and type checking">
+            </div>
+            <h5>
+                <a href="/posts/sets-types-and-type-checking/">
+                    Sets, types and type checking
+                </a>
+            </h5>
+            
+            <p>My currently understanding of types</p>
+            
+            
+            <time datetime="2024-10-30">
+                30/10/2024
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/the-quest-continues.png" alt="The quest continues">
+            </div>
+            <h5>
+                <a href="/posts/the-quest-continues/">
+                    The quest continues
+                </a>
+            </h5>
+            
+            <p>An update on the checker</p>
+            
+            
+            <time datetime="2024-05-31">
+                31/5/2024
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/cool-things-2023.png" alt="Cool things in '23">
+            </div>
+            <h5>
+                <a href="/posts/cool-things-23/">
+                    Cool things in '23
+                </a>
+            </h5>
+            
+            <p>A bunch of projects I have seen this year that I think are cool</p>
+            
+            
+            <time datetime="2023-12-20">
+                20/12/2023
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/a-preview-of-the-checker.png" alt="A preview of Ezno's checker">
+            </div>
+            <h5>
+                <a href="/posts/a-preview-of-the-checker/">
+                    A preview of Ezno's checker
+                </a>
+            </h5>
+            
+            <p>Try it out today, what it does and more!</p>
+            
+            
+            <time datetime="2023-06-23">
+                23/6/2023
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/rust-infrastructure.png" alt="My Rust infrastructure">
+            </div>
+            <h5>
+                <a href="/posts/my-rust-infrastructure/">
+                    My Rust infrastructure
+                </a>
+            </h5>
+            
+            <p>Some libraries and tools I have built to help with writing Rust.</p>
+            
+            
+            <time datetime="2023-04-20">
+                20/4/2023
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/ezno-2023.png" alt="Ezno in '23">
+            </div>
+            <h5>
+                <a href="/posts/ezno-23/">
+                    Ezno in '23
+                </a>
+            </h5>
+            
+            <p>Where is Ezno? What's next?</p>
+            
+            
+            <time datetime="2023-01-18">
+                18/1/2023
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/introducing-ezno.png" alt="Introducing Ezno">
+            </div>
+            <h5>
+                <a href="/posts/introducing-ezno/">
+                    Introducing Ezno
+                </a>
+            </h5>
+            
+            <p>Introducing Ezno and the current state of the project.</p>
+            
+            
+            <time datetime="2022-09-22">
+                22/9/2022
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/web-terminology.png" alt="Definitions of web terminology">
+            </div>
+            <h5>
+                <a href="/posts/web-terminology/">
+                    Definitions of web terminology
+                </a>
+            </h5>
+            
+            <p>A bunch of definitions for terms thrown around in web development</p>
+            
+            
+            <time datetime="2022-03-31">
+                31/3/2022
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/prism-one-five.png" alt="Prism Compiler 1.5">
+            </div>
+            <h5>
+                <a href="/posts/prism-one-point-five/">
+                    Prism Compiler 1.5
+                </a>
+            </h5>
+            
+            <p>Updates to Prism compiler, server-side rendering and why frameworks</p>
+            
+            
+            <time datetime="2021-03-22">
+                22/3/2021
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/jit-hydration.png" alt="JIT Hydration">
+            </div>
+            <h5>
+                <a href="/posts/jit-hydration/">
+                    JIT Hydration
+                </a>
+            </h5>
+            
+            <p>JIT hydration is a technique for incrementally hydrating state from the HTML when building universally rendered sites</p>
+            
+            
+            <time datetime="2020-11-24">
+                24/11/2020
+            </time>
+            
+        </li><li>
+            <div class="post-image">
+                <img src="/media/banners/hackernews-clone.png" alt="Hacker News Clone with Prism &amp; Rust">
+            </div>
+            <h5>
+                <a href="/posts/hackernews-clone-prism-rust/">
+                    Hacker News Clone with Prism &amp; Rust
+                </a>
+            </h5>
+            
+            <p>Building a universally rendered Hacker News Clone using Prism, Rust and Actix-Web</p>
+            
+            
+            <time datetime="2020-11-10">
+                10/11/2020
+            </time>
+            
+        </li></ul>
+</div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>

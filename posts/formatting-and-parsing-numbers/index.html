@@ -1,0 +1,1403 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>II lines of code</title>
+
+    <meta name="title" content="II lines of code">
+    <meta property="og:title" content="II lines of code">
+    <meta property="twitter:title" content="II lines of code">
+
+    <meta name="description" content="On formatting and parsing representations of numbers">
+    <meta property="og:description" content="On formatting and parsing representations of numbers">
+    <meta property="twitter:description" content="On formatting and parsing representations of numbers">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banners/ii-lines-of-code.png">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banners/ii-lines-of-code.png">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        <div class="width-box">
+            <style>.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post>p,
+.post li,
+.post blockquote {
+    line-height: 1.6em;
+    margin: 6px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+}
+
+.post>*:is(h1, h2, h3, h4, h5) {
+    margin: 12pt 0;
+}
+
+.post img,
+.post video,
+.post pre:not(.shiki) {
+    margin: 20px 0;
+}
+
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
+}
+
+.post img {
+    border-radius: 10px;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    padding: 20px;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math>svg {
+    width: auto;
+    height: 200%;
+    margin: 10px;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post time {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 30px;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6)>code {
+    font-size: 0.8em;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li)>code {
+    padding: 2px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes~* {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+video.small {
+    max-height: 300px !important;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 40px;
+}
+
+.post h1 {
+    font-size: 32px;
+}
+
+.post h2 {
+    font-size: 28px;
+}
+
+.post h3 {
+    font-size: 24px;
+}
+
+.post h4 {
+    font-size: 20px;
+}
+
+.post h5 {
+    font-size: 16px;
+}
+
+.post a.media-container>img {
+    width: 100%;
+}
+
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
+}
+
+.post blockquote>p {
+    margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
+}
+
+.discussions {
+    margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post>p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post table,
+    .post .widget,
+    .post video {
+        width: 100%;
+        height: auto;
+    }
+
+    .post pre {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
+
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        align-self: center;
+        height: auto;
+    }
+
+    .post>img,
+    .post>video,
+    .post table,
+    .post .widget,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 105%;
+        align-self: center;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
+}</style>
+
+<div class="post">
+    <h1 class="title">II lines of code</h1>
+    
+    <time datetime="2025-08-14">
+        Published on Thursday 14<sup>th</sup> August 2025
+        
+    </time>
+    
+    <p>I have been recently working on a few one-off random libraries and tools. Here are a few interesting findings from building one of those: a library for formatting and parsing various representations of numbers.</p>
+<p>This post covers some representations for numbers and how we can write a formatting function <code>u32 -&gt; String</code> and (the partial inverse of that function) that parses the format <code>String -&gt; u32</code>.</p>
+<blockquote>
+<p>The term "number" in the post refers to a 32-bit or 64-bit fixed point unsigned integer. We will not be covering negative or fractional values for now. Additionally, the theory and logic is the focus of the post but the code and library is written in Rust.</p>
+</blockquote>
+<h3 id="base-two-and-base-ten" tabindex="-1">Base two and base ten</h3>
+<p>Computers work on electricity. They store and transmit numbers through high and low voltages.</p>
+<img src="../../media/diagrams/binary-wave.svg" alt="binary-wave">
+<p>There are two states high and low. This is known as <strong>bi</strong>nary with <strong>bi</strong> <a href="https://en.wikipedia.org/wiki/Numeral_prefix?wprov=sfti1#Table_of_number_prefixes_in_English">the numeric prefix for two</a>. We store each part as a bit. We can store zero as low <code>0</code> and one as high <code>1</code>. However, we see the successive number two cannot be represented in one signal. So it becomes in a sequence where we start with  so we shift over to the left. <code>10</code>. The general pattern is when we add one to a something where the right starts with a zero, we set all trailing ones to zero and set one before said block.</p>
+<pre><code class="language-shell"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 0 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 6 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">0                                    110</span></span>
+<span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 1 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 7 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">1                                    111</span></span>
+<span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 2 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 8 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">10                                   1000</span></span>
+<span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 3 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 9 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">11                                   1001</span></span>
+<span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 4 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 10 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">100                                  1010</span></span>
+<span class="line"><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 5 --binary         </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> ./format-number 11 --binary</span></span>
+<span class="line"><span style="color: #C9D1D9">101                                  1011</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 0 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 6 --binary</span></span>
+<span class="line"><span style="color: #24292F">0                                    110</span></span>
+<span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 1 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 7 --binary</span></span>
+<span class="line"><span style="color: #24292F">1                                    111</span></span>
+<span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 2 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 8 --binary</span></span>
+<span class="line"><span style="color: #24292F">10                                   1000</span></span>
+<span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 3 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 9 --binary</span></span>
+<span class="line"><span style="color: #24292F">11                                   1001</span></span>
+<span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 4 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 10 --binary</span></span>
+<span class="line"><span style="color: #24292F">100                                  1010</span></span>
+<span class="line"><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 5 --binary         </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> ./format-number 11 --binary</span></span>
+<span class="line"><span style="color: #24292F">101                                  1011</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>We depict these values in fixed amounts such as 32 bits to discern when the line is inactive and when it is representing zeros.</p>
+<p>All formats covered here will have larger-to-smallest for numbers. For example <code>100 &gt; 010 &gt; 001</code></p>
+<blockquote>
+<p>We can represent 2^32^ in 32 bits (4 bytes). Four billion values</p>
+</blockquote>
+<p>We can format or print a <code>u32</code> value (into a <code>String</code>) through the following.</p>
+<ul>
+<li>We calculate how many zero or one characters it takes to represent a number by taking counting leading zeros (equivalent to <code>log2</code>). Using <code>std::cmp::max</code>, we choose the length to be one if the value is <code>value=0</code> so we print <code>0</code> (rather than an empty string).</li>
+<li>We then test each bit with <code>0b1 &amp; (value &lt;&lt; i)</code></li>
+<li>If the result of the bitwise and is zero (no match) then we append the <code>0</code> character else <code>1</code>.</li>
+</ul>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">to_binary</span><span style="color: #C9D1D9">(value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> buf </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> start </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">cmp</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">max</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">usize</span><span style="color: #FF7B72">::</span><span style="color: #79C0FF">BITS</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #C9D1D9"> value</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">leading_zeros</span><span style="color: #C9D1D9">(), </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">start)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">rev</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> bit_set </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">0b1</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&lt;&lt;</span><span style="color: #C9D1D9"> i);</span></span>
+<span class="line"><span style="color: #C9D1D9">        buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> bit_set </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> { </span><span style="color: #A5D6FF">'0'</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> { </span><span style="color: #A5D6FF">'1'</span><span style="color: #C9D1D9"> });</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    buf</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">to_binary</span><span style="color: #24292F">(value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> buf </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">new</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> start </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">std</span><span style="color: #CF222E">::</span><span style="color: #953800">cmp</span><span style="color: #CF222E">::</span><span style="color: #8250DF">max</span><span style="color: #24292F">(</span><span style="color: #953800">usize</span><span style="color: #CF222E">::</span><span style="color: #0550AE">BITS</span><span style="color: #24292F"> </span><span style="color: #CF222E">-</span><span style="color: #24292F"> value</span><span style="color: #CF222E">.</span><span style="color: #8250DF">leading_zeros</span><span style="color: #24292F">(), </span><span style="color: #0550AE">1</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> i </span><span style="color: #CF222E">in</span><span style="color: #24292F"> (</span><span style="color: #0550AE">0</span><span style="color: #CF222E">..</span><span style="color: #24292F">start)</span><span style="color: #CF222E">.</span><span style="color: #8250DF">rev</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> bit_set </span><span style="color: #CF222E">=</span><span style="color: #24292F"> value </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F"> (</span><span style="color: #0550AE">0b1</span><span style="color: #24292F"> </span><span style="color: #CF222E">&lt;&lt;</span><span style="color: #24292F"> i);</span></span>
+<span class="line"><span style="color: #24292F">        buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push</span><span style="color: #24292F">(</span><span style="color: #CF222E">if</span><span style="color: #24292F"> bit_set </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> { </span><span style="color: #0A3069">'0'</span><span style="color: #24292F"> } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> { </span><span style="color: #0A3069">'1'</span><span style="color: #24292F"> });</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    buf</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>There are a few other ways of doing this, but this seemed the neatest</p>
+</blockquote>
+<p>Parsing is the reverse of this, we take each character in the string, checking if it is <code>0</code> and add the result (through bitwise or). Each iteration we shift the accumulator value one bit to the left (equivalent to multiplying by two).</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">parse_binary</span><span style="color: #C9D1D9">(on</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Result</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">, ()&gt; {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> byte </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> on</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">bytes</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        value </span><span style="color: #FF7B72">&lt;&lt;=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">b'0'</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">b'1'</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> byte {</span></span>
+<span class="line"><span style="color: #C9D1D9">            value </span><span style="color: #FF7B72">|=</span><span style="color: #C9D1D9"> (byte </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">b'1'</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Err</span><span style="color: #C9D1D9">(());</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">(value)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">parse_binary</span><span style="color: #24292F">(on</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">Result</span><span style="color: #24292F">&lt;</span><span style="color: #953800">usize</span><span style="color: #24292F">, ()&gt; {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #953800">usize</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> byte </span><span style="color: #CF222E">in</span><span style="color: #24292F"> on</span><span style="color: #CF222E">.</span><span style="color: #8250DF">bytes</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        value </span><span style="color: #CF222E">&lt;&lt;=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #0A3069">b'0'</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0A3069">b'1'</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> byte {</span></span>
+<span class="line"><span style="color: #24292F">            value </span><span style="color: #CF222E">|=</span><span style="color: #24292F"> (byte </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0A3069">b'1'</span><span style="color: #24292F">) </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #953800">Err</span><span style="color: #24292F">(());</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">Ok</span><span style="color: #24292F">(value)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<hr>
+<p>Moving on, in the real world we use base 10 or <a href="https://en.wikipedia.org/wiki/Decimal">denary</a>. Likely because most of the population has ten fingers.</p>
+<p>The logic is similar but because 10 is not a power of 2 we use division instead of shifts and modulo instead of bitwise and for testing bits.</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">to_denary</span><span style="color: #C9D1D9">(value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">, separator</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"0"</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">to_owned</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> buf </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..=</span><span style="color: #C9D1D9">value</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">ilog10</span><span style="color: #C9D1D9">())</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">rev</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> j </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (value </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #FFA657">i32</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">pow</span><span style="color: #C9D1D9">(i) </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">b"0123456789"</span><span style="color: #C9D1D9">[j] </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">char</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;&amp;</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(separator);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    buf</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">to_denary</span><span style="color: #24292F">(value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">, separator</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">if</span><span style="color: #24292F"> value </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0A3069">"0"</span><span style="color: #CF222E">.</span><span style="color: #8250DF">to_owned</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> buf </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">new</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> i </span><span style="color: #CF222E">in</span><span style="color: #24292F"> (</span><span style="color: #0550AE">0</span><span style="color: #CF222E">..=</span><span style="color: #24292F">value</span><span style="color: #CF222E">.</span><span style="color: #8250DF">ilog10</span><span style="color: #24292F">())</span><span style="color: #CF222E">.</span><span style="color: #8250DF">rev</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> j </span><span style="color: #CF222E">=</span><span style="color: #24292F"> (value </span><span style="color: #CF222E">/</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #953800">i32</span><span style="color: #CF222E">.</span><span style="color: #8250DF">pow</span><span style="color: #24292F">(i) </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">) </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push</span><span style="color: #24292F">(</span><span style="color: #0A3069">b"0123456789"</span><span style="color: #24292F">[j] </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">char</span><span style="color: #24292F">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> i </span><span style="color: #CF222E">&gt;</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;&amp;</span><span style="color: #24292F"> i </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F"> </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(separator);</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    buf</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>Here this function also takes a separator paramter. This allows formatting <code>123456789</code> to return in more readable <code>123 456 789</code> form when <code>separator=" "</code>.</p>
+</blockquote>
+<p>Parsing is similar. Again because 10 is not a power of 2 we use multiplication instead of shifts and addition rather than bitwise ors.</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">parse_denary</span><span style="color: #C9D1D9">(on</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Result</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">, ()&gt; {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> byte </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> on</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">bytes</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        value </span><span style="color: #FF7B72">*=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">b'0'</span><span style="color: #FF7B72">..=</span><span style="color: #A5D6FF">b'9'</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> byte {</span></span>
+<span class="line"><span style="color: #C9D1D9">            value </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">from</span><span style="color: #C9D1D9">(byte </span><span style="color: #FF7B72">-</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">b'0'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Err</span><span style="color: #C9D1D9">(());</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">(value)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">parse_denary</span><span style="color: #24292F">(on</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">Result</span><span style="color: #24292F">&lt;</span><span style="color: #953800">usize</span><span style="color: #24292F">, ()&gt; {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #953800">usize</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> byte </span><span style="color: #CF222E">in</span><span style="color: #24292F"> on</span><span style="color: #CF222E">.</span><span style="color: #8250DF">bytes</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        value </span><span style="color: #CF222E">*=</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #0A3069">b'0'</span><span style="color: #CF222E">..=</span><span style="color: #0A3069">b'9'</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> byte {</span></span>
+<span class="line"><span style="color: #24292F">            value </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #CF222E">::</span><span style="color: #8250DF">from</span><span style="color: #24292F">(byte </span><span style="color: #CF222E">-</span><span style="color: #24292F"> </span><span style="color: #0A3069">b'0'</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">        } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #953800">Err</span><span style="color: #24292F">(());</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">Ok</span><span style="color: #24292F">(value)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>Other radix are also commonly used such as base 8, 16 and 64. These are respectively named octal, hexadecimal and base64 (it needs a better new name).</p>
+<p>These use similar logic to that of binary (as they are powers of 2). Hex has an extended alphabet beyond the 9 character introducing <code>ABCDEF</code>. Additionally, these formats formatting and parsing logic inspects more than one bit at a time during formatting.</p>
+</blockquote>
+<h3 id="natural-language" tabindex="-1">Natural language</h3>
+<p>Moving past symbols, we can use words to spell out numbers. As we will see it isn’t as simple as printing 135 as one three five.</p>
+<img src="../../media/diagrams/one-three-five.svg" alt="135 != one three five">
+<p>We have various scales: digits (<code>1</code>), tens (<code>10</code>), hundreds (<code>100</code>) and thousands (<code>1000</code>). Larger values then break into combinations with tens of thousands (<code>10 000</code>) and hundreds of thousands (<code>100 000</code>). When we get to thousands and thousands it starts to become confusing, so we break into a new term: the millions.</p>
+<p>Thousands of millions is billions and millions of thousands of billions is trillions. We notice that millions has a <strong>m</strong> prefix and for <strong>bi</strong>llions we are at the 2 prefix that is used from <strong>bi</strong>nary. Successive quantaties are <strong>tri</strong>llions, <strong>quad</strong>rillions.</p>
+<p>In the following, we see that a number formatted to English roughy follows a form where we have a list of triples. A term between 1-999 followed by a magnitude. There is no magnitude for one, so we leave it out.</p>
+<img src="../../media/diagrams/parts.svg" alt="parts">
+<p>In English we have names for <code>0-10</code> and additionally <code>11-13</code>. <code>14-20</code> is + "teen". twenty has tw-o prefix. and so on. All <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="5.757ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 2544.4 688" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-3-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-3-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-3-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-3-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-3-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-3-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mo" transform="translate(1222.2,0)"><use data-c="2217" xlink:href="#MJX-3-TEX-N-2217"></use></g><g data-mml-node="mi" transform="translate(1944.4,0)"><use data-c="1D45B" xlink:href="#MJX-3-TEX-I-1D45B"></use></g></g></g></svg> have names</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">under_100_to_str</span><span style="color: #C9D1D9">(value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">match</span><span style="color: #C9D1D9"> value {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"one"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"two"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"three"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"four"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"five"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">6</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"six"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">7</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"seven"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">8</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"eight"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">9</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"nine"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"ten"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">11</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"eleven"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">12</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"twelve"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">13</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"thirteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">14</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"fourteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">15</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"fifthteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">16</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"sixteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">17</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"seventeen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">18</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"eighteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">19</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"nineteen"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">20</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"twenty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">30</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"thirty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">40</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"fourty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">50</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"fifty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">60</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"sixty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">70</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"seventy"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">80</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"eighty"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">90</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"ninety"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    number </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">unreachable!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"{number}"</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">under_100_to_str</span><span style="color: #24292F">(value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">'</span><span style="color: #953800">static</span><span style="color: #24292F"> </span><span style="color: #953800">str</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">match</span><span style="color: #24292F"> value {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">0</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">1</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"one"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">2</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"two"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">3</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"three"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">4</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"four"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">5</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"five"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">6</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"six"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">7</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"seven"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">8</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"eight"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">9</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"nine"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">10</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"ten"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">11</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"eleven"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">12</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"twelve"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">13</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"thirteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">14</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"fourteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">15</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"fifthteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">16</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"sixteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">17</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"seventeen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">18</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"eighteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">19</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"nineteen"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">20</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"twenty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">30</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"thirty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">40</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"fourty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">50</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"fifty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">60</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"sixty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">70</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"seventy"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">80</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"eighty"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">90</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0A3069">"ninety"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    number </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #8250DF">unreachable!</span><span style="color: #24292F">(</span><span style="color: #0A3069">"{number}"</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>Interestingly, in French 80 is quatre vingts which translates to four twenties (<svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="10.81ex" height="1.717ex" role="img" focusable="false" viewBox="0 -677 4778 759" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-4-TEX-N-34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path><path id="MJX-4-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-4-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-4-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-4-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-4-TEX-N-38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="34" xlink:href="#MJX-4-TEX-N-34"></use></g><g data-mml-node="mo" transform="translate(722.2,0)"><use data-c="2217" xlink:href="#MJX-4-TEX-N-2217"></use></g><g data-mml-node="mn" transform="translate(1444.4,0)"><use data-c="32" xlink:href="#MJX-4-TEX-N-32"></use><use data-c="30" xlink:href="#MJX-4-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mo" transform="translate(2722.2,0)"><use data-c="3D" xlink:href="#MJX-4-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(3778,0)"><use data-c="38" xlink:href="#MJX-4-TEX-N-38"></use><use data-c="30" xlink:href="#MJX-4-TEX-N-30" transform="translate(500,0)"></use></g></g></g></svg>).</p>
+</blockquote>
+<p>Now we have an idea about the composition, we can start working on formatting and printing. We split the input into triples with prefixes of 0-999, print this as the prefix and then append a magnitude (thousands, millions etc)</p>
+<p>We have a few conditions for edge cases such as not printing "one million, zero thousand and zero".</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">to_english</span><span style="color: #C9D1D9">(value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">format_part</span><span style="color: #C9D1D9">(part</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">, is_last</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">bool</span><span style="color: #C9D1D9">, buf</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;mut</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> hundred </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">100</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> hundred </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">!</span><span style="color: #C9D1D9">buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">is_empty</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">                buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">", "</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">            buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">under_100_to_str</span><span style="color: #C9D1D9">(hundred));</span></span>
+<span class="line"><span style="color: #C9D1D9">            buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" hundred"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">100</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">!</span><span style="color: #C9D1D9">buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">is_empty</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> is_last </span><span style="color: #FF7B72">||</span><span style="color: #C9D1D9"> hundred </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                    buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" and "</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                    buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">", "</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                }</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">&lt;=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">20</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">under_100_to_str</span><span style="color: #C9D1D9">(part));</span></span>
+<span class="line"><span style="color: #C9D1D9">            } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> digit </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> tens </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">-</span><span style="color: #C9D1D9"> digit;</span></span>
+<span class="line"><span style="color: #C9D1D9">                buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">under_100_to_str</span><span style="color: #C9D1D9">(tens));</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> digit </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                    buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">' '</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">under_100_to_str</span><span style="color: #C9D1D9">(digit));</span></span>
+<span class="line"><span style="color: #C9D1D9">                }</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PART_WIDTH</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">u32</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">MAGNITUDES</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">[</span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">[</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" thousand"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" million"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" billion"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" trillion"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" quadrillion"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #A5D6FF">" quintillion"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"zero"</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">to_owned</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> buf </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..=</span><span style="color: #C9D1D9">value</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">ilog10</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PART_WIDTH</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">rev</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> size </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10_</span><span style="color: #FFA657">usize</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">pow</span><span style="color: #C9D1D9">(i </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PART_WIDTH</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> left </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> size;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> left </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1000</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> after </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">-</span><span style="color: #C9D1D9"> (left </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> size);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> is_last </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> after </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">format_part</span><span style="color: #C9D1D9">(part, is_last, </span><span style="color: #FF7B72">&amp;mut</span><span style="color: #C9D1D9"> buf);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">!</span><span style="color: #C9D1D9">buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">is_empty</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">&amp;&amp;</span><span style="color: #C9D1D9"> part </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">MAGNITUDES</span><span style="color: #C9D1D9">[i </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">]);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    buf</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">to_english</span><span style="color: #24292F">(value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">format_part</span><span style="color: #24292F">(part</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">, is_last</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">bool</span><span style="color: #24292F">, buf</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;mut</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> hundred </span><span style="color: #CF222E">=</span><span style="color: #24292F"> part </span><span style="color: #CF222E">/</span><span style="color: #24292F"> </span><span style="color: #0550AE">100</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> hundred </span><span style="color: #CF222E">!=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">!</span><span style="color: #24292F">buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">is_empty</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">                buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #0A3069">", "</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">            }</span></span>
+<span class="line"><span style="color: #24292F">            buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #8250DF">under_100_to_str</span><span style="color: #24292F">(hundred));</span></span>
+<span class="line"><span style="color: #24292F">            buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #0A3069">" hundred"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> part </span><span style="color: #CF222E">=</span><span style="color: #24292F"> part </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">100</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> part </span><span style="color: #CF222E">!=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">!</span><span style="color: #24292F">buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">is_empty</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #CF222E">if</span><span style="color: #24292F"> is_last </span><span style="color: #CF222E">||</span><span style="color: #24292F"> hundred </span><span style="color: #CF222E">!=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                    buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #0A3069">" and "</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">                } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                    buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #0A3069">", "</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">                }</span></span>
+<span class="line"><span style="color: #24292F">            }</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">if</span><span style="color: #24292F"> part </span><span style="color: #CF222E">&lt;=</span><span style="color: #24292F"> </span><span style="color: #0550AE">20</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #8250DF">under_100_to_str</span><span style="color: #24292F">(part));</span></span>
+<span class="line"><span style="color: #24292F">            } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #CF222E">let</span><span style="color: #24292F"> digit </span><span style="color: #CF222E">=</span><span style="color: #24292F"> part </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #CF222E">let</span><span style="color: #24292F"> tens </span><span style="color: #CF222E">=</span><span style="color: #24292F"> part </span><span style="color: #CF222E">-</span><span style="color: #24292F"> digit;</span></span>
+<span class="line"><span style="color: #24292F">                buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #8250DF">under_100_to_str</span><span style="color: #24292F">(tens));</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #CF222E">if</span><span style="color: #24292F"> digit </span><span style="color: #CF222E">!=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                    buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push</span><span style="color: #24292F">(</span><span style="color: #0A3069">' '</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">                    buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #8250DF">under_100_to_str</span><span style="color: #24292F">(digit));</span></span>
+<span class="line"><span style="color: #24292F">                }</span></span>
+<span class="line"><span style="color: #24292F">            }</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">PART_WIDTH</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">u32</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">MAGNITUDES</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">[</span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">] </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">[</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">""</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" thousand"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" million"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" billion"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" trillion"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" quadrillion"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0A3069">" quintillion"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">if</span><span style="color: #24292F"> value </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0A3069">"zero"</span><span style="color: #CF222E">.</span><span style="color: #8250DF">to_owned</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> buf </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">new</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> i </span><span style="color: #CF222E">in</span><span style="color: #24292F"> (</span><span style="color: #0550AE">0</span><span style="color: #CF222E">..=</span><span style="color: #24292F">value</span><span style="color: #CF222E">.</span><span style="color: #8250DF">ilog10</span><span style="color: #24292F">() </span><span style="color: #CF222E">/</span><span style="color: #24292F"> </span><span style="color: #0550AE">PART_WIDTH</span><span style="color: #24292F">)</span><span style="color: #CF222E">.</span><span style="color: #8250DF">rev</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> size </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">10_</span><span style="color: #953800">usize</span><span style="color: #CF222E">.</span><span style="color: #8250DF">pow</span><span style="color: #24292F">(i </span><span style="color: #CF222E">*</span><span style="color: #24292F"> </span><span style="color: #0550AE">PART_WIDTH</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> left </span><span style="color: #CF222E">=</span><span style="color: #24292F"> value </span><span style="color: #CF222E">/</span><span style="color: #24292F"> size;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> part </span><span style="color: #CF222E">=</span><span style="color: #24292F"> left </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">1000</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> after </span><span style="color: #CF222E">=</span><span style="color: #24292F"> value </span><span style="color: #CF222E">-</span><span style="color: #24292F"> (left </span><span style="color: #CF222E">*</span><span style="color: #24292F"> size);</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> is_last </span><span style="color: #CF222E">=</span><span style="color: #24292F"> after </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">format_part</span><span style="color: #24292F">(part, is_last, </span><span style="color: #CF222E">&amp;mut</span><span style="color: #24292F"> buf);</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">!</span><span style="color: #24292F">buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">is_empty</span><span style="color: #24292F">() </span><span style="color: #CF222E">&amp;&amp;</span><span style="color: #24292F"> part </span><span style="color: #CF222E">!=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #0550AE">MAGNITUDES</span><span style="color: #24292F">[i </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">]);</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    buf</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>We do similar for parsing, we break the input string into parts (where each part lines up with the triple structure) and do reverse lookup. <a href="https://github.com/kaleidawave/experiments/blob/daf25161d49dd3700b97d091d7ee2397df19810f/number-utilities/src/parse.rs#L47">The code is a bit longer so is skipped for this post</a>.</p>
+<p>Notenote <code>and</code> refers to addition and each item prefixes a magnitude (with a lower precedence) which is multipied by the magnitude.</p>
+<img src="../../media/diagrams/decomposition.svg" alt="decomposition">
+<h3 id="roman-numerals" tabindex="-1">Roman numerals</h3>
+<p>On to the title and raison d'etre for this post. <a href="https://en.wikipedia.org/wiki/Roman_numerals">Roman numerals</a> are an ancient form of denoting amounts.</p>
+<img src="../../media/other/clocktower.png" alt="clocktower">
+<p>The crop up in analog clock faces, television production dates and enumerating royals with the same forename. The traditional dialect is limited to representing the numbers between 1-3999.</p>
+<p>Their design uses several uppercase characters. <code>I=1</code> being the smallest, then <code>V=5</code>, <code>X=10</code>, <code>L=50</code>, <code>C=100</code>, <code>D=500</code> and finally <code>M=1000</code>. We see that all <em>digits</em> take the form of <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="6.678ex" height="1.646ex" role="img" focusable="false" viewBox="0 -705.6 2951.7 727.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-5-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-5-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-5-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-5-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-5-TEX-N-31"></use></g><g data-mml-node="mo" transform="translate(722.2,0)"><use data-c="2217" xlink:href="#MJX-5-TEX-N-2217"></use></g><g data-mml-node="msup" transform="translate(1444.4,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-5-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-5-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mi" transform="translate(1033,393.1) scale(0.707)"><use data-c="1D45B" xlink:href="#MJX-5-TEX-I-1D45B"></use></g></g></g></g></svg> or <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="6.678ex" height="1.646ex" role="img" focusable="false" viewBox="0 -705.6 2951.7 727.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-6-TEX-N-35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path><path id="MJX-6-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-6-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-6-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-6-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="35" xlink:href="#MJX-6-TEX-N-35"></use></g><g data-mml-node="mo" transform="translate(722.2,0)"><use data-c="2217" xlink:href="#MJX-6-TEX-N-2217"></use></g><g data-mml-node="msup" transform="translate(1444.4,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-6-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-6-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mi" transform="translate(1033,393.1) scale(0.707)"><use data-c="1D45B" xlink:href="#MJX-6-TEX-I-1D45B"></use></g></g></g></g></svg>.</p>
+<p>Similar to the above systems we sum each part, so <code>DLV</code> is <code>500 + 50 + 5 = 555</code>.</p>
+<p><strong>However</strong>, we can prefix digits to make them smaller. We refer to 9 as <code>IX</code> and 14 as <code>XIV</code>. The prefix can only precede digits up to then next <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="3.41ex" height="1.646ex" role="img" focusable="false" viewBox="0 -705.6 1507.3 727.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-7-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-7-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-7-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-7-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-7-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mi" transform="translate(1033,393.1) scale(0.707)"><use data-c="1D45B" xlink:href="#MJX-7-TEX-I-1D45B"></use></g></g></g></g></svg> so 99 is <code>XCIX</code> (<code>XC + IX = 90 + 9</code>) and not <code>IC</code>.</p>
+<p>Formatting is similar to denary. Then the logic picks a certain sequence for each character</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">to_roman_numeral</span><span style="color: #C9D1D9">(value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> buf </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">default</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">assert!</span><span style="color: #C9D1D9">(value </span><span style="color: #FF7B72">&lt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">4000</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"cannot format after 3999"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PARTS</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">[(</span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">)] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">[</span></span>
+<span class="line"><span style="color: #8B949E">        // ("III", "IIII", "VIII", "IX"), if clock</span></span>
+<span class="line"><span style="color: #C9D1D9">        (</span><span style="color: #A5D6FF">"III"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"IV"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"VIII"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"IX"</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">        (</span><span style="color: #A5D6FF">"XXX"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"XL"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"LXXX"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"XC"</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">        (</span><span style="color: #A5D6FF">"CCC"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"CD"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"DCCC"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"CM"</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">        (</span><span style="color: #A5D6FF">"MMM"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">    ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..=</span><span style="color: #C9D1D9">value</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">ilog10</span><span style="color: #C9D1D9">())</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">rev</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> digit </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (value </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10_</span><span style="color: #FFA657">usize</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">pow</span><span style="color: #C9D1D9">(i)) </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> (zero_to_three, four, five_to_eight, nine) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PARTS</span><span style="color: #C9D1D9">[i </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">match</span><span style="color: #C9D1D9"> digit {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..</span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">zero_to_three[</span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">digit],</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> four,</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">5</span><span style="color: #FF7B72">..</span><span style="color: #79C0FF">9</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">five_to_eight[</span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">digit </span><span style="color: #FF7B72">-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9">],</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">9</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> nine,</span></span>
+<span class="line"><span style="color: #C9D1D9">            value </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">unreachable!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"{value}"</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">        };</span></span>
+<span class="line"><span style="color: #C9D1D9">        buf</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(value);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    buf</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">to_roman_numeral</span><span style="color: #24292F">(value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> buf </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">new</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">if</span><span style="color: #24292F"> value </span><span style="color: #CF222E">==</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">default</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #8250DF">assert!</span><span style="color: #24292F">(value </span><span style="color: #CF222E">&lt;</span><span style="color: #24292F"> </span><span style="color: #0550AE">4000</span><span style="color: #24292F">, </span><span style="color: #0A3069">"cannot format after 3999"</span><span style="color: #24292F">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">PARTS</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">[(</span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">, </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">, </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">, </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">str</span><span style="color: #24292F">)] </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">[</span></span>
+<span class="line"><span style="color: #6E7781">        // ("III", "IIII", "VIII", "IX"), if clock</span></span>
+<span class="line"><span style="color: #24292F">        (</span><span style="color: #0A3069">"III"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"IV"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"VIII"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"IX"</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">        (</span><span style="color: #0A3069">"XXX"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"XL"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"LXXX"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"XC"</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">        (</span><span style="color: #0A3069">"CCC"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"CD"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"DCCC"</span><span style="color: #24292F">, </span><span style="color: #0A3069">"CM"</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">        (</span><span style="color: #0A3069">"MMM"</span><span style="color: #24292F">, </span><span style="color: #0A3069">""</span><span style="color: #24292F">, </span><span style="color: #0A3069">""</span><span style="color: #24292F">, </span><span style="color: #0A3069">""</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">    ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">for</span><span style="color: #24292F"> i </span><span style="color: #CF222E">in</span><span style="color: #24292F"> (</span><span style="color: #0550AE">0</span><span style="color: #CF222E">..=</span><span style="color: #24292F">value</span><span style="color: #CF222E">.</span><span style="color: #8250DF">ilog10</span><span style="color: #24292F">())</span><span style="color: #CF222E">.</span><span style="color: #8250DF">rev</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> digit </span><span style="color: #CF222E">=</span><span style="color: #24292F"> (value </span><span style="color: #CF222E">/</span><span style="color: #24292F"> </span><span style="color: #0550AE">10_</span><span style="color: #953800">usize</span><span style="color: #CF222E">.</span><span style="color: #8250DF">pow</span><span style="color: #24292F">(i)) </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> (zero_to_three, four, five_to_eight, nine) </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">PARTS</span><span style="color: #24292F">[i </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">];</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">let</span><span style="color: #24292F"> value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">match</span><span style="color: #24292F"> digit {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">0</span><span style="color: #CF222E">..</span><span style="color: #0550AE">4</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">zero_to_three[</span><span style="color: #CF222E">..</span><span style="color: #24292F">digit],</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">4</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> four,</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">5</span><span style="color: #CF222E">..</span><span style="color: #0550AE">9</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">five_to_eight[</span><span style="color: #CF222E">..</span><span style="color: #24292F">digit </span><span style="color: #CF222E">-</span><span style="color: #24292F"> </span><span style="color: #0550AE">4</span><span style="color: #24292F">],</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">9</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> nine,</span></span>
+<span class="line"><span style="color: #24292F">            value </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #8250DF">unreachable!</span><span style="color: #24292F">(</span><span style="color: #0A3069">"{value}"</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">        };</span></span>
+<span class="line"><span style="color: #24292F">        buf</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(value);</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">    buf</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<hr>
+<p>Now we can <em>generate</em> them, we can perform the inverse and parse them.</p>
+<p>When parsing a roman numeral, we first turn each <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="6.678ex" height="1.646ex" role="img" focusable="false" viewBox="0 -705.6 2951.7 727.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-8-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-8-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-8-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-8-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-8-TEX-N-31"></use></g><g data-mml-node="mo" transform="translate(722.2,0)"><use data-c="2217" xlink:href="#MJX-8-TEX-N-2217"></use></g><g data-mml-node="msup" transform="translate(1444.4,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-8-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-8-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mi" transform="translate(1033,393.1) scale(0.707)"><use data-c="1D45B" xlink:href="#MJX-8-TEX-I-1D45B"></use></g></g></g></g></svg> and <svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="6.678ex" height="1.646ex" role="img" focusable="false" viewBox="0 -705.6 2951.7 727.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-9-TEX-N-35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path><path id="MJX-9-TEX-N-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJX-9-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-9-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-9-TEX-I-1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><use data-c="35" xlink:href="#MJX-9-TEX-N-35"></use></g><g data-mml-node="mo" transform="translate(722.2,0)"><use data-c="2217" xlink:href="#MJX-9-TEX-N-2217"></use></g><g data-mml-node="msup" transform="translate(1444.4,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-9-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-9-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="mi" transform="translate(1033,393.1) scale(0.707)"><use data-c="1D45B" xlink:href="#MJX-9-TEX-I-1D45B"></use></g></g></g></g></svg> item into its respective character and then process each <code>letter</code> in the sequence either by</p>
+<ul>
+<li>Incrementing the accumulator by some amount</li>
+<li>Decrement some future (larger) letter</li>
+</ul>
+<h3 class="center"><p>And here is where the neat two line of code snippet I landed on comes in</p>
+</h3>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">acc </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> letter;</span></span>
+<span class="line"><span style="color: #C9D1D9">acc </span><span style="color: #FF7B72">-=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> (acc </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> letter);</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">acc </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> letter;</span></span>
+<span class="line"><span style="color: #24292F">acc </span><span style="color: #CF222E">-=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F"> </span><span style="color: #CF222E">*</span><span style="color: #24292F"> (acc </span><span style="color: #CF222E">%</span><span style="color: #24292F"> letter);</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>We increment the value as standard, then if the letter leaves a <em>remainder</em> with <code>acc</code> we subtract two of the <em>remainder</em> from the accumular.</p>
+<p>For example for <code>IX</code>, after then <code>I</code> we are left with <code>1</code> in the accumulator. We add the value of <code>X</code>, leaving <code>11</code> in the accumulator. We then find <code>11 % 10</code> is <code>1</code>. We subtract <code>2 * 1</code> from <code>11</code> arriving at <code>9</code>!</p>
+<blockquote>
+<p>This isn't a true a roman numeral parsing, it supports a superset. It does not check that only one prefix is allowed and the prefix needs to be one less order of ten than the rest. This allows non-unique identifiers as <code>./parse-number IIX --roman</code> and <code>./parse-number VIII --roman</code> both return <code>8</code>. A future improvement would be to add more logic to enforce the rule if required.</p>
+</blockquote>
+<h3 id="try-it-out" tabindex="-1">Try it out</h3>
+<h3 class="center"><p><a href="https://buy.polar.sh/polar_cl_kzjvIbQBgDJSsD6hLDpMxnsXUxQvtTWP4UUzv300liA">You can download the command line binaries: parse-number and format-number to try it out for yourself</a>.</p>
+</h3>
+<h3 id="testing-and-benchmarking-(bonus)" tabindex="-1">Testing and benchmarking (Bonus)</h3>
+<p>Now we have our library we want to make sure that the logic is not complete baloney.</p>
+<p>We will employ some techniques that a contributor showed me when <a href="https://github.com/kaleidawave/ezno/pull/3">adding fuzzing to one of my projects</a>.</p>
+<p>The first is the concept of a round trip. As formatting and parsing are inverse operations, we can tests that <code>number = parse(format(number))</code>.</p>
+<p>As Roman numerals are limited to representing the 1-4000 <a href="https://github.com/kaleidawave/experiments/blob/daf25161d49dd3700b97d091d7ee2397df19810f/number-utilities/tests/roman_numerals.rs#L5">we can just test them individually</a>. We also have to test that it doesn't just print and parse <code>zero</code> each time <a href="https://github.com/kaleidawave/experiments/blob/daf25161d49dd3700b97d091d7ee2397df19810f/number-utilities/tests/roman_numerals.rs#L14">so we will add a few unit tests as well</a>.</p>
+<p>However, for other formats we want to test a much larger range. While we could test <code>for i in 0..=4_000_000_000</code> this takes a lot of compute and slows down our testing cycle (especially if we are test each representation). Instead, we will take a large sample of numbers by picking random numbers in this range.</p>
+<p>We do not require the results to be secure so we will use the <code>Mulberry32</code> generator with an initial seed by the system time and we will run the generator one hundred thousand times.</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> elapsed </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">SystemTime</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">now</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">duration_since</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">SystemTime</span><span style="color: #FF7B72">::</span><span style="color: #79C0FF">UNIX_EPOCH</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">unwrap</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (elapsed</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">as_micros</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1000</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">u32</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> random </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Mulberry32</span><span style="color: #C9D1D9"> { seed</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> value };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> _ </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #FF7B72">..</span><span style="color: #79C0FF">100_000</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> random_value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> random</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">next_value</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> pow</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">u32</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10_</span><span style="color: #FFA657">u32</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">pow</span><span style="color: #C9D1D9">((random_value</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">rotate_left</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">16</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">8</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (random_value </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> pow) </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">usize</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> value_english </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">to_english</span><span style="color: #C9D1D9">(value);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> out_value </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">parse_english</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">value_english)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">unwrap</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">assert_eq!</span><span style="color: #C9D1D9">(value, out_value, </span><span style="color: #A5D6FF">"{value_english} parsed as {out_value}"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> elapsed </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">SystemTime</span><span style="color: #CF222E">::</span><span style="color: #8250DF">now</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">.</span><span style="color: #8250DF">duration_since</span><span style="color: #24292F">(</span><span style="color: #953800">SystemTime</span><span style="color: #CF222E">::</span><span style="color: #0550AE">UNIX_EPOCH</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">.</span><span style="color: #8250DF">unwrap</span><span style="color: #24292F">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> (elapsed</span><span style="color: #CF222E">.</span><span style="color: #8250DF">as_micros</span><span style="color: #24292F">() </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">1000</span><span style="color: #24292F">) </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">u32</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> random </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">Mulberry32</span><span style="color: #24292F"> { seed</span><span style="color: #CF222E">:</span><span style="color: #24292F"> value };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">for</span><span style="color: #24292F"> _ </span><span style="color: #CF222E">in</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #CF222E">..</span><span style="color: #0550AE">100_000</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> random_value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> random</span><span style="color: #CF222E">.</span><span style="color: #8250DF">next_value</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> pow</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">u32</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">10_</span><span style="color: #953800">u32</span><span style="color: #CF222E">.</span><span style="color: #8250DF">pow</span><span style="color: #24292F">((random_value</span><span style="color: #CF222E">.</span><span style="color: #8250DF">rotate_left</span><span style="color: #24292F">(</span><span style="color: #0550AE">16</span><span style="color: #24292F">) </span><span style="color: #CF222E">%</span><span style="color: #24292F"> </span><span style="color: #0550AE">8</span><span style="color: #24292F">) </span><span style="color: #CF222E">+</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> (random_value </span><span style="color: #CF222E">%</span><span style="color: #24292F"> pow) </span><span style="color: #CF222E">as</span><span style="color: #24292F"> </span><span style="color: #953800">usize</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> value_english </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #8250DF">to_english</span><span style="color: #24292F">(value);</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> out_value </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #8250DF">parse_english</span><span style="color: #24292F">(</span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">value_english)</span><span style="color: #CF222E">.</span><span style="color: #8250DF">unwrap</span><span style="color: #24292F">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #8250DF">assert_eq!</span><span style="color: #24292F">(value, out_value, </span><span style="color: #0A3069">"{value_english} parsed as {out_value}"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>We also randomise the magnitude of the values, because with ranges in the billions it is a one in a million that we get a number &lt;1000 and we want a few of those to be tested in the parse to make sure parsing with a single part works.</p>
+</blockquote>
+<blockquote>
+<p><a href="https://github.com/kaleidawave/experiments/blob/daf25161d49dd3700b97d091d7ee2397df19810f/number-utilities/tests/english.rs#L1-L38">See the full testing here</a></p>
+</blockquote>
+<h4 id="benchmarking" tabindex="-1">Benchmarking</h4>
+<p>This random sample also gives a good dataset of values to time the checker on. <a href="https://github.com/kaleidawave/experiments/blob/number-utilities/number-utilities/examples/benchmark.rs">Splitting the logic for testing English values up and wrapping each with <code>std::time::Instant::now</code> and <code>elapsed()</code></a>, <a href="https://github.com/kaleidawave/experiments/actions/runs/16966393754/job/48091590819#step:4:12">we can see that for <code>100 000</code> numbers</a></p>
+<pre><code><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #c9d1d9">format 37.444574ms. parse 89.915595ms</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292f">format 37.444574ms. parse 89.915595ms</span></span>
+<span class="line"><span style="color: #24292f"></span></span></code></pre></div></code></pre>
+<blockquote>
+<p>In the future we could in benchmark different bases and experiment with SIMD for parsing values</p>
+</blockquote>
+<h3 id="conclusion" tabindex="-1">Conclusion</h3>
+<p>Hopefully this was an interesting post covering number representations and logic for formatting and parsing them.</p>
+<p>You can use the functions in your projects <a href="https://crates.io/crates/number-utilities">through the crate on crates.io here</a> and <a href="https://github.com/kaleidawave/experiments/tree/number-utilities">you can view more of the code in its (temporary) home here</a>.</p>
+<p>More blog posts to come. I wrote down outlines for 25 blog posts last week then wrote this (#XXVI) instead lol</p>
+<hr>
+<p>I am currently looking for short-term/internship opportunities!</p>
+<ul>
+<li>I have experience with: Rust, parsers/compilers, things that involve "types" and web (frontend/backend)</li>
+<li>Random other current interests: natural language processing, <em>internal tooling</em>, databases and <em>video</em></li>
+</ul>
+
+</div>
+
+<div class="discussions">
+    <script src="https://giscus.app/client.js" data-repo="kaleidawave/discussions" data-repo-id="R_kgDOIy08KA" data-category="Comments" data-category-id="DIC_kwDOIy08KM4CTpn8" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="">
+            </script>
+</div>
+
+<script defer="">
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+        </div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>

@@ -1,0 +1,1136 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>Experimental types</title>
+
+    <meta name="title" content="Experimental types">
+    <meta property="og:title" content="Experimental types">
+    <meta property="twitter:title" content="Experimental types">
+
+    <meta name="description" content="Extending the TypeScript type system with negation and refined number types">
+    <meta property="og:description" content="Extending the TypeScript type system with negation and refined number types">
+    <meta property="twitter:description" content="Extending the TypeScript type system with negation and refined number types">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banners/experimental-types.png">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banners/experimental-types.png">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        <div class="width-box">
+            <style>.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post>p,
+.post li,
+.post blockquote {
+    line-height: 1.6em;
+    margin: 6px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+}
+
+.post>*:is(h1, h2, h3, h4, h5) {
+    margin: 12pt 0;
+}
+
+.post img,
+.post video,
+.post pre:not(.shiki) {
+    margin: 20px 0;
+}
+
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
+}
+
+.post img {
+    border-radius: 10px;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    padding: 20px;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math>svg {
+    width: auto;
+    height: 200%;
+    margin: 10px;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post time {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 30px;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6)>code {
+    font-size: 0.8em;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li)>code {
+    padding: 2px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes~* {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+video.small {
+    max-height: 300px !important;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 40px;
+}
+
+.post h1 {
+    font-size: 32px;
+}
+
+.post h2 {
+    font-size: 28px;
+}
+
+.post h3 {
+    font-size: 24px;
+}
+
+.post h4 {
+    font-size: 20px;
+}
+
+.post h5 {
+    font-size: 16px;
+}
+
+.post a.media-container>img {
+    width: 100%;
+}
+
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
+}
+
+.post blockquote>p {
+    margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
+}
+
+.discussions {
+    margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post>p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post table,
+    .post .widget,
+    .post video {
+        width: 100%;
+        height: auto;
+    }
+
+    .post pre {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
+
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        align-self: center;
+        height: auto;
+    }
+
+    .post>img,
+    .post>video,
+    .post table,
+    .post .widget,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 105%;
+        align-self: center;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
+}</style>
+
+<div class="post">
+    <h1 class="title">Experimental types</h1>
+    
+    <time datetime="2024-11-13">
+        Published on Wednesday 13<sup>rd</sup> November 2024
+        
+    </time>
+    
+    <p>Over this summer, while working on increasing TypeScript compatibility in the checker and tackling more advanced type problems, I had an escapade with some experimental types! These types expand on what is currently representable in TypeScript. This blog post will introduce them, when they come about and things they catch.</p>
+<blockquote>
+<p>For those who haven't heard of it before, the <a href="https://github.com/kaleidawave/ezno">Ezno</a> type checker is a work-in-progress but fast and correct TypeScript type checker and compiler with additional experiments.</p>
+</blockquote>
+<h3 id="the-missing-operation" tabindex="-1">The missing operation</h3>
+<p>Set theory is based on three operations: unions, intersections and <em>one other</em>. We can build a union of a type with <code>|</code> and intersections with <code>&amp;</code> but this third operation is less common and does not exist in the TypeScript type system.</p>
+<p>This means that the types of some expressions are hard to represent. We can see this here</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (param </span><span style="color: #FF7B72">!==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(param)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//          ^^^^^</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">if</span><span style="color: #24292F"> (param </span><span style="color: #CF222E">!==</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">    console.</span><span style="color: #8250DF">log</span><span style="color: #24292F">(param)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//          ^^^^^</span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Here we know that <code>param</code> is a string (by the parameter type annotation) <strong>but we additionally know</strong> from the conditional statement it is <strong>not</strong> an empty string <code>""</code> because of the condition (<code>param !== ""</code>). While this state doesn't cause any type problems and treating as <code>string</code> is mostly fine, it does miss out on information that it has a <em>negated member</em>. For example if we only have the <code>string</code> information, the type checker doesn't raise an disjoint error for the following equalities</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (param </span><span style="color: #FF7B72">!==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// ...</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> param </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//     ^^^^^^^^^^^^ &lt;- this equality is always **false** because `param !== ""`</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// or slightly more complex via control flow</span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (param </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// ...</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> param </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">//     ^^^^^^^^^^^^ &lt;- this equality is always false because `param !== ""`</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">if</span><span style="color: #24292F"> (param </span><span style="color: #CF222E">!==</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// ...</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> param </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F"> </span><span style="color: #CF222E">?</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F"> </span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//     ^^^^^^^^^^^^ &lt;- this equality is always **false** because `param !== ""`</span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// or slightly more complex via control flow</span></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">if</span><span style="color: #24292F"> (param </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// ...</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">return</span><span style="color: #24292F"> param </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F"> </span><span style="color: #CF222E">?</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F"> </span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">//     ^^^^^^^^^^^^ &lt;- this equality is always false because `param !== ""`</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>While these examples are short and the cases are obvious, you can see how in longer functions with more conditions and other things going on these cases are get more difficult for a user to observe.</p>
+<blockquote>
+<p>More on reachability and narrowing in a future blog post!</p>
+</blockquote>
+<h3 class="center"><p>So we want <strong>a new kind of type</strong> which can represent the <em>negation</em> of some properties or members. This type is called the <code>Not</code> type and transforms a single type.</p>
+</h3>
+<h4 id="the-not-type" tabindex="-1">The <code>Not</code> type</h4>
+<p>So we now want to construct a type which can wrap an existing type and <em>negate</em> it.</p>
+<p>A simple way that avoids changing the <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/types/mod.rs">checkers <code>Type</code> declaration</a> is to introduce a new <em>intrinsic type</em>. <a href="https://www.typescriptlang.org/docs/handbook/utility-types.html#intrinsic-string-manipulation-types">TSC already has string intrinsic types</a> (and <code>NoInfer</code>). We can define another special internal type alias intrinsic called <code>Not</code> that wraps another type using the type parameter, similar to how regular <em>generic</em> type alias types work <em>(but without eager specialisation, because it is in its final form)</em>.</p>
+<p>Using a intrinsic type here</p>
+<ol>
+<li>Avoids new syntax</li>
+<li>Is consistent in implementation to other intrinsic types in the checker</li>
+</ol>
+<h3 class="center"><p>With our new type at hand we can represent the type of our parameter <strong>inside</strong> the condition to be <code>param: string &amp; Not&lt;""&gt;</code>. (Here <code>""</code> is the empty string).</p>
+</h3>
+<h4 id="creating-a-negated-type-through-narrowing" tabindex="-1">Creating a negated type through narrowing</h4>
+<p>In the checker expressions in branching structures can refine types in a process known as narrowing.</p>
+<p>There will be more on narrowing in a future blog post but for now we can say that the function that produces <em>narrowed facts</em> from a expression also takes a <code>negated</code> parameter.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">typeof</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> string </span><span style="color: #FF7B72">--&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">narrow</span><span style="color: #C9D1D9">(negated: </span><span style="color: #79C0FF">false</span><span style="color: #C9D1D9">, expression: </span><span style="color: #FF7B72">...</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> NarrowedFacts</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">typeof</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">!==</span><span style="color: #C9D1D9"> string </span><span style="color: #FF7B72">--&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">narrow</span><span style="color: #C9D1D9">(negated: </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">, expression: </span><span style="color: #FF7B72">...</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> NarrowedFacts</span></span>
+<span class="line"><span style="color: #C9D1D9">                                        </span><span style="color: #FF7B72">^^^^</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">typeof</span><span style="color: #24292F"> x </span><span style="color: #CF222E">===</span><span style="color: #24292F"> string </span><span style="color: #CF222E">--&gt;</span><span style="color: #24292F"> </span><span style="color: #8250DF">narrow</span><span style="color: #24292F">(negated: </span><span style="color: #0550AE">false</span><span style="color: #24292F">, expression: </span><span style="color: #CF222E">...</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> NarrowedFacts</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">typeof</span><span style="color: #24292F"> x </span><span style="color: #CF222E">!==</span><span style="color: #24292F"> string </span><span style="color: #CF222E">--&gt;</span><span style="color: #24292F"> </span><span style="color: #8250DF">narrow</span><span style="color: #24292F">(negated: </span><span style="color: #0550AE">true</span><span style="color: #24292F">, expression: </span><span style="color: #CF222E">...</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> NarrowedFacts</span></span>
+<span class="line"><span style="color: #24292F">                                        </span><span style="color: #CF222E">^^^^</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>For the first case we say <code>x: string</code>. In the second case where negated is true, when we produce the facts we wrap them all in <code>Not</code>, so get <code>x: Not&lt;string&gt;</code>.</p>
+<blockquote>
+<p>For most unions (<code>1 | 2</code>) we can actually filter the members and don't introduce a <code>Not</code> type. We only introduce this for the <em>large</em> unions such as <code>number</code>, <code>string</code> etc. If you have any questions about narrowing that could be covered in that post, leave them in the comments below!</p>
+</blockquote>
+<h4 id="exposing-negated-types-type-to-annotations" tabindex="-1">Exposing negated types type to annotations</h4>
+<p>While having it picked up by narrowing and the <code>!==</code> operator is cool, I will also be generous and <a href="https://github.com/kaleidawave/ezno/blob/9088496e28796fa0a4a8c938ee261c6611e695bb/checker/src/context/root.rs#L83">add this special type to the root context</a> for use in your programs.</p>
+<p>We will come onto how subtyping of this negated type works in a minute, but for now we can modify a functions parameter definition to force callers of our function to <strong>not</strong> take zero as an argument.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">divide</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">numerator</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">denominator</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Not</span><span style="color: #C9D1D9">&lt;</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">&gt;) { </span><span style="color: #FF7B72">...</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">divide</span><span style="color: #24292F">(</span><span style="color: #953800">numerator</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">, </span><span style="color: #953800">denominator</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F"> </span><span style="color: #953800">Not</span><span style="color: #24292F">&lt;</span><span style="color: #0550AE">0</span><span style="color: #24292F">&gt;) { </span><span style="color: #CF222E">...</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=mhai" class="media-container"><img src="../../media/ezno-screenshots/not-as-parameter.png" alt="not-as-parameter"></a>
+<blockquote>
+<p>You can try this example out in the <a href="https://kaleidawave.github.io/ezno/playground/?id=mhai">online checker playground</a>.</p>
+</blockquote>
+<h4 id="subtyping-and-disjoint-ness-of-negated-types" tabindex="-1">Subtyping and disjoint-ness of negated types</h4>
+<p>So far everything seems quite straightforward: register our intrinsic type, map negated narrows and put it in root so you can reference and use it. So you might be expecting that the usage of it in the type system is where the complexity comes? But you would be wrong, the <code>Not</code> mechanism can be entirely based on existing functionality.</p>
+<p>An example of the assignment case could be passing a <code>string</code> argument to a parameter typed as <code>Not&lt;number&gt;</code>. If you like set theory you might have guessed already, but <strong>subtyping a <code>Not</code> type is based on <a href="/posts/sets-types-and-type-checking/#disjoint-ness">disjoint-ness</a>!</strong>.</p>
+<p>For string to be a subtype of <code>Not&lt;number&gt;</code> (<code>string &lt;: Not&lt;number&gt;</code>) is for the <code>number</code> and <code>string</code> types to be disjoint! And this is true, there is element that satisfies the contracts of both <strong>string</strong> and <strong>number</strong>.</p>
+<img src="../../media/diagrams/types-not-venn-diagram.png" alt="negation">
+<p>And we already have a implementation of <a href="(https://github.com/kaleidawave/ezno/blob/main/checker/src/types/disjoint.rs)">disjoint checking</a>, which is used for the equality operator <code>===</code> etc.</p>
+<p>So we have covered subtyping, but lets get back to the first example</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (param </span><span style="color: #FF7B72">!==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// ...</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> param </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//     ^^^^^^^^^^^^ &lt;- this equality is always **false** because `param !== ""`</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">if</span><span style="color: #24292F"> (param </span><span style="color: #CF222E">!==</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// ...</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> param </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0A3069">""</span><span style="color: #24292F"> </span><span style="color: #CF222E">?</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F"> </span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//     ^^^^^^^^^^^^ &lt;- this equality is always **false** because `param !== ""`</span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Here we want to test whether <code>Not&lt;""&gt;</code> is disjoint with <code>""</code>. And it turns out this is also a really simple operation, now in reverse: for <code>Not&lt;""&gt;</code> to be disjoint with <code>""</code> is for the empty string to be a subtype of the empty string (<code>"" &lt;: ""</code>) which is true as subtyping is a reflexive relation (<code>T = T =&gt; subtype</code>).</p>
+<p>As another example testing whether <code>Not&lt;string&gt;</code> is disjoint with <code>"hello"</code> is testing whether <code>"hello"</code> is a subtype of <code>string</code>. Thus if we have a strict equal operate check in TypeScript we know that <code>(x satisfies Not&lt;string&gt;) === "hello"</code> is <strong>always going to return false</strong> and we can emit this as a warning during our type checking procedure (technically a linting warning, based of type information).</p>
+<h3 class="center"><p>In summary: when left subtyping <code>Not</code> then we test disjoint and when disjoint with <code>Not</code> we test subtyping.</p>
+</h3>
+<p>Some other details</p>
+<ul>
+<li>When <code>Not</code> is the super-type, it is never a subtype.</li>
+<li>In many usages <code>Not</code> drops down to being a <code>any</code> type</li>
+<li><strong>The really important thing is through set theory to be assignable to <code>Not&lt;0&gt;</code> implies that it is disjoint from <code>0</code></strong>. It is not simply denying the <code>0</code> type but all types that have <code>0</code> as a member</li>
+<li>Most types are of the form <code>T &amp; Not&lt;U&gt;</code> where we have properties of <code>T</code> but we want to remove the properties of <code>U</code>.</li>
+</ul>
+<blockquote>
+<p>Because this type reuses the intrinsic system and the fact that subtyping and disjoint are already implemented. This addition is a &lt;100 LOC addition.</p>
+</blockquote>
+<blockquote>
+<p><a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/types/disjoint.rs">See the disjoint function here</a></p>
+</blockquote>
+<blockquote>
+<p>Disjoint is currently not implemented for functions and objects. <a href="https://github.com/kaleidawave/ezno/issues/212">You can read issue if you want to tackle it!</a></p>
+</blockquote>
+<h4 id="aside%3A-not-vs-exclude" tabindex="-1">Aside: <code>Not</code> vs <code>Exclude</code></h4>
+<p><code>Exclude</code> can be used to <em>negate</em> members. However it only works for unions and so only simple cases. The <code>Not</code> type is much more complex and can <em>pick</em> out constant from larger types.</p>
+<blockquote>
+<p>From a language purity standpoint <em>intrinsic</em>s are not great. Common utilities like this I think are fine though as long as the internal type list doesn't break 100 it should be fine.</p>
+</blockquote>
+<blockquote>
+<p>You can see the negated types feature request in TSC <a href="https://github.com/microsoft/TypeScript/issues/4196">here</a> which would be similar to the <code>Not</code> type described above.</p>
+</blockquote>
+<h3 id="numeric-restrictions" tabindex="-1">Numeric restrictions</h3>
+<p>With the new negated types, we have <code>Not&lt;0&gt;</code> and <code>Not&lt;NaN&gt;</code>, which can be helpful in restricting APIs to deal which can help when doing math without the crazy-ness of floating point mathematics and with the <code>x !== 7</code>, the <code>Not&lt;7&gt;</code> type can help catch disjoint errors <strong>based on single values</strong>.</p>
+<p>However, there is still some common cases involving numbers where we could have more accurate types. For example we know that the result of a <code>Math.sin</code> call will never return a <code>2</code> as the range is between <code>-1</code> to <code>1</code> (unfortunately JS does not support the <svg style="vertical-align: -0.043ex;" xmlns="http://www.w3.org/2000/svg" width="1.633ex" height="1.631ex" role="img" focusable="false" viewBox="0 -702 722 721" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-2-TEX-D-2102" d="M684 131Q684 125 672 109T633 71T573 29T489 -5T386 -19Q330 -19 276 -3T174 46T91 134T44 261Q39 283 39 341T44 421Q66 538 143 611T341 699Q344 699 364 700T395 701Q449 698 503 677T585 655Q603 655 611 662T620 678T625 694T639 702Q650 702 657 690V481L653 474Q640 467 628 472Q624 476 618 496T595 541Q562 587 507 625T390 663H381Q337 663 299 625Q212 547 212 336Q212 249 233 179Q274 30 405 30Q533 30 641 130Q658 147 666 147Q671 147 677 143T684 131ZM250 625Q264 643 261 643Q238 635 214 620T161 579T110 510T79 414Q74 384 74 341T79 268Q89 213 113 169T164 101T217 61T260 39L277 34Q270 41 264 48Q199 111 181 254Q178 281 178 344T181 434Q200 559 250 625ZM621 565V625Q617 623 613 623Q603 619 590 619H575L588 605Q608 583 610 579L621 565Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><use data-c="2102" xlink:href="#MJX-2-TEX-D-2102"></use></g></g></g></g></svg> complex datatype).</p>
+<p>So similar to the <code>Not</code> addition we can add some more behaviour here, so without further ado we have ranged types.</p>
+<h4 id="implementation" tabindex="-1">Implementation</h4>
+<p>Similar to negated types we can add this with intrinsic. We implement this with two new intrinsic types <code>LessThan</code> and <code>GreaterThan</code>.</p>
+<p>Unlike <code>Not</code>, these intrinsic have a bit more involved implementation that can't reuse much. When subtyping we check that the argument as a range fits inside the parameter type, for disjoint we check that they don't overlap as ranges. Unfortunately this is quite manual.</p>
+<h4 id="narrowing-numbers" tabindex="-1">Narrowing numbers</h4>
+<p>We can extend the narrowing implementation to also handle cases from inequalities.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (param </span><span style="color: #FF7B72">&lt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">		</span><span style="color: #8B949E">// param.</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">if</span><span style="color: #24292F"> (param </span><span style="color: #CF222E">&lt;</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">		</span><span style="color: #6E7781">// param.</span></span>
+<span class="line"><span style="color: #24292F">	}</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><a href="https://kaleidawave.github.io/ezno/playground/?id=2rvxtu">And in the block we have <code>param: LessThan&lt;10&gt;</code></a> !!!</p>
+<blockquote>
+<p>More on narrowing in the future. Hiding a lot of the complexities of <code>&lt;=</code> and building up number types that have the form <code>LessThan&lt;floor&gt; &amp; GreaterThan&lt;ceiling&gt;</code>.</p>
+</blockquote>
+<h4 id="annotations-and-ranges" tabindex="-1">Annotations and ranges</h4>
+<p>Similar to <code>Not</code> we will <a href="https://github.com/kaleidawave/ezno/blob/16f7779b157dea4da2b618d8e192492a09d1acb9/checker/src/context/root.rs#L79-L80">add <code>LessThan</code> and <code>GreaterThan</code> to the root</a>. From these primitives we can define ranges as intersections of these types and we can make endpoints inclusive with unions.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">GreaterThanOrEqual</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">&gt; </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">T</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">GreaterThan</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">ExclusiveRange</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">F</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">C</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">&gt; </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">GreaterThan</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">F</span><span style="color: #C9D1D9">&gt; </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">LessThan</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">C</span><span style="color: #C9D1D9">&gt;;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">type</span><span style="color: #24292F"> </span><span style="color: #953800">GreaterThanOrEqual</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">&gt; </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">T</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #953800">GreaterThan</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #24292F">&gt;;</span></span>
+<span class="line"><span style="color: #CF222E">type</span><span style="color: #24292F"> </span><span style="color: #953800">ExclusiveRange</span><span style="color: #24292F">&lt;</span><span style="color: #953800">F</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">, </span><span style="color: #953800">C</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">&gt; </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">GreaterThan</span><span style="color: #24292F">&lt;</span><span style="color: #953800">F</span><span style="color: #24292F">&gt; </span><span style="color: #CF222E">&amp;</span><span style="color: #24292F"> </span><span style="color: #953800">LessThan</span><span style="color: #24292F">&lt;</span><span style="color: #953800">C</span><span style="color: #24292F">&gt;;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>These are defined in the standard <code>lib.d.ts</code></p>
+</blockquote>
+<blockquote>
+<p>The implementation for them is pretty nasty. It is nicer to deal with them in terms of ranges (for example checking disjoint-ness) but it is an abstraction that breaks down.</p>
+</blockquote>
+<p>And we can actually use this type in the standard library, for example <a href="https://github.com/kaleidawave/ezno/blob/8ce921e39c3d4e947063f206347b2932cee456ec/checker/definitions/simple.d.ts#L230"><code>Math.sin</code> returns a <code>InclusiveRange&lt;-1, 1&gt;</code></a>.</p>
+<h3 id="what-you-can-do-with-them" tabindex="-1">What you can do with them</h3>
+<p>We can do some pretty simple things with them for annotations. For example requiring that positive numbers in places.</p>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=28j85e" class="media-container"><img src="../../media/ezno-screenshots/positive-numbers.png" alt="positive-numbers"></a>
+<p>The cool things come from narrowing and operations. For example we can catch equality as they have an implementation for disjoint-ness.</p>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=2siewy" class="media-container"><img src="../../media/ezno-screenshots/range-disjoint.png" alt="range-disjoint"></a>
+<p>We can add more logic to our inequalities testing whether a range is always above or below.</p>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=27wr2i" class="media-container"><img src="../../media/ezno-screenshots/greater-than-always-true.png" alt="greater-than-always-true"></a>
+<p>Also transitivity kind of works (this is with the bounds not being known numbers)</p>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=2rvxu2" class="media-container"><img src="../../media/ezno-screenshots/number-intrinsic-transitivity.png" alt="number-intrinsic-transitivity"></a>
+<h3 id="multipleof" tabindex="-1"><code>MultipleOf</code></h3>
+<p>Similar to <code>LessThan</code> and <code>GreaterThan</code>, <code>MultipleOf</code> is another new intrinsic number type that can be used to narrow down on the value of numbers.</p>
+<p>We again expose this through a type annotation such as <code>MultipleOf&lt;5&gt;</code> and also through narrowing with <code>x % 5 === 0</code>. I won't go through the details of it all here.</p>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=28j85m" class="media-container"><img src="../../media/ezno-screenshots/multiple-of-narrowing.png" alt="multiple-of-narrowing"></a>
+<h3 id="integers" tabindex="-1">Integers</h3>
+<p>Integers can be created by <code>MultipleOf&lt;1&gt;</code>. This is because these number intrinsic are based on the <code>number</code> type which at runtime is floating point number.</p>
+<h4 id="integers-with-arrays-%2F-strings%3F" tabindex="-1">Integers with arrays / strings?</h4>
+<p>My intuition is that this can help with array/string indexing. For example we know that if a value is in <code>0 &amp; LessThan&lt;this.length&gt; &amp; Integer</code>, we know it is not <code>undefined</code>. This can help for indexing an array (or a string) in <code>for (let i = 0</code>  loops (which do come up). There is some problems with holey arrays though and so I haven't done added anything around this.</p>
+<blockquote>
+<p>(although holey arrays seem user driven with <code>delete</code>, I don't think they can come from external APIs)</p>
+</blockquote>
+<p>There are a lot of things we could extract from floats. It could assit with WASM generation where there exists whole numbers. But investigating all of these takes time and is a bit out of scope for the moment.</p>
+<h3 id="more-restrictions-with-the-literal-type" tabindex="-1">More restrictions with the <code>Literal</code> type</h3>
+<p>Another intrinsic type which I added ages ago is <code>Literal</code>. This constrains the user to only be able to write known constants to this value.</p>
+<p>This can help with some things. For example you can <em>lock</em> down <code>fetch</code> calls to only use fixed URLs, custom element registration etc.</p>
+<p>Unfortunately, this doesn't add any safety... but it could be some using in adding rules into the language. Here JavaScript will always let you create a property under the key of the current weather in the UK.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">obj</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {};</span></span>
+<span class="line"><span style="color: #79C0FF">Reflect</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">set</span><span style="color: #C9D1D9">(obj, </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"https://uk-weather.api"</span><span style="color: #C9D1D9">).</span><span style="color: #D2A8FF">then</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">resp</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> resp.</span><span style="color: #D2A8FF">text</span><span style="color: #C9D1D9">()))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// Property always exists</span></span>
+<span class="line"><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(obj.cloudy)</span></span>
+<span class="line"><span style="color: #8B949E">// okay sometimes this</span></span>
+<span class="line"><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(obj.sunny)</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">obj</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> {};</span></span>
+<span class="line"><span style="color: #0550AE">Reflect</span><span style="color: #24292F">.</span><span style="color: #8250DF">set</span><span style="color: #24292F">(obj, </span><span style="color: #CF222E">await</span><span style="color: #24292F"> </span><span style="color: #8250DF">fetch</span><span style="color: #24292F">(</span><span style="color: #0A3069">"https://uk-weather.api"</span><span style="color: #24292F">).</span><span style="color: #8250DF">then</span><span style="color: #24292F">(</span><span style="color: #953800">resp</span><span style="color: #24292F"> </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> resp.</span><span style="color: #8250DF">text</span><span style="color: #24292F">()))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Property always exists</span></span>
+<span class="line"><span style="color: #24292F">console.</span><span style="color: #8250DF">log</span><span style="color: #24292F">(obj.cloudy)</span></span>
+<span class="line"><span style="color: #6E7781">// okay sometimes this</span></span>
+<span class="line"><span style="color: #24292F">console.</span><span style="color: #8250DF">log</span><span style="color: #24292F">(obj.sunny)</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>but we can create a better way using <code>Literal&lt;...&gt;</code> types</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">ReflectingOnReflect</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">better_set</span><span style="color: #C9D1D9">(</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Literal</span><span style="color: #C9D1D9">&lt;</span><span style="color: #79C0FF">object</span><span style="color: #C9D1D9">&gt;, </span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">property</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Literal</span><span style="color: #C9D1D9">&lt;</span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">&gt;, </span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">any</span></span>
+<span class="line"><span style="color: #C9D1D9">  ) { </span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// ... </span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">class</span><span style="color: #24292F"> </span><span style="color: #953800">ReflectingOnReflect</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">static</span><span style="color: #24292F"> </span><span style="color: #8250DF">better_set</span><span style="color: #24292F">(</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">Literal</span><span style="color: #24292F">&lt;</span><span style="color: #0550AE">object</span><span style="color: #24292F">&gt;, </span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">property</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">Literal</span><span style="color: #24292F">&lt;</span><span style="color: #0550AE">string</span><span style="color: #24292F">&gt;, </span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">any</span></span>
+<span class="line"><span style="color: #24292F">  ) { </span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// ... </span></span>
+<span class="line"><span style="color: #24292F">  }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<a href="https://kaleidawave.github.io/ezno/playground/?id=2siex6" class="media-container"><img src="../../media/ezno-screenshots/literal-restriction.png" alt="literal-restriction"></a>
+<h3 id="testing-and-feedback" tabindex="-1">Testing and feedback</h3>
+<p>Hopefully you found something interesting. All of this is open source, you can play with them in the playground and if you find any bugs with the new experimental items, post them on the issue tracker.</p>
+<p>And if you have found anything difficult to represent as types, that is still not covered by these new types, let me know in the comments below!</p>
+<h3 id="direction-of-the-project" tabindex="-1">Direction of the project</h3>
+<p>While this stuff is fun, there is probably a number of you asking whether you can begin using this is projects. The unfortunate answer is that the <strong>ezno-checker is not currently usable on projects because of the lack of many TSC features or partially implemented features</strong>.</p>
+<p>The checker has been crawling along slowly, passing more and more specification tests and working on more complex parts. I now somewhat confident in the foundation and that many of TSC's features have been somewhat reimplemented. You will see in the next two blog posts that cover mapped types and narrowing respectively.</p>
+<p>While these experiments like this are interesting, they don't necessarily work perfectly under all the edge cases. In some cases a number of the features have been relegated behind the <code>--advanced-numbers</code> flag.</p>
+<p>The biggest experiment in the checker has been side-effects recording and replaying. There have been some huge progress with respect to that, most of which I have not currently shared (but maybe soon). A lot of that stuff is currently very delicate and so I think the next steps will be to put that behind a flag. Once that is mostly out of the way for default, the actually usability can be attempted.</p>
+<p>Currently allocation of resources is a bit of a constraint, but that only affects the timelines of these things and not the achievability. However there is still more to share and I have a blog post on mapped types and one on narrowing (on more than just number types) that should be ready for publishing soon!</p>
+<hr>
+<p>This blog post was sent out to sponsors early. As well as supporting the development of the project you also get early access on information on the project and access to the LSP! As well as monetary contributions, you can also contribute code. There are some <a href="https://github.com/kaleidawave/ezno/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen+label%3Agood-first-issue">good-first-issues</a> and <a href="https://github.com/kaleidawave/ezno/issues?q=sort%3Aupdated-desc+is%3Aissue+label%3Agood-first-issue+is%3Aclosed">many have already been completed</a> by some awesome contributors!</p>
+
+</div>
+
+<div class="discussions">
+    <script src="https://giscus.app/client.js" data-repo="kaleidawave/discussions" data-repo-id="R_kgDOIy08KA" data-category="Comments" data-category-id="DIC_kwDOIy08KM4CTpn8" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="">
+            </script>
+</div>
+
+<script defer="">
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+        </div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>

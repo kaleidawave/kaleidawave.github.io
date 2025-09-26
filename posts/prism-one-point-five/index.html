@@ -1,0 +1,1495 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>Prism Compiler 1.5</title>
+
+    <meta name="title" content="Prism Compiler 1.5">
+    <meta property="og:title" content="Prism Compiler 1.5">
+    <meta property="twitter:title" content="Prism Compiler 1.5">
+
+    <meta name="description" content="Updates to Prism compiler, server-side rendering and why frameworks">
+    <meta property="og:description" content="Updates to Prism compiler, server-side rendering and why frameworks">
+    <meta property="twitter:description" content="Updates to Prism compiler, server-side rendering and why frameworks">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banners/prism-one-five.png">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banners/prism-one-five.png">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        <div class="width-box">
+            <style>.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post>p,
+.post li,
+.post blockquote {
+    line-height: 1.6em;
+    margin: 6px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+}
+
+.post>*:is(h1, h2, h3, h4, h5) {
+    margin: 12pt 0;
+}
+
+.post img,
+.post video,
+.post pre:not(.shiki) {
+    margin: 20px 0;
+}
+
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
+}
+
+.post img {
+    border-radius: 10px;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    padding: 20px;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math>svg {
+    width: auto;
+    height: 200%;
+    margin: 10px;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post time {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 30px;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6)>code {
+    font-size: 0.8em;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li)>code {
+    padding: 2px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes~* {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+video.small {
+    max-height: 300px !important;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 40px;
+}
+
+.post h1 {
+    font-size: 32px;
+}
+
+.post h2 {
+    font-size: 28px;
+}
+
+.post h3 {
+    font-size: 24px;
+}
+
+.post h4 {
+    font-size: 20px;
+}
+
+.post h5 {
+    font-size: 16px;
+}
+
+.post a.media-container>img {
+    width: 100%;
+}
+
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
+}
+
+.post blockquote>p {
+    margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
+}
+
+.discussions {
+    margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post>p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post table,
+    .post .widget,
+    .post video {
+        width: 100%;
+        height: auto;
+    }
+
+    .post pre {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
+
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        align-self: center;
+        height: auto;
+    }
+
+    .post>img,
+    .post>video,
+    .post table,
+    .post .widget,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 105%;
+        align-self: center;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
+}</style>
+
+<div class="post">
+    <h1 class="title">Prism Compiler 1.5</h1>
+    
+    <time datetime="2021-03-22">
+        Published on Monday 22<sup>nd</sup> March 2021
+        
+    </time>
+    
+    <p>Prism 1.5 is out now. This post goes over the <a href="#server-components">server component</a> craze, <a href="#frontend-frameworks-on-the-backend">frontend frameworks on the backend</a>, <a href="#why-frameworks">why frameworks</a> and the <a href="#prism-future">future of Prism</a>.</p>
+<p>Prism is a experimental framework for building web apps which takes declarative templates written in HTML, CSS and JS (similar to Svelte and Vue) and compiles them into small &amp; efficient client and server bundles. It is a research project into some ideas of what I thought could be more efficient isomorphic frameworks.</p>
+<h2 id="%22server-components%22" tabindex="-1">"Server components"</h2>
+<p>Last December there were two big announcements in the world of server rendering. The first was <a href="https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html">React server components</a> which enables components VDOM content to be rendered on the server. The other was <a href="https://hotwire.dev/">hotwire</a>, which is a set of libraries for adding more interactivity on the page through communicating with the server.</p>
+<p>These two announcements sparked ideas around <em>"server components"</em> which is a different to the status quo in standard data loading &amp; rendering flow:</p>
+<p>Standard AJAX flow:</p>
+<h3 class="center"><p>Read request → JSON → parse → build DOM → append to node</p>
+</h3>
+<p>HTML (or VDOM) over the wire:</p>
+<h3 class="center"><p>Read request → append request body as content to a node</p>
+</h3>
+<p>Both are interesting ideas, but looking at both notice that they have constraints and still areas to improve performance. For Prism, I wanted to capitalize on some of the benefits of rendering on the server but in a more flexible and low runtime way.</p>
+<h3 id="prism-server-components" tabindex="-1">Prism server components</h3>
+<p>All frameworks are based on components so to start we can send the following HTML down the wire:</p>
+<pre><code class="language-html"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">story-preview</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"buttons"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">disabled</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9650;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">disabled</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9660;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"https://chartscss.org"</span><span style="color: #C9D1D9">&gt;Charts.css&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;    </span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            882 points | by</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"/u/pspeter3"</span><span style="color: #C9D1D9">&gt;pspeter3&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;    </span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">title</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"Sun Mar 21 2021 10:37:57 GMT+0000"</span><span style="color: #C9D1D9">&gt;| 1 days ago |</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"/i/26494819"</span><span style="color: #C9D1D9">&gt;135 comments&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;    </span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">story-preview</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">story-preview</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F"> </span><span style="color: #0550AE">class</span><span style="color: #24292F">=</span><span style="color: #0A3069">"buttons"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">disabled</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9650;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">disabled</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9660;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"https://chartscss.org"</span><span style="color: #24292F">&gt;Charts.css&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;    </span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            882 points | by</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"/u/pspeter3"</span><span style="color: #24292F">&gt;pspeter3&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;    </span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">span</span><span style="color: #24292F"> </span><span style="color: #0550AE">title</span><span style="color: #24292F">=</span><span style="color: #0A3069">"Sun Mar 21 2021 10:37:57 GMT+0000"</span><span style="color: #24292F">&gt;| 1 days ago |</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"/i/26494819"</span><span style="color: #24292F">&gt;135 comments&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;    </span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">story-preview</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>(This is an simplified) example from <a href="https://github.com/kaleidawave/hackernews-prism">HN prism</a></p>
+</h6>
+<p>This example would have been rendered on the server, interpolating data from some source, database etc. The browser then parses the response body and renders the tree in an optimised procedure without running JavaScript. The links are readily clickable and the buttons have a <code>disabled</code> attribute considering they don't have any functionality until a JS event listener is attached.</p>
+<p>While this is great there are several scenarios where you want to do some work on the client with the components the server responded with. For example:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// Upvote post (needs previous value)</span></span>
+<span class="line"><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.data.score </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// Saving title in indexedDB</span></span>
+<span class="line"><span style="color: #C9D1D9">objectStore.</span><span style="color: #D2A8FF">add</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.data.title); </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// Making request with data</span></span>
+<span class="line"><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`/upvote-post`</span><span style="color: #C9D1D9">, { </span></span>
+<span class="line"><span style="color: #C9D1D9">    method: </span><span style="color: #A5D6FF">"POST"</span><span style="color: #C9D1D9">, </span></span>
+<span class="line"><span style="color: #C9D1D9">    body: </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">URLSearchParams</span><span style="color: #C9D1D9">({</span><span style="color: #A5D6FF">"postID"</span><span style="color: #C9D1D9">: </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.data.postID})</span></span>
+<span class="line"><span style="color: #C9D1D9">})</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// Upvote post (needs previous value)</span></span>
+<span class="line"><span style="color: #0550AE">this</span><span style="color: #24292F">.data.score </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Saving title in indexedDB</span></span>
+<span class="line"><span style="color: #24292F">objectStore.</span><span style="color: #8250DF">add</span><span style="color: #24292F">(</span><span style="color: #0550AE">this</span><span style="color: #24292F">.data.title); </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Making request with data</span></span>
+<span class="line"><span style="color: #8250DF">fetch</span><span style="color: #24292F">(</span><span style="color: #0A3069">`/upvote-post`</span><span style="color: #24292F">, { </span></span>
+<span class="line"><span style="color: #24292F">    method: </span><span style="color: #0A3069">"POST"</span><span style="color: #24292F">, </span></span>
+<span class="line"><span style="color: #24292F">    body: </span><span style="color: #CF222E">new</span><span style="color: #24292F"> </span><span style="color: #8250DF">URLSearchParams</span><span style="color: #24292F">({</span><span style="color: #0A3069">"postID"</span><span style="color: #24292F">: </span><span style="color: #0550AE">this</span><span style="color: #24292F">.data.postID})</span></span>
+<span class="line"><span style="color: #24292F">})</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>To run the above the client needs to know the value of the data used to render the component's markup. However, given the server sent markup it's not known what the data used to render that page on the server looked like. Neither is there any way of guessing, there are eight numbers in the response any of those could be the value for <code>score</code>.</p>
+<p>So the answer by many frameworks is to serialize the data used to render that component on the server and include it in the response. The component's associated data is then deserialized through <code>JSON.parse</code>. Here is an example of a response with the serialized data:</p>
+<pre><code data-highlight="10,20" class="language-html"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">story-preview</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"buttons"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">disabled</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9650;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">disabled</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9660;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"https://chartscss.org"</span><span style="color: #C9D1D9">&gt;Charts.css&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;    </span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            882 points | by</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"/u/pspeter3"</span><span style="color: #C9D1D9">&gt;pspeter3&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;    </span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">title</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"Sun Mar 21 2021 10:37:57 GMT+0000"</span><span style="color: #C9D1D9">&gt;| 1 days ago |</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"/i/26494819"</span><span style="color: #C9D1D9">&gt;135 comments&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">type</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"data"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        {</span></span>
+<span class="line"><span style="color: #C9D1D9">            "url": "https://chartscss.org/",</span></span>
+<span class="line"><span style="color: #C9D1D9">            "title": "Charts.css",</span></span>
+<span class="line"><span style="color: #C9D1D9">            "score": 882,</span></span>
+<span class="line"><span style="color: #C9D1D9">            "by": "pspeter3",</span></span>
+<span class="line"><span style="color: #C9D1D9">            "time": "Sun Mar 21 2021 10:37:57 GMT+0000",</span></span>
+<span class="line"><span style="color: #C9D1D9">            "id": 26494819,</span></span>
+<span class="line"><span style="color: #C9D1D9">            "descendants": 135</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">story-preview</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">story-preview</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F"> </span><span style="color: #0550AE">class</span><span style="color: #24292F">=</span><span style="color: #0A3069">"buttons"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">disabled</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9650;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">disabled</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9660;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"https://chartscss.org"</span><span style="color: #24292F">&gt;Charts.css&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;    </span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            882 points | by</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"/u/pspeter3"</span><span style="color: #24292F">&gt;pspeter3&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;    </span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">span</span><span style="color: #24292F"> </span><span style="color: #0550AE">title</span><span style="color: #24292F">=</span><span style="color: #0A3069">"Sun Mar 21 2021 10:37:57 GMT+0000"</span><span style="color: #24292F">&gt;| 1 days ago |</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"/i/26494819"</span><span style="color: #24292F">&gt;135 comments&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">script</span><span style="color: #24292F"> </span><span style="color: #0550AE">type</span><span style="color: #24292F">=</span><span style="color: #0A3069">"data"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        {</span></span>
+<span class="line"><span style="color: #24292F">            "url": "https://chartscss.org/",</span></span>
+<span class="line"><span style="color: #24292F">            "title": "Charts.css",</span></span>
+<span class="line"><span style="color: #24292F">            "score": 882,</span></span>
+<span class="line"><span style="color: #24292F">            "by": "pspeter3",</span></span>
+<span class="line"><span style="color: #24292F">            "time": "Sun Mar 21 2021 10:37:57 GMT+0000",</span></span>
+<span class="line"><span style="color: #24292F">            "id": 26494819,</span></span>
+<span class="line"><span style="color: #24292F">            "descendants": 135</span></span>
+<span class="line"><span style="color: #24292F">        } </span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">script</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">story-preview</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The problem is now each response is now larger due to the same data now existing both in the markup and in the JSON blob (as shown with the highlighting). This problem is often referred to as the <em>double data</em> problem. This is especially a problem in VDOM and render to hydrate based frameworks which require all the data to start <a href="#foot1">1</a>.</p>
+<h3 id="hydration" tabindex="-1">A different approach to getting state</h3>
+<p>As we have seen just looking at the HTML response it is impossible to pull data from it. But now if I show you the template that was behind what was used to render <code>story-preview</code>'s HTML then it becomes understandable where those values were interpolated:</p>
+<pre><code class="language-html"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"buttons"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@click</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"upvote"</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9650;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@click</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"downvote"</span><span style="color: #C9D1D9">&gt;</span><span style="color: #79C0FF">&amp;#9660;</span><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">#if</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"url"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">$href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"url"</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">target</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"_blank"</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">rel</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"noopener noreferrer"</span><span style="color: #C9D1D9">&gt;{title}&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">#else</span><span style="color: #C9D1D9">&gt;{title}&lt;/</span><span style="color: #7EE787">h2</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"details"</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            {score} points | </span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">relative</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">$href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"`/u/${by}`"</span><span style="color: #C9D1D9">&gt;by {by}&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">$title</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"time"</span><span style="color: #C9D1D9">&gt; | {timeFromNowToString(time)} ago | &lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">relative</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">$href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"`/i/${id}`"</span><span style="color: #C9D1D9">&gt;{descendants} comments&lt;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F"> </span><span style="color: #0550AE">class</span><span style="color: #24292F">=</span><span style="color: #0A3069">"buttons"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">@click</span><span style="color: #24292F">=</span><span style="color: #0A3069">"upvote"</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9650;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">@click</span><span style="color: #24292F">=</span><span style="color: #0A3069">"downvote"</span><span style="color: #24292F">&gt;</span><span style="color: #0550AE">&amp;#9660;</span><span style="color: #24292F">&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">h2</span><span style="color: #24292F"> </span><span style="color: #0550AE">#if</span><span style="color: #24292F">=</span><span style="color: #0A3069">"url"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">$href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"url"</span><span style="color: #24292F"> </span><span style="color: #0550AE">target</span><span style="color: #24292F">=</span><span style="color: #0A3069">"_blank"</span><span style="color: #24292F"> </span><span style="color: #0550AE">rel</span><span style="color: #24292F">=</span><span style="color: #0A3069">"noopener noreferrer"</span><span style="color: #24292F">&gt;{title}&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">h2</span><span style="color: #24292F"> </span><span style="color: #0550AE">#else</span><span style="color: #24292F">&gt;{title}&lt;/</span><span style="color: #116329">h2</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;</span><span style="color: #116329">span</span><span style="color: #24292F"> </span><span style="color: #0550AE">class</span><span style="color: #24292F">=</span><span style="color: #0A3069">"details"</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            {score} points | </span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">relative</span><span style="color: #24292F"> </span><span style="color: #0550AE">$href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"`/u/${by}`"</span><span style="color: #24292F">&gt;by {by}&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">span</span><span style="color: #24292F"> </span><span style="color: #0550AE">$title</span><span style="color: #24292F">=</span><span style="color: #0A3069">"time"</span><span style="color: #24292F">&gt; | {timeFromNowToString(time)} ago | &lt;/</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">            &lt;</span><span style="color: #116329">a</span><span style="color: #24292F"> </span><span style="color: #0550AE">relative</span><span style="color: #24292F"> </span><span style="color: #0550AE">$href</span><span style="color: #24292F">=</span><span style="color: #0A3069">"`/i/${id}`"</span><span style="color: #24292F">&gt;{descendants} comments&lt;/</span><span style="color: #116329">a</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">        &lt;/</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;/</span><span style="color: #116329">div</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>From <a href="https://github.com/kaleidawave/hackernews-prism/blob/4537652060e0011e2e34be5de64036302d739a03/src/views/story-preview.component.prism">story-preview on hackernews-prism</a></p>
+</h6>
+<p>The template reveals what is interpolated where. Comparing it to the previously shown response you can begin to see where values match up to the server response. For example, there is a variable/property named <code>score</code> which comes before "points".</p>
+<h3 class="center"><p>Knowing how the data maps in the template, a compiler could generate JS getters for retrieving data from the server-rendered DOM.</p>
+</h3>
+<p>In the above example, the title could be retrieved at runtime with the following getter:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">get </span><span style="color: #D2A8FF">title</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> component.</span><span style="color: #D2A8FF">querySelector</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"h2"</span><span style="color: #C9D1D9">).innerText </span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">get </span><span style="color: #8250DF">title</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> component.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">"h2"</span><span style="color: #24292F">).innerText </span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Using this method, state could be brought into JS from the server-rendered content making a JSON blob redundant. No more JSON state leads to a reduction in the bytes sent over the wire.</p>
+<p>And this is how the hydration system in Prism works. The compiler builds a table of bindings in the template. From that, it can generate code similar to the above statement. This same binding table is also used to generate set bindings for reactivity.</p>
+<p>In the following HN clone you can see HTML come down the wire for rendering <code>story-preview</code> components:</p>
+<video src="../../media/demos/full-server-component-data-hydration.mp4" controls="" title="Full server component hydration"></video>
+<p>From this, you can see the <code>story-preview</code> components content is coming from the server as HTML. The rendered markup only contains one instance of the component's <code>title</code>, <code>score</code> and <code>url</code> properties thus <strong>no double data</strong>. <code>temp1._d</code> shows what data the component was given during instantiation but when <code>JSON.stringify(temp1.data)</code> it evaluates every property by looking it up in the components server rendered DOM. The comments (<code>&lt;!----&gt;</code>) in the response are to break up text nodes.</p>
+<p>Not only is the state available to the component but is also public to other components. Running <code>JSON.stringify(document.querySelector("index-page").data, 0, 4)</code> should see an object with an array of stories. Those stories exist on the individual components but modifying externally is permitted: <code>document.querySelector("index-page").data.stories[2].title = "Hello World"</code></p>
+<p>The resolved data is being pulled from the HTML content of the component when evaluated. I called this implementation <a href="/posts/jit-hydration">JIT hydration</a>.</p>
+<p>Using this, Prism server components can send standard HTML down and become interactive on the client. A component can mark that its content should be from the server via the <code>@RenderFromEndpoint</code> decorator which takes a parameterised URL that points to an endpoint that returns the content of the component.</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">@</span><span style="color: #D2A8FF">RenderFromEndpoint</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/story-preview/:id"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">StoryPreview</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Component</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">IStoryItem</span><span style="color: #C9D1D9">&gt; {</span></span>
+<span class="line"><span style="color: #C9D1D9">    ..</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">@</span><span style="color: #8250DF">RenderFromEndpoint</span><span style="color: #24292F">(</span><span style="color: #0A3069">"/story-preview/:id"</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #CF222E">export</span><span style="color: #24292F"> </span><span style="color: #CF222E">class</span><span style="color: #24292F"> </span><span style="color: #953800">StoryPreview</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">Component</span><span style="color: #24292F">&lt;</span><span style="color: #953800">IStoryItem</span><span style="color: #24292F">&gt; {</span></span>
+<span class="line"><span style="color: #24292F">    ..</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Which is compiled down to:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #D2A8FF">render</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`/story-preview/${</span><span style="color: #79C0FF">this</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">data</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">id</span><span style="color: #A5D6FF">}`</span><span style="color: #C9D1D9">).</span><span style="color: #D2A8FF">then</span><span style="color: #C9D1D9">( </span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">resp</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> resp.</span><span style="color: #D2A8FF">text</span><span style="color: #C9D1D9">(); </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">handleEvents</span><span style="color: #C9D1D9">?.(</span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    })</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #8250DF">render</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #8250DF">fetch</span><span style="color: #24292F">(</span><span style="color: #0A3069">`/story-preview/${</span><span style="color: #0550AE">this</span><span style="color: #0A3069">.</span><span style="color: #24292F">data</span><span style="color: #0A3069">.</span><span style="color: #24292F">id</span><span style="color: #0A3069">}`</span><span style="color: #24292F">).</span><span style="color: #8250DF">then</span><span style="color: #24292F">( </span><span style="color: #CF222E">async</span><span style="color: #24292F"> (</span><span style="color: #953800">resp</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0550AE">this</span><span style="color: #24292F">.innerHTML </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">await</span><span style="color: #24292F"> resp.</span><span style="color: #8250DF">text</span><span style="color: #24292F">(); </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">handleEvents</span><span style="color: #24292F">?.(</span><span style="color: #0550AE">true</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    })</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>No streaming yet <a href="#foot4">4</a></p>
+</h6>
+<p>One nicety of this is that it associates data under an identifier. Prism (and most other frameworks) work by a parent component resolving data and then rendering a child component with that data. With this system, components are <em>self-aware</em> and rerender themselves on updating <code>id</code>:</p>
+<video src="../../media/demos/single-server-component.mp4" controls="" title="Single server component"></video>
+<p>The HTML is coming from a Prism compiled <em>toString</em> function which given data returns a string of the concatenated component markup. All that is required is hosting an endpoint that calls the generated function and returns the response:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// Import prism compiled function</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> { renderStoryPreviewContent } </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"./out/story-preview.prism"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">app.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/p/:id"</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">res</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    res.</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">renderStoryPreviewContent</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">getStoryPreview</span><span style="color: #C9D1D9">(req.params.id)));</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// Import prism compiled function</span></span>
+<span class="line"><span style="color: #CF222E">import</span><span style="color: #24292F"> { renderStoryPreviewContent } </span><span style="color: #CF222E">from</span><span style="color: #24292F"> </span><span style="color: #0A3069">"./out/story-preview.prism"</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">app.</span><span style="color: #8250DF">get</span><span style="color: #24292F">(</span><span style="color: #0A3069">"/p/:id"</span><span style="color: #24292F">, (</span><span style="color: #953800">req</span><span style="color: #24292F">, </span><span style="color: #953800">res</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    res.</span><span style="color: #8250DF">send</span><span style="color: #24292F">(</span><span style="color: #8250DF">renderStoryPreviewContent</span><span style="color: #24292F">(</span><span style="color: #8250DF">getStoryPreview</span><span style="color: #24292F">(req.params.id)));</span></span>
+<span class="line"><span style="color: #24292F">});</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>As Prism only builds the functions you can build the backend using any node framework or alternatively use them on a serverless function platform</p>
+</h6>
+<p>The server-generated function and hydration system existed for the initial SSR. With the addition of <em>server components</em>, the efficiencies in these methods now extend to the lifecycle of the page. This system is not a <em>two-way binding system</em> as the retrieval is only done once. <em>Two-way bindings</em> often refer to inputs whose value fires updaters when the value of an input changes.</p>
+<p>Events are attached when the custom elements connected callback fires. The compiled implementation finds elements and calls <code>addEventListener</code>. Unlike others, Prism does not do any sort of rerendering to add event listeners. This results in super quick TTI.</p>
+<p>Prism already had small bundle sizes. Without <em>server components</em>, the total uncompressed bundle is <code>17kb</code> and after converting <code>story-preview</code> and <code>story-page</code> for their content to be rendered on the server it comes to <code>16.08kb</code> which is <code>4.76kb</code> after GZIP. The saving of around ~<code>1kb</code> is around removing server loading logic and (some) of the render methods for the components. The bundle could be ~25% less if Prism could tree-shake the reactivity logic and minify identifiers.</p>
+<h4 id="some-other-features-prism-with-its-hydration-implementation-(called-jit-hydration)" tabindex="-1">Some other features Prism with its hydration implementation (called JIT hydration)</h4>
+<ul>
+<li>Getting values from the client is lazy. The get logic is only called when the value is evaluated.</li>
+<li>Getting values on the client is done on a <strong>per-property basis</strong>. <code>title</code> can be in the JS runtime but not <code>time</code>.</li>
+<li>Caches the returned value to not be a call to the DOM every time.</li>
+<li>Even though the DOM is made up of strings, Prism can convert various types. This is why type declarations are required <a href="#foot2">2</a>.</li>
+</ul>
+<h3 id="using-%40renderfromendpoint-has-the-following-benefits" tabindex="-1">Using <code>@RenderFromEndpoint</code> has the following benefits</h3>
+<ul>
+<li>Skipped the parse cycle on the JSON returned from the HN REST API and the runtime creating the nodes on the client which should be a little bit faster.</li>
+<li>Reduced the client logic for getting the data and rendering nodes.</li>
+</ul>
+<h3 id="comparisons" tabindex="-1">Comparisons</h3>
+<h4 id="compared-to-react-server-components" tabindex="-1">Compared to React server components</h4>
+<ul>
+<li>Rendering stateful components (<a href="https://github.com/josephsavona/rfcs/blob/server-components/text/0000-server-components.md#capabilities--constraints-of-server-and-client-components">RSC does not allow for stateful components</a>)</li>
+<li>Significantly smaller JS size. React starts at <code>133kb</code> uncompressed, Prism starts at <code>2kb</code> of JS</li>
+<li>Does not require JS on the backend (see <a href="#frontend-frameworks-on-the-backend">next section</a>)</li>
+</ul>
+<p>One thing I will give React server components is the ability to write <a href="https://github.com/reactjs/server-components-demo/blob/3a505efea0b1191496a832e23f3de46a0db69915/src/NoteList.server.js#L20">backend logic in line with the server components</a> which is kinda neat.</p>
+<h4 id="compared-to-hotwire" tabindex="-1">Compared to Hotwire</h4>
+<ul>
+<li>Prism defaults to client rendering. Hotwire has no client rendering implementation,</li>
+<li>Significantly smaller JS size. Stimulus is <code>77.4kb</code> and Turbo is <code>80.4kb</code>.</li>
+<li>Smaller response payloads. Stimulus attribute-based logic is sent down on every response. On the other hand, Prism compiles logic into the JS bundle so the logic size is constant and can cached between requests.</li>
+<li>Stimulus <a href="https://stimulus.hotwire.dev/handbook/managing-state#reading-initial-state-from-the-dom">seems to suffer from the double data problem with its <code>data-*-value</code> attributes</a>.</li>
+</ul>
+<h4 id="json-vs-html" tabindex="-1">On JSON vs HTML</h4>
+<p>So the good thing about sending HTML down is that it can be readily placed into the tree without a transformation step. Comparing the sizes: JSON includes the keys whereas Prism's hydration system encodes the key mapping into the hydration code generation, which is constant for any incoming data. HTML is a data language although data is nested within a bunch of UI markup. For example, on every <code>story-preview</code> it has to send two buttons for each component although with JSON only the raw data is sent and the buttons are added via constant bundle code.</p>
+<p>Looking at HN front page the average JSON size for <code>story-preview</code>s was around <code>220bytes</code> whereas the average inner HTML size was around <code>600bytes</code>. Thus making HTML around <code>2.5x</code> larger than its equivalent JSON representation.</p>
+<p>The figures are a little skewed against HTML as Prism includes identifier classes, which could be reduced if Prism moved to an <a href="https://github.com/kaleidawave/prism/issues/31">index-based element lookup system</a>. The size factor varies between components depending on how much of the template is made of data compared to static markup. There is also the fact some of the literal expressions cannot be reversed so a little bit of extra data is added <a href="#foot3">3</a>. These figures are ignoring compression which may have a disproportionate effect between the formats and may close the size gap. But both formats aren't great data formats for small efficient data flow. <em>Inspired by <a href="https://serde.rs/">serde</a></em>, I have some opinions on how compilers and strong types could be used for making more efficient serialization and deserialization.</p>
+<h4 id="jit-vs-partial" tabindex="-1">On JIT hydration vs Partial hydration</h4>
+<p>One improvement to <em>full</em> hydration is techniques partial and progressive hydration. Partial hydration seems to benefit render-to-hydrate frameworks (which Prism isn't) by rerendering only <em>islands</em> (rather than the whole page) to add interaction. Partial hydration is difficult to implement though as it is difficult to know what portions are interactive and stateful. And although <em>static</em> regions are now ignored <em>dynamic</em> regions still suffer from the double data and rerender issue. In this case for HN Prism this means the biggest components <code>story-preview</code> and <code>story-page</code> aren't any more optimized.</p>
+<p>Progressive hydration is incrementally making portions interactive rather than waiting for everything to be processed before event listeners are added.</p>
+<p>However in Prism whether a component is stateful or not it still doesn't send a JSON blob or <em>rerender</em>. The state is ultra partial and progressive considering properties are only retrieved when they are being evaluated and only the single property of that object is <em>hydrated</em> in. <em>I think its reversible hydration system and the code generation around the data is the only way to solve the double data problem for stateful components</em>.</p>
+<h3 id="frontend-frameworks-on-the-backend" tabindex="-1">Frontend frameworks on the backend</h3>
+<p>One of the arguments behind Hotwire is that its system <em>works</em> for server-rendered sites built in languages other than JS. This is generally a problem with all front-end frameworks. React, Vue, Angular and Svelte all have some API to render their templates to a string <strong>but</strong> they are all restricted to the JS language. This is a big gap as there are lots of other backend frameworks and tools for languages not in JS.</p>
+<p><strong>So for Prism, I added the ability to target Rust for its server-side rendering output</strong>. The HN demo is written as Rust + <code>actix-web</code> server. Speed was a focus for this site which is why <a href="https://www.techempower.com/benchmarks/#section=data-r20&amp;hw=ph&amp;test=fortune">ActixWeb was chosen as it is one of the fastest backend frameworks</a>. The deserializing from the HN REST API is done with <a href="https://serde.rs/">Serde</a> which is renowned for its speed. And of course, the compiler-based GC heavily optimized Rust language base is key to these results. <a href="https://medium.com/@maxsparr0w/performance-of-node-js-compared-to-actix-web-37f20810fb1a">Comparing ActixWeb against Express</a>, Actix excels in the server framework benchmark. The biggest standout of this article though is that Actix is 6x more efficient than nodejs. This is great for lowering server running costs and most importantly a sixth of the electricity 🌲🌳. Additionally, Prism server-side rendering is also available for nodejs and Deno.</p>
+<p>For those building a Rust REST backend to a client-side rendered site, it means you can add SSR to it without having to deal with both a node and a Rust server and communication between the two.</p>
+<p>Yep, that's right Rust <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.8346 11.7033l-1.0073-.6236a13.7268 13.7268 0 00-.0283-.2936l.8656-.8069a.3483.3483 0 00-.1154-.578l-1.1066-.414a8.4958 8.4958 0 00-.087-.2856l.6904-.9587a.3462.3462 0 00-.2257-.5446l-1.1663-.1894a9.3574 9.3574 0 00-.1407-.2622l.49-1.0761a.3437.3437 0 00-.0274-.3361.3486.3486 0 00-.3006-.154l-1.1845.0416a6.7444 6.7444 0 00-.1873-.2268l.2723-1.153a.3472.3472 0 00-.417-.4172l-1.1532.2724a14.0183 14.0183 0 00-.2278-.1873l.0415-1.1845a.3442.3442 0 00-.49-.328l-1.076.491c-.0872-.0476-.1742-.0952-.2623-.1407l-.1903-1.1673A.3483.3483 0 0016.256.955l-.9597.6905a8.4867 8.4867 0 00-.2855-.086l-.414-1.1066a.3483.3483 0 00-.5781-.1154l-.8069.8666a9.2936 9.2936 0 00-.2936-.0284L12.2946.1683a.3462.3462 0 00-.5892 0l-.6236 1.0073a13.7383 13.7383 0 00-.2936.0284L9.9803.3374a.3462.3462 0 00-.578.1154l-.4141 1.1065c-.0962.0274-.1903.0567-.2855.086L7.744.955a.3483.3483 0 00-.5447.2258L7.009 2.348a9.3574 9.3574 0 00-.2622.1407l-1.0762-.491a.3462.3462 0 00-.49.328l.0416 1.1845a7.9826 7.9826 0 00-.2278.1873L3.8413 3.425a.3472.3472 0 00-.4171.4171l.2713 1.1531c-.0628.075-.1255.1509-.1863.2268l-1.1845-.0415a.3462.3462 0 00-.328.49l.491 1.0761a9.167 9.167 0 00-.1407.2622l-1.1662.1894a.3483.3483 0 00-.2258.5446l.6904.9587a13.303 13.303 0 00-.087.2855l-1.1065.414a.3483.3483 0 00-.1155.5781l.8656.807a9.2936 9.2936 0 00-.0283.2935l-1.0073.6236a.3442.3442 0 000 .5892l1.0073.6236c.008.0982.0182.1964.0283.2936l-.8656.8079a.3462.3462 0 00.1155.578l1.1065.4141c.0273.0962.0567.1914.087.2855l-.6904.9587a.3452.3452 0 00.2268.5447l1.1662.1893c.0456.088.0922.1751.1408.2622l-.491 1.0762a.3462.3462 0 00.328.49l1.1834-.0415c.0618.0769.1235.1528.1873.2277l-.2713 1.1541a.3462.3462 0 00.4171.4161l1.153-.2713c.075.0638.151.1255.2279.1863l-.0415 1.1845a.3442.3442 0 00.49.327l1.0761-.49c.087.0486.1741.0951.2622.1407l.1903 1.1662a.3483.3483 0 00.5447.2268l.9587-.6904a9.299 9.299 0 00.2855.087l.414 1.1066a.3452.3452 0 00.5781.1154l.8079-.8656c.0972.0111.1954.0203.2936.0294l.6236 1.0073a.3472.3472 0 00.5892 0l.6236-1.0073c.0982-.0091.1964-.0183.2936-.0294l.8069.8656a.3483.3483 0 00.578-.1154l.4141-1.1066a8.4626 8.4626 0 00.2855-.087l.9587.6904a.3452.3452 0 00.5447-.2268l.1903-1.1662c.088-.0456.1751-.0931.2622-.1407l1.0762.49a.3472.3472 0 00.49-.327l-.0415-1.1845a6.7267 6.7267 0 00.2267-.1863l1.1531.2713a.3472.3472 0 00.4171-.416l-.2713-1.1542c.0628-.0749.1255-.1508.1863-.2278l1.1845.0415a.3442.3442 0 00.328-.49l-.49-1.076c.0475-.0872.0951-.1742.1407-.2623l1.1662-.1893a.3483.3483 0 00.2258-.5447l-.6904-.9587.087-.2855 1.1066-.414a.3462.3462 0 00.1154-.5781l-.8656-.8079c.0101-.0972.0202-.1954.0283-.2936l1.0073-.6236a.3442.3442 0 000-.5892zm-6.7413 8.3551a.7138.7138 0 01.2986-1.396.714.714 0 11-.2997 1.396zm-.3422-2.3142a.649.649 0 00-.7715.5l-.3573 1.6685c-1.1035.501-2.3285.7795-3.6193.7795a8.7368 8.7368 0 01-3.6951-.814l-.3574-1.6684a.648.648 0 00-.7714-.499l-1.473.3158a8.7216 8.7216 0 01-.7613-.898h7.1676c.081 0 .1356-.0141.1356-.088v-2.536c0-.074-.0536-.0881-.1356-.0881h-2.0966v-1.6077h2.2677c.2065 0 1.1065.0587 1.394 1.2088.0901.3533.2875 1.5044.4232 1.8729.1346.413.6833 1.2381 1.2685 1.2381h3.5716a.7492.7492 0 00.1296-.0131 8.7874 8.7874 0 01-.8119.9526zM6.8369 20.024a.714.714 0 11-.2997-1.396.714.714 0 01.2997 1.396zM4.1177 8.9972a.7137.7137 0 11-1.304.5791.7137.7137 0 011.304-.579zm-.8352 1.9813l1.5347-.6824a.65.65 0 00.33-.8585l-.3158-.7147h1.2432v5.6025H3.5669a8.7753 8.7753 0 01-.2834-3.348zm6.7343-.5437V8.7836h2.9601c.153 0 1.0792.1772 1.0792.8697 0 .575-.7107.7815-1.2948.7815zm10.7574 1.4862c0 .2187-.008.4363-.0243.651h-.9c-.09 0-.1265.0586-.1265.1477v.413c0 .973-.5487 1.1846-1.0296 1.2382-.4576.0517-.9648-.1913-1.0275-.4717-.2704-1.5186-.7198-1.8436-1.4305-2.4034.8817-.5599 1.799-1.386 1.799-2.4915 0-1.1936-.819-1.9458-1.3769-2.3153-.7825-.5163-1.6491-.6195-1.883-.6195H5.4682a8.7651 8.7651 0 014.907-2.7699l1.0974 1.151a.648.648 0 00.9182.0213l1.227-1.1743a8.7753 8.7753 0 016.0044 4.2762l-.8403 1.8982a.652.652 0 00.33.8585l1.6178.7188c.0283.2875.0425.577.0425.8717zm-9.3006-9.5993a.7128.7128 0 11.984 1.0316.7137.7137 0 01-.984-1.0316zm8.3389 6.71a.7107.7107 0 01.9395-.3625.7137.7137 0 11-.9405.3635z"></path></svg> server-side rendered web components, never thought you'd see those words together.</p>
+<p>All that is required to render a Prism component/page is to wire up the generated method to an endpoint:</p>
+<pre><code data-highlight="1,9" class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// Import Prism generated method:</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">templates</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">story_page_prism</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">render_story_page_page;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">#[get(</span><span style="color: #A5D6FF">"/i/{storyID}"</span><span style="color: #C9D1D9">)]</span></span>
+<span class="line"><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">story_page</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">web</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">Path</span><span style="color: #C9D1D9">((story_id,))</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">web</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Path</span><span style="color: #C9D1D9">&lt;(</span><span style="color: #FFA657">i32</span><span style="color: #C9D1D9">,)&gt;) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HttpResponse</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">api</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">items</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">get_story</span><span style="color: #C9D1D9">(story_id)</span><span style="color: #FF7B72">.await</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">(post) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> result {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">HttpResponse</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">content_type</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"text/html"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">body</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">render_story_page_page</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">post))</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">HttpResponse</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">InternalServerError</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">finish</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// Import Prism generated method:</span></span>
+<span class="line"><span style="color: #CF222E">use</span><span style="color: #24292F"> </span><span style="color: #953800">templates</span><span style="color: #CF222E">::</span><span style="color: #953800">story_page_prism</span><span style="color: #CF222E">::</span><span style="color: #24292F">render_story_page_page;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">#[get(</span><span style="color: #0A3069">"/i/{storyID}"</span><span style="color: #24292F">)]</span></span>
+<span class="line"><span style="color: #CF222E">async</span><span style="color: #24292F"> </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">story_page</span><span style="color: #24292F">(</span><span style="color: #953800">web</span><span style="color: #CF222E">::</span><span style="color: #8250DF">Path</span><span style="color: #24292F">((story_id,))</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">web</span><span style="color: #CF222E">::</span><span style="color: #953800">Path</span><span style="color: #24292F">&lt;(</span><span style="color: #953800">i32</span><span style="color: #24292F">,)&gt;) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">HttpResponse</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> result </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">api</span><span style="color: #CF222E">::</span><span style="color: #953800">items</span><span style="color: #CF222E">::</span><span style="color: #8250DF">get_story</span><span style="color: #24292F">(story_id)</span><span style="color: #CF222E">.await</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">if</span><span style="color: #24292F"> </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #953800">Ok</span><span style="color: #24292F">(post) </span><span style="color: #CF222E">=</span><span style="color: #24292F"> result {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">HttpResponse</span><span style="color: #CF222E">::</span><span style="color: #953800">Ok</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">.</span><span style="color: #8250DF">content_type</span><span style="color: #24292F">(</span><span style="color: #0A3069">"text/html"</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">.</span><span style="color: #8250DF">body</span><span style="color: #24292F">(</span><span style="color: #8250DF">render_story_page_page</span><span style="color: #24292F">(</span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">post))</span></span>
+<span class="line"><span style="color: #24292F">    } </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">HttpResponse</span><span style="color: #CF222E">::</span><span style="color: #8250DF">InternalServerError</span><span style="color: #24292F">()</span><span style="color: #CF222E">.</span><span style="color: #8250DF">finish</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The fact that React server components were restricted to a node backend was discussed in the <a href="https://github.com/reactjs/rfcs/pull/188">comments of the RFC</a>. Without embedding v8 and making calls it looks pretty distant that React SSR could be fully functioning on non-js backends. The difficulty with embedding v8 is that you lose strong typing from Typescript.</p>
+<p>I should also mention WASM and Rust-based "frontend-frameworks" <a href="https://yew.rs/">yew</a>, <a href="https://github.com/chinedufn/percy">percy</a> &amp; <a href="https://github.com/seed-rs/seed">seed</a> here. They look very interesting, make effective use of procedural macros, have Rust SSR support and are the first real way to write DOM-based client-side code in a different language to JavaScript (other than languages that compile to JavaScript). However, WASM has a few disadvantages for the client-side apps. Firstly the size of the WASM bytecode seems to be larger than if the logic was written in JS. I don't quite know the specifics of WASM bytecode but from machine bytecode know that things like generic implementations, bundling standard library and inlining bumps up the size. All of which serving JS doesn't suffer from. Yew states that its example  bundle is ~<code>100kb</code> which is similar in size to React which isn't great for slower connections. Also, the component sizes are likely to be larger than if they were written in JS. Yes, their bundle is faster to parse and compile but TTI is hampered from loading over the network. Secondly, they seem to use VDOM and diffing (rather than a compiled reactivity approach) so while being close to the metal they still generally do more computation vs direct compiled setters. That also means they probably suffer from the double data issues that Prism escapes. Also, the fact that WASM can't call arbitrary JS methods and instead has to be passed them. So fetching etc still requires writing JS and passing references to the instance. Cool at the moment for canvas rendering etc but generally not the silver bullet for JS-based frontend frameworks.</p>
+<p>For Prism the most promising feature with WASM is the available runners. If Prism could compile SSR functions for WASM then it could be used with the <a href="https://github.com/wasmerio/wasmer-python">Python runner</a> and wouldn't have separate compiler outputs. Untested but I think Prism's <a href="https://avacariu.me/writing/2014/calling-rust-from-python">rust output as binary could be called from the Python runtime</a> or any other language that can call C-like code.</p>
+<h3 id="reflection-on-prism" tabindex="-1">Reflection on Prism</h3>
+<p>With Prism I took a lot of the problems around frontend frameworks today into account with the design. I hope I at least made a dent in some of these issues:</p>
+<ul>
+<li>Double data from SSR</li>
+<li>SSR in languages other than JavaScript (in this case Rust)</li>
+<li>The large size from a frameworks runtime</li>
+</ul>
+<p>At this point, it seems necessary to mention why frameworks? and why plain JS or no build step is insufficient in many cases for production sites.</p>
+<h3 id="why-frameworks" tabindex="-1">Why frameworks?</h3>
+<p>Frameworks generally implement a single declarative way to mark that this variable/data/state is interpolated here. Reactivity mechanisms ensure that the view is always up to date with the current value of the variable/data/state. Generally HTML doesn't have a way to express a binding with JS. So updating the view is done imperatively:</p>
+<pre><code data-highlight="7,18" class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">customElements.</span><span style="color: #D2A8FF">define</span><span style="color: #C9D1D9">(</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"counter-component"</span><span style="color: #C9D1D9">, </span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">HTMLElement</span><span style="color: #C9D1D9"> { </span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">counter</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; </span></span>
+<span class="line"><span style="color: #C9D1D9">        </span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">connectedCallback</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">h1</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> document.</span><span style="color: #D2A8FF">createElement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"h1"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            h1.innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.counter;</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">button</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> document.</span><span style="color: #D2A8FF">createElement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"button"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            button.innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"+"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">            button.</span><span style="color: #D2A8FF">addEventListener</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"click"</span><span style="color: #C9D1D9">, () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">incrementCounter</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">            });</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(h1, button);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">incrementCounter</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.counter </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">querySelector</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"h1"</span><span style="color: #C9D1D9">).innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.counter;</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">counterComponent</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> document.</span><span style="color: #D2A8FF">createElement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"counter-component"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">document.body.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(counterComponent);</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">customElements.</span><span style="color: #8250DF">define</span><span style="color: #24292F">(</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0A3069">"counter-component"</span><span style="color: #24292F">, </span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">class</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">HTMLElement</span><span style="color: #24292F"> { </span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">counter</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">0</span><span style="color: #24292F">; </span></span>
+<span class="line"><span style="color: #24292F">        </span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">connectedCallback</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">h1</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> document.</span><span style="color: #8250DF">createElement</span><span style="color: #24292F">(</span><span style="color: #0A3069">"h1"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">            h1.innerHTML </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">this</span><span style="color: #24292F">.counter;</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">button</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> document.</span><span style="color: #8250DF">createElement</span><span style="color: #24292F">(</span><span style="color: #0A3069">"button"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">            button.innerHTML </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"+"</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">            button.</span><span style="color: #8250DF">addEventListener</span><span style="color: #24292F">(</span><span style="color: #0A3069">"click"</span><span style="color: #24292F">, () </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">incrementCounter</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">            });</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">append</span><span style="color: #24292F">(h1, button);</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">        </span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">incrementCounter</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">this</span><span style="color: #24292F">.counter </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">"h1"</span><span style="color: #24292F">).innerHTML </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">this</span><span style="color: #24292F">.counter;</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">counterComponent</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> document.</span><span style="color: #8250DF">createElement</span><span style="color: #24292F">(</span><span style="color: #0A3069">"counter-component"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">document.body.</span><span style="color: #8250DF">append</span><span style="color: #24292F">(counterComponent);</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>(excludes cleanup)</p>
+</h6>
+<p>Here the interpolation of <code>this.counter</code> is done imperatively and due to this, it requires writing the interpolation logic twice. Writing twice is a little time-consuming but the worst effect is that the logic is split up. If the first part is modified for example <code>h1</code> tag is changed to <code>h5</code> then the second part is broken and it's not clear for a linter to pick this up. The <em>desync</em> issue here is manageable but when you have lots of components with lots of interpolation spread across a large project with lots of contributors it gets difficult to manage. There is also the fact that the imperative calls are quite distant from the declarative design of the HTML language and reading &amp; processing the above is more difficult. However, the lack of interpolation synchronization only gets worse...</p>
+<h4 id="ssr" tabindex="-1">Universality/SSR</h4>
+<p>The reactivity issue is further amplified when work is shared between the client and server. For this example, a <em>"post"</em> is sent down with some interpolated data.</p>
+<p><code>server.js</code>:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">res.</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`</span></span>
+<span class="line"><span style="color: #A5D6FF">    &lt;h1&gt;${</span><span style="color: #C9D1D9">postTitle</span><span style="color: #A5D6FF">}&lt;/h1&gt;</span></span>
+<span class="line"><span style="color: #A5D6FF">    &lt;button id="upvote-button"&gt;Upvote post&lt;/button&gt;</span></span>
+<span class="line"><span style="color: #A5D6FF">    &lt;span id="upvotes"&gt;${</span><span style="color: #C9D1D9">upvotes</span><span style="color: #A5D6FF">}&lt;/span&gt;</span></span>
+<span class="line"><span style="color: #A5D6FF">`</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">res.</span><span style="color: #8250DF">send</span><span style="color: #24292F">(</span><span style="color: #0A3069">`</span></span>
+<span class="line"><span style="color: #0A3069">    &lt;h1&gt;${</span><span style="color: #24292F">postTitle</span><span style="color: #0A3069">}&lt;/h1&gt;</span></span>
+<span class="line"><span style="color: #0A3069">    &lt;button id="upvote-button"&gt;Upvote post&lt;/button&gt;</span></span>
+<span class="line"><span style="color: #0A3069">    &lt;span id="upvotes"&gt;${</span><span style="color: #24292F">upvotes</span><span style="color: #0A3069">}&lt;/span&gt;</span></span>
+<span class="line"><span style="color: #0A3069">`</span><span style="color: #24292F">);</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>And after some action on the front-end incrementing <code>this.upvotes</code>. Updating the text of the span is done with:</p>
+<p><code>client.js</code>:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">document.</span><span style="color: #D2A8FF">querySelector</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"span#upvotes"</span><span style="color: #C9D1D9">).innerText </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.upvotes </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">document.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">"span#upvotes"</span><span style="color: #24292F">).innerText </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">this</span><span style="color: #24292F">.upvotes </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>This is not great because there is a loose reference to <code>span#upvotes</code>. The server response may be changed to use <code>p</code> instead of a <code>span</code> and now the <code>querySelector</code> call returns null. It is not easy to find the issue and often ends up in a "spot the difference" or "where's Wally" scenario across separate files. I have found this on large projects where I go to change or add a button and now have to find out what code was relying on that button and what that affects. This problem is amplified when there are tens of pages and hundreds of places where things are interpolated and events are connected.</p>
+<h5 id="checking" tabindex="-1">Checking</h5>
+<p>There is also the fact that the above server code is a raw string literal. It does not check if it is valid HTML at compile time (some templating languages may do, not quite sure) so I have often lost time after writing something like <code>&lt;h1 ${someX}&lt;/h1&gt;</code>. With Prism it will always concatenate to valid HTML and as a compiler, it also catches syntax errors when parsing templates. The Svelte framework takes this checking a step further linting the template with rules to ensure accessible HTML. This is only really possible with the template DSL of Svelte as a template literal can still be valid without knowing what is interpolated.</p>
+<p>The other thing Prism does is add the <code>disabled</code> attribute to buttons with events which it then removes on adding event listeners. Also, the above snippet is susceptible to XSS scripting attacks. Prism (and other template languages) wrap all interpolations in escape-safe calls. The other thing is Prism auto generates non-clashing identifiers. The incrementing example above would break if I added a new element on the page with an identifier <code>#upvotes</code>.</p>
+<h5 id="lists" tabindex="-1">Lists</h5>
+<p>With lists, you may want to render the first 10 items in the server responses and later add more in an infinite style way (the same way Twitter and Instagram feeds work). So on the server, I may write a function that renders an element of a list:</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">renderListItemToString</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">item</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">IPost</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> { .. }</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">renderListItemToString</span><span style="color: #24292F">(</span><span style="color: #953800">item</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">IPost</span><span style="color: #24292F">)</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> { .. }</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>However now on the client if I wanted to append a new item the <code>renderListItemToString</code> is only available on the backend (not the frontend). With a framework that has or compiles multiple functions depending on runtime the same list item elements can be generated on both the frontend and backend. I guess this is an advantage of server components and Turbo where the frontend function is an alias for calling the same function on the backend under the same source.</p>
+<h4 id="single-source" tabindex="-1">Single source</h4>
+<p>So frameworks implement some sort of single source. For example in Prism:</p>
+<pre><code class="language-html"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9">&gt;{postTitle}&lt;/</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@click</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"upvotePost"</span><span style="color: #C9D1D9">&gt;Upvote post&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;{upvotes}&lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    public </span><span style="color: #FF7B72">interface</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PostData</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">postTitle</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">, </span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">upvotes</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #D2A8FF">WithCapacity</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">100</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Post</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Component</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">PostData</span><span style="color: #C9D1D9">&gt; {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">upvotePost</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.data.upvotes </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">h1</span><span style="color: #24292F">&gt;{postTitle}&lt;/</span><span style="color: #116329">h1</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">button</span><span style="color: #24292F"> </span><span style="color: #0550AE">@click</span><span style="color: #24292F">=</span><span style="color: #0A3069">"upvotePost"</span><span style="color: #24292F">&gt;Upvote post&lt;/</span><span style="color: #116329">button</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    &lt;</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;{upvotes}&lt;/</span><span style="color: #116329">span</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">script</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    public </span><span style="color: #CF222E">interface</span><span style="color: #24292F"> </span><span style="color: #953800">PostData</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">postTitle</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">, </span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">upvotes</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    @</span><span style="color: #8250DF">WithCapacity</span><span style="color: #24292F">(</span><span style="color: #0550AE">100</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">class</span><span style="color: #24292F"> </span><span style="color: #953800">Post</span><span style="color: #24292F"> </span><span style="color: #CF222E">extends</span><span style="color: #24292F"> </span><span style="color: #0550AE">Component</span><span style="color: #24292F">&lt;</span><span style="color: #953800">PostData</span><span style="color: #24292F">&gt; {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">upvotePost</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">this</span><span style="color: #24292F">.data.upvotes </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">script</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The template is declarative. It abstracts on the imperative <code>document.createElement</code> and <code>attachEventListener</code> calls. The template is much more akin to HTML and understanding the structure of this component is more accessible. The span &lt;-&gt; <code>upvotes</code> binding is only written once. And so if <code>span</code> was changed to <code>p</code> there are no other handwritten references of this binding and compiling would take care of updating all references to span with references to the <code>p</code> element. For full reactivity and JIT hydration, Prism will take the single source and generate different code to handle for each case. These would be tricky to manage if written manually. For example, the upvotes binding eventually ends up in four places:</p>
+<p><code>client.js</code>:</p>
+<pre><code data-highlight="2,8,9" class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// Initial render</span></span>
+<span class="line"><span style="color: #D2A8FF">render</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(.., </span><span style="color: #D2A8FF">h</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"span"</span><span style="color: #C9D1D9">, {class: </span><span style="color: #A5D6FF">"p120"</span><span style="color: #C9D1D9">}, </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.data.upvotes))</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #8B949E">// Reactive bindings</span></span>
+<span class="line"><span style="color: #C9D1D9">bindings </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    ..</span></span>
+<span class="line"><span style="color: #C9D1D9">    upvotes: {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">() { </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">parseInt</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">getElem</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"p120"</span><span style="color: #C9D1D9">).innerHTML); },</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">set</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">) { </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">getElem</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"p120"</span><span style="color: #C9D1D9">).innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> value; },</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// Initial render</span></span>
+<span class="line"><span style="color: #8250DF">render</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">append</span><span style="color: #24292F">(.., </span><span style="color: #8250DF">h</span><span style="color: #24292F">(</span><span style="color: #0A3069">"span"</span><span style="color: #24292F">, {class: </span><span style="color: #0A3069">"p120"</span><span style="color: #24292F">}, </span><span style="color: #0550AE">0</span><span style="color: #24292F">, </span><span style="color: #0550AE">this</span><span style="color: #24292F">.data.upvotes))</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"><span style="color: #6E7781">// Reactive bindings</span></span>
+<span class="line"><span style="color: #24292F">bindings </span><span style="color: #CF222E">=</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    ..</span></span>
+<span class="line"><span style="color: #24292F">    upvotes: {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">get</span><span style="color: #24292F">() { </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0550AE">parseInt</span><span style="color: #24292F">(</span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">getElem</span><span style="color: #24292F">(</span><span style="color: #0A3069">"p120"</span><span style="color: #24292F">).innerHTML); },</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #8250DF">set</span><span style="color: #24292F">(</span><span style="color: #953800">value</span><span style="color: #24292F">) { </span><span style="color: #0550AE">this</span><span style="color: #24292F">.</span><span style="color: #8250DF">getElem</span><span style="color: #24292F">(</span><span style="color: #0A3069">"p120"</span><span style="color: #24292F">).innerHTML </span><span style="color: #CF222E">=</span><span style="color: #24292F"> value; },</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><code>server.rs</code>:</p>
+<pre><code data-highlight="8" class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PostData</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    postTitle</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">, </span></span>
+<span class="line"><span style="color: #C9D1D9">    upvotes</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">f64</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">render_post</span><span style="color: #C9D1D9">(post</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">IPost</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> acc </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">from_capacity</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">100</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">..</span></span>
+<span class="line"><span style="color: #C9D1D9">    acc</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">push_str</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9">data</span><span style="color: #FF7B72">.</span><span style="color: #C9D1D9">upvotes</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">to_string</span><span style="color: #C9D1D9">());</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">..</span></span>
+<span class="line"><span style="color: #C9D1D9">    acc;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">struct</span><span style="color: #24292F"> </span><span style="color: #953800">PostData</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    postTitle</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F">, </span></span>
+<span class="line"><span style="color: #24292F">    upvotes</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">f64</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">render_post</span><span style="color: #24292F">(post</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">IPost</span><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> </span><span style="color: #CF222E">mut</span><span style="color: #24292F"> acc </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #CF222E">::</span><span style="color: #8250DF">from_capacity</span><span style="color: #24292F">(</span><span style="color: #0550AE">100</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">..</span></span>
+<span class="line"><span style="color: #24292F">    acc</span><span style="color: #CF222E">.</span><span style="color: #8250DF">push_str</span><span style="color: #24292F">(</span><span style="color: #CF222E">&amp;</span><span style="color: #24292F">data</span><span style="color: #CF222E">.</span><span style="color: #24292F">upvotes</span><span style="color: #CF222E">.</span><span style="color: #8250DF">to_string</span><span style="color: #24292F">());</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">..</span></span>
+<span class="line"><span style="color: #24292F">    acc;</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>In terms of doing this, getting the biggest abstraction at a low cost requires a build step to do static analysis on ASTs and do specific code generation.</p>
+<p>The other benefit of Prism, Svelte and Vue is that they use single-file components. These allow you to write CSS in the same file as the components.</p>
+<pre><code class="language-html"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;..&lt;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">&gt;..&lt;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;</span><span style="color: #7EE787">style</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #7EE787">div</span><span style="color: #79C0FF">.container</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">width</span><span style="color: #C9D1D9">: </span><span style="color: #79C0FF">80</span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">h</span><span style="color: #C9D1D9">1 {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">color</span><span style="color: #C9D1D9">: </span><span style="color: #79C0FF">red</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">&lt;/</span><span style="color: #7EE787">style</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;..&lt;/</span><span style="color: #116329">template</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">script</span><span style="color: #24292F">&gt;..&lt;/</span><span style="color: #116329">script</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">&lt;</span><span style="color: #116329">style</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #116329">div</span><span style="color: #0550AE">.container</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0550AE">width</span><span style="color: #24292F">: </span><span style="color: #0550AE">80</span><span style="color: #CF222E">%</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0550AE">h</span><span style="color: #24292F">1 {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #0550AE">color</span><span style="color: #24292F">: </span><span style="color: #0550AE">red</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">&lt;/</span><span style="color: #116329">style</span><span style="color: #24292F">&gt;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>There are many benefits in readability in having CSS alongside the components. Prism and others also automatically scope classes so that other <code>div.container</code>s are not affected outside of the component</p>
+</h6>
+<h2 id="other-prism-changes" tabindex="-1">Other Prism changes</h2>
+<h3 id="observable-date-instances" tabindex="-1">Observable Date instances</h3>
+<p>One design of Prism is to effectively act as if the DOM was a result of a <em>getter</em> and the view should always be 1:1 to the value of the evaluated getter</p>
+<pre><code class="language-js"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">MyComponent</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">date</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Date</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">get</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">content</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`&lt;h5&gt;${</span><span style="color: #D2A8FF">formatDate</span><span style="color: #A5D6FF">(</span><span style="color: #79C0FF">this</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">data</span><span style="color: #A5D6FF">)</span><span style="color: #A5D6FF">}&lt;/h5&gt;`</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">addMinuteToDate</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.date.</span><span style="color: #D2A8FF">setMinute</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.date.</span><span style="color: #D2A8FF">getMinute</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">class</span><span style="color: #24292F"> </span><span style="color: #953800">MyComponent</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">date</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">new</span><span style="color: #24292F"> </span><span style="color: #0550AE">Date</span><span style="color: #24292F">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">get</span><span style="color: #24292F"> </span><span style="color: #8250DF">content</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0A3069">`&lt;h5&gt;${</span><span style="color: #8250DF">formatDate</span><span style="color: #0A3069">(</span><span style="color: #0550AE">this</span><span style="color: #0A3069">.</span><span style="color: #24292F">data</span><span style="color: #0A3069">)</span><span style="color: #0A3069">}&lt;/h5&gt;`</span></span>
+<span class="line"><span style="color: #24292F">    } </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #8250DF">addMinuteToDate</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #0550AE">this</span><span style="color: #24292F">.date.</span><span style="color: #8250DF">setMinute</span><span style="color: #24292F">(</span><span style="color: #0550AE">this</span><span style="color: #24292F">.date.</span><span style="color: #8250DF">getMinute</span><span style="color: #24292F">() </span><span style="color: #CF222E">+</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Frameworks have something where you tell it to update with the new state. React's <code>setState</code> is an abstraction over rerendering the DOM as React doesn't have a concept of state. It should be <code>rerenderWithTheseValues</code>. Simply setting a property in a React will not make the view update.</p>
+<p>Svelte is better in that its state updates are triggered around the assignment operator. Which is a step towards more "native" JavaScript. However, there are still issues around internal changes. You cannot use push in Svelte, instead <code>x = [...x, newItem]</code> is required for the compiler to realise an update has happened. This is also the case for the <code>Date</code> instance, calling <code>setMonth</code> etc does not cause the view to be updated. With Prism I wanted to allow internal mutation in the same way JS works. So I implemented this for <code>Date</code>.</p>
+<video src="../../media/demos/date-reactivity-demo.mp4" controls="" title="Date reactivity"></video>
+<p>(<a href="https://github.com/kaleidawave/prism/blob/aa6a4f4e7c755076666efc16a984a663885e1674/src/bundle/observable.ts#L159">just don't look how I implemented this</a>)</p>
+<h3 id="internal-updates" tabindex="-1">Internal updates</h3>
+<p>In Prism 1.5.0 the Rust SSR compilation was improved so the server render functions now append to the same buffer. The buffer can have initial capacity using the new decorator <code>@WithCapacity(x)</code>. Setting the value can improve SSR performance by avoiding reallocations. There are also some unnecessary <code>to_string</code> calls on Strings which have been removed with the help of types.</p>
+<p>Text can now be interpolated when alongside other tags. There are fixes for getting data on nullable nodes and there has been A lot of work behind the scenes to allow for Prism components to be compiled on the browser.</p>
+<h3 id="prism-future" tabindex="-1">Future</h3>
+<p>Prism is not designed to be the next new framework. Instead, it is an implementation in attempting to experiment on improving the implementations of SSR and hydration in current popular frontend frameworks.</p>
+<p>One thing is that it unfortunately has the same name as the syntax highlighting library <a href="https://github.com/PrismJS/prism/">prism.js</a> which may cause some confusion. When I named the framework, "Prism" was meant to depict the single source that is <em>split</em> into various paths (CSR, SSR, bindings, hydration logic, etc). I wasn't aware of <code>prism.js</code> and its prevalence until shortly after releasing it under that name. It also unintentionally has an extremely similar logo to the database ORM <a href="https://github.com/prisma/prisma">prisma</a>. If interest were to pick up then I may make features more reliable and release it under a new name.</p>
+<p>The compiler is a little rough around the edges. It is not intended for production but if you want to try out JIT hydration or Rust compilation you can try the <a href="https://github.com/kaleidawave/prism/blob/main/docs/quickstart.md">quick start</a> or fork the <a href="https://github.com/kaleidawave/hackernews-prism">HN repo</a>.</p>
+<h3 id="footnotes" tabindex="-1">Footnotes 📜</h3>
+<h6 id="foot1">(1)&gt;<p>Render to hydrate</p>
+</h6>
+<p>For event listeners to be added the runtime needs to find the elements first. Many frontend frameworks do this via "rendering" their tree and comparing the result with the markup. Therefore <strong>all</strong> the data is hydrated at the start of page load.</p>
+<h6 id="foot2">(2)&gt;<p>Types</p>
+</h6>
+<p>All values represented in the DOM are strings. <code>innerText</code> is string, <code>getAttribute()</code> returns string. So when getting the value of score from the server-rendered markup it needs to be converted to <code>number</code> instance first. In order to know what instance to convert it to Prism requires to know the type. This is done using a TypeScript generic argument on the class:</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// @useRustStatement #[derive(Clone, Debug, serde::Deserialize)]</span></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">interface</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">IStoryItem</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">id</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">url</span><span style="color: #FF7B72">?:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">by</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #D2A8FF">useRustStatement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`#[serde(default)]`</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">descendants</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">, </span><span style="color: #8B949E">// Number of kids</span></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #D2A8FF">useRustStatement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`#[serde(with = "chrono::serde::ts_seconds")]`</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">time</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Date</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #D2A8FF">useRustStatement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`#[serde(default)]`</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">kids</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Array</span><span style="color: #C9D1D9">&lt;</span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">&gt;,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// This is "type" in the HN API but Rust does not like "type"</span></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #D2A8FF">useRustStatement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">`#[serde(rename(deserialize = "type"))]`</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">storyType</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"job"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"story"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"comment"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"poll"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"pollopt"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">text</span><span style="color: #FF7B72">?:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">title</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">   </span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// @useRustStatement #[derive(Clone, Debug, serde::Deserialize)]</span></span>
+<span class="line"><span style="color: #CF222E">export</span><span style="color: #24292F"> </span><span style="color: #CF222E">interface</span><span style="color: #24292F"> </span><span style="color: #953800">IStoryItem</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">id</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">url</span><span style="color: #CF222E">?:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">by</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    @</span><span style="color: #8250DF">useRustStatement</span><span style="color: #24292F">(</span><span style="color: #0A3069">`#[serde(default)]`</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">descendants</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">, </span><span style="color: #6E7781">// Number of kids</span></span>
+<span class="line"><span style="color: #24292F">    @</span><span style="color: #8250DF">useRustStatement</span><span style="color: #24292F">(</span><span style="color: #0A3069">`#[serde(with = "chrono::serde::ts_seconds")]`</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">time</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">Date</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    @</span><span style="color: #8250DF">useRustStatement</span><span style="color: #24292F">(</span><span style="color: #0A3069">`#[serde(default)]`</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">kids</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">Array</span><span style="color: #24292F">&lt;</span><span style="color: #0550AE">number</span><span style="color: #24292F">&gt;,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// This is "type" in the HN API but Rust does not like "type"</span></span>
+<span class="line"><span style="color: #24292F">    @</span><span style="color: #8250DF">useRustStatement</span><span style="color: #24292F">(</span><span style="color: #0A3069">`#[serde(rename(deserialize = "type"))]`</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">storyType</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0A3069">"job"</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0A3069">"story"</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0A3069">"comment"</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0A3069">"poll"</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0A3069">"pollopt"</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">text</span><span style="color: #CF222E">?:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #953800">title</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">   </span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h6 class="caption"><p>The types are also used to build Rust <code>struct</code> definitions for definite types on their render methods. <code>@useRustStatement</code> allows for adding attributes to the struct members.</p>
+</h6>
+<h6 id="foot3">(3)&gt;<p>Non reversible expressions</p>
+</h6>
+<p>Some expressions cannot be reversed. For example, the <code>date</code> in markup is rendered as a relative string. From <code>"1 day ago"</code> it isn't possible to construct a <code>Date</code> instance of that value as it could be any hour, minute etc of the previous day. There are a possible <code>86400000</code> different <code>Date</code> objects that could have been rendered to say <code>"1 day ago"</code>. Information has been lost in converting it into its formatted string. So instead an ISO string representation of that <code>Date</code> is added as an attribute on one of the elements so the hydration logic can do <code>return new Date(elem.getAttribute())</code>.</p>
+<p>Prism can reverse some expressions e.g. from <code>/i/${id}</code> it produces this expression <code>result.slice(3)</code>. See <a href="https://github.com/kaleidawave/prism/issues/11">this issue</a> for further details.</p>
+<h6 id="foot4">(4)&gt;<p>Streaming</p>
+</h6>
+<p>Currently, the response from SSR is buffered and sent and appended as one. This isn't great as the server could start sending the first part of the markup while it is waiting for the data source to respond. The first thing is that Prism doesn't have a way to mark async data (Svelte has <code>await</code> blocks and <a href="https://markojs.com/">marko</a> has <code>Await</code> elements) that are probably needed to do static analysis. The second is that <a href="https://web.dev/fetch-upload-streaming/">fetch response streaming is not yet stable</a>. Most streaming solutions currently use web sockets. Streaming content on initial page load is a feature by the browser but doing it after the page loads for web components is only possible via <a href="https://jakearchibald.com/2016/fun-hacks-faster-content/">this slight hack</a>. Also, Rust generators (which would be preferred) for the compiled SSR functions <a href="https://github.com/rust-lang/rust/issues/43122">are not yet stable</a>, <em>(although something could be done with closures)</em>. Hacker News is a bad example due to not having a direct request to their database and the latency effects from buffering are visible. Streaming is planned for the future but not available in this release.</p>
+
+</div>
+
+<div class="discussions">
+    <script src="https://giscus.app/client.js" data-repo="kaleidawave/discussions" data-repo-id="R_kgDOIy08KA" data-category="Comments" data-category-id="DIC_kwDOIy08KM4CTpn8" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="">
+            </script>
+</div>
+
+<script defer="">
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+        </div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>

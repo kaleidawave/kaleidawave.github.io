@@ -1,0 +1,1319 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>A preview of Ezno's checker</title>
+
+    <meta name="title" content="A preview of Ezno's checker">
+    <meta property="og:title" content="A preview of Ezno's checker">
+    <meta property="twitter:title" content="A preview of Ezno's checker">
+
+    <meta name="description" content="Try it out today, what it does and more!">
+    <meta property="og:description" content="Try it out today, what it does and more!">
+    <meta property="twitter:description" content="Try it out today, what it does and more!">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banners/a-preview-of-the-checker.png">
+    <meta property="og:image" content="https://kaleidawave.github.io/media/banners/a-preview-of-the-checker.png">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        <div class="width-box">
+            <style>.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post>p,
+.post li,
+.post blockquote {
+    line-height: 1.6em;
+    margin: 6px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+}
+
+.post>*:is(h1, h2, h3, h4, h5) {
+    margin: 12pt 0;
+}
+
+.post img,
+.post video,
+.post pre:not(.shiki) {
+    margin: 20px 0;
+}
+
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
+}
+
+.post img {
+    border-radius: 10px;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    padding: 20px;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math>svg {
+    width: auto;
+    height: 200%;
+    margin: 10px;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post time {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 30px;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6)>code {
+    font-size: 0.8em;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li)>code {
+    padding: 2px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes~* {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+video.small {
+    max-height: 300px !important;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 40px;
+}
+
+.post h1 {
+    font-size: 32px;
+}
+
+.post h2 {
+    font-size: 28px;
+}
+
+.post h3 {
+    font-size: 24px;
+}
+
+.post h4 {
+    font-size: 20px;
+}
+
+.post h5 {
+    font-size: 16px;
+}
+
+.post a.media-container>img {
+    width: 100%;
+}
+
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
+}
+
+.post blockquote>p {
+    margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
+}
+
+.discussions {
+    margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post>p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post table,
+    .post .widget,
+    .post video {
+        width: 100%;
+        height: auto;
+    }
+
+    .post pre {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
+
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        align-self: center;
+        height: auto;
+    }
+
+    .post>img,
+    .post>video,
+    .post table,
+    .post .widget,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 105%;
+        align-self: center;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
+}</style>
+
+<div class="post">
+    <h1 class="title">A preview of Ezno's checker</h1>
+    
+    <time datetime="2023-06-23">
+        Published on Friday 23<sup>rd</sup> June 2023
+        
+    </time>
+    
+    <h2 id="the-big-news" tabindex="-1">The big news</h2>
+<p><a href="https://github.com/kaleidawave/ezno/discussions/21">Ezno's checker has now been open-sourced</a>!</p>
+<!-- You can now try it out through the [Oxc CLI](https://gist.github.com/kaleidawave/5dcb9ec03deef1161ebf0c9d6e4b88d8) or [Oxc playground on the web](https://boshen.github.io/oxc/playground). -->
+<p>This post is an overview of the current status of the project and goes into more detail about its unique approach to type-checking!</p>
+<h3 id="the-aims%2Fdirection-of-the-project" tabindex="-1">The aims/direction of the project</h3>
+<p>Two things:</p>
+<ol>
+<li>It is not aimed at being one-to-one parity with TSC. I made the <a href="/posts/introducing-ezno/#types-and-typescript">point last year</a> that TypeScript's implementation of <code>any</code> (and its other <em>backdoor</em> behaviours) make doing type-based optimisations and complete type safety impossible. <strong>In my opinion, 90% of TSC features' are great, so the aim is to be able to use existing syntax and not to break things in a bad ways</strong>.</li>
+<li>Following on from 1) this is an experimental project. I want to explore new techniques and make previously impossible things possible! Building it from scratch makes it a lot more fun and easier to build for me.</li>
+</ol>
+<p><strong>There is still a lot to do, a lot of JS features are still unimplemented</strong>. I am only human 😀, while I can implement features quickly, some other things will require time (also not to overwhelm myself).</p>
+<h3 id="checking-performance" tabindex="-1">Checking performance</h3>
+<p>Don't want to dwell too much, there are a lot of places where Ezno could be faster I just haven't had the time to improve and the project is not at a stable place to work on optimising current behaviour. However I have seen a few comments that "Ezno does more, so will be slower", so I did some investigating and have some pretty interesting numbers:</p>
+<pre><code class="language-shell"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">Benchmark 1: oxidation-compiler check ./demo.ts</span></span>
+<span class="line"><span style="color: #C9D1D9">  Time (mean ± σ):      48.5 ms ±   1.4 ms    [User: 33.6 ms, System: 15.0 ms]</span></span>
+<span class="line"><span style="color: #C9D1D9">  Range (min … max):    46.6 ms …  55.4 ms    60 runs</span></span>
+<span class="line"><span style="color: #C9D1D9"> </span></span>
+<span class="line"><span style="color: #C9D1D9">Benchmark 2: tsc --pretty demo.ts</span></span>
+<span class="line"><span style="color: #C9D1D9">  Time (mean ± σ):      1.658 s ±  0.165 s    [User: 2.364 s, System: 0.103 s]</span></span>
+<span class="line"><span style="color: #C9D1D9">  Range (min … max):    1.542 s …  2.110 s    10 runs</span></span>
+<span class="line"><span style="color: #C9D1D9"> </span></span>
+<span class="line"><span style="color: #C9D1D9">Summary</span></span>
+<span class="line"><span style="color: #C9D1D9">  oxidation-compiler check ./demo.ts ran</span></span>
+<span class="line"><span style="color: #C9D1D9">   34.21 ± 3.55 </span><span style="color: #79C0FF">times</span><span style="color: #C9D1D9"> faster than tsc --pretty demo.ts</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">Benchmark 1: oxidation-compiler check ./demo.ts</span></span>
+<span class="line"><span style="color: #24292F">  Time (mean ± σ):      48.5 ms ±   1.4 ms    [User: 33.6 ms, System: 15.0 ms]</span></span>
+<span class="line"><span style="color: #24292F">  Range (min … max):    46.6 ms …  55.4 ms    60 runs</span></span>
+<span class="line"><span style="color: #24292F"> </span></span>
+<span class="line"><span style="color: #24292F">Benchmark 2: tsc --pretty demo.ts</span></span>
+<span class="line"><span style="color: #24292F">  Time (mean ± σ):      1.658 s ±  0.165 s    [User: 2.364 s, System: 0.103 s]</span></span>
+<span class="line"><span style="color: #24292F">  Range (min … max):    1.542 s …  2.110 s    10 runs</span></span>
+<span class="line"><span style="color: #24292F"> </span></span>
+<span class="line"><span style="color: #24292F">Summary</span></span>
+<span class="line"><span style="color: #24292F">  oxidation-compiler check ./demo.ts ran</span></span>
+<span class="line"><span style="color: #24292F">   34.21 ± 3.55 </span><span style="color: #0550AE">times</span><span style="color: #24292F"> faster than tsc --pretty demo.ts</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>These are rough benchmarks, so take these numbers with a grain of salt, they could go up or down. You can see the full result in my <a href="https://github.com/kaleidawave/benchmarks/actions/runs/5335620178/attempts/1#summary-14441836482">fancy automated benchmarking repository</a></p>
+<h4 id="stc%3A-speedy-type-checker" tabindex="-1">STC: Speedy type checker</h4>
+<p>Ezno is not the only TS checker written in Rust. <a href="https://github.com/dudykr/stc">STC</a> (which was made public last year) is aimed at following TSC one-to-one, with an aim of improving the type checking time compared to TSC. Similar to Ezno in still being work in progress. Its current results look very impressive, being slightly faster than Ezno with Oxc.</p>
+<pre><code class="language-shell"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">./stc/target/release/stc </span><span style="color: #79C0FF">test</span><span style="color: #C9D1D9"> demo.ts ran</span></span>
+<span class="line"><span style="color: #C9D1D9">    2.72 ± 0.11 </span><span style="color: #79C0FF">times</span><span style="color: #C9D1D9"> faster than oxidation-compiler check ./demo.ts</span></span>
+<span class="line"><span style="color: #C9D1D9">    89.80 ± 3.56 </span><span style="color: #79C0FF">times</span><span style="color: #C9D1D9"> faster than tsc --pretty demo.ts</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">./stc/target/release/stc </span><span style="color: #0550AE">test</span><span style="color: #24292F"> demo.ts ran</span></span>
+<span class="line"><span style="color: #24292F">    2.72 ± 0.11 </span><span style="color: #0550AE">times</span><span style="color: #24292F"> faster than oxidation-compiler check ./demo.ts</span></span>
+<span class="line"><span style="color: #24292F">    89.80 ± 3.56 </span><span style="color: #0550AE">times</span><span style="color: #24292F"> faster than tsc --pretty demo.ts</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h2 id="architecture-of-a-type-checker" tabindex="-1">Architecture of a type checker</h2>
+<p>A compiler is typically a chain of the following processes</p>
+<pre><code><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #c9d1d9">lexing -&gt; parsing -&gt; type synthesis &amp; checking -&gt; output</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292f">lexing -&gt; parsing -&gt; type synthesis &amp; checking -&gt; output</span></span>
+<span class="line"><span style="color: #24292f"></span></span></code></pre></div></code></pre>
+<p>Ezno's current approach type synthesis &amp; checking is a bit different from others, so here is some more insight.</p>
+<h3 id="synthesis%3A-a-bridge-between-the-system-and-the-language" tabindex="-1">Synthesis: a bridge between the system and the language</h3>
+<p>The main <code>ezno-checker</code> system contains high-level memory of the program (it's sort of its heap), it stores all the information about values and structures (encoded as types) and what functions and blocks do (encoded as events). This is all currently done in the <a href="https://github.com/kaleidawave/ezno/tree/main/checker">ezno-checker crate</a>.</p>
+<p><strong>Synthesis on the other hand is taking AST and forming types from it.</strong></p>
+<p>Due to some <a href="https://github.com/kaleidawave/ezno/issues/1">issues with Ezno's own parser</a> and after an offer to help from <a href="https://twitter.com/boshen_c/status/1666633387073761281">Boshen</a> I figured it would be a good idea to make the synthesis work under other AST crates. To do this required some changes to split the checker logic from AST synthesis and the creation of <a href="https://github.com/web-infra-dev/oxc/tree/main/crates/oxc_type_synthesis">a new bridge crate</a> between Oxc AST and Ezno checker.</p>
+<img src="/media/ezno-screenshots/ezno-oxc-crates-diagram.png" alt="Ezno and Oxc crates diagram" class="invertible">
+<p>The bridge crate consists of things like <a href="https://github.com/web-infra-dev/oxc/blob/main/crates/oxc_type_synthesis/src/expressions.rs">code that turns <code>oxc_ast::ast::Expression</code> into a type</a></p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">crate</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">synthesize_expression</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">FSResolver</span><span style="color: #C9D1D9">&gt;(</span></span>
+<span class="line"><span style="color: #C9D1D9">    expr</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #FFA657">ast</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Expression</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    environment</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;mut</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Environment</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    checking_data</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;mut</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">CheckingData</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">&gt;,</span></span>
+<span class="line"><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> instance </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">match</span><span style="color: #C9D1D9"> expr {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">ast</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Expression</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">BooleanLiteral</span><span style="color: #C9D1D9">(boolean) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> checking_data</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">.</span><span style="color: #C9D1D9">types</span></span>
+<span class="line"><span style="color: #C9D1D9">	            </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">new_constant_type</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">ezno_checker</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Constant</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">Boolean</span><span style="color: #C9D1D9">(boolean</span><span style="color: #FF7B72">.</span><span style="color: #C9D1D9">value));</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">ast</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Expression</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">NullLiteral</span><span style="color: #C9D1D9">(_) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #FF7B72">::</span><span style="color: #79C0FF">NULL_TYPE</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">...</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F">(</span><span style="color: #CF222E">crate</span><span style="color: #24292F">) </span><span style="color: #CF222E">fn</span><span style="color: #24292F"> </span><span style="color: #8250DF">synthesize_expression</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">FSResolver</span><span style="color: #24292F">&gt;(</span></span>
+<span class="line"><span style="color: #24292F">    expr</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;</span><span style="color: #953800">ast</span><span style="color: #CF222E">::</span><span style="color: #953800">Expression</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    environment</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;mut</span><span style="color: #24292F"> </span><span style="color: #953800">Environment</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">    checking_data</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #CF222E">&amp;mut</span><span style="color: #24292F"> </span><span style="color: #953800">CheckingData</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #24292F">&gt;,</span></span>
+<span class="line"><span style="color: #24292F">) </span><span style="color: #CF222E">-&gt;</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> instance </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #CF222E">match</span><span style="color: #24292F"> expr {</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">ast</span><span style="color: #CF222E">::</span><span style="color: #953800">Expression</span><span style="color: #CF222E">::</span><span style="color: #8250DF">BooleanLiteral</span><span style="color: #24292F">(boolean) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">            </span><span style="color: #CF222E">return</span><span style="color: #24292F"> checking_data</span></span>
+<span class="line"><span style="color: #24292F">                </span><span style="color: #CF222E">.</span><span style="color: #24292F">types</span></span>
+<span class="line"><span style="color: #24292F">	            </span><span style="color: #CF222E">.</span><span style="color: #8250DF">new_constant_type</span><span style="color: #24292F">(</span><span style="color: #953800">ezno_checker</span><span style="color: #CF222E">::</span><span style="color: #953800">Constant</span><span style="color: #CF222E">::</span><span style="color: #8250DF">Boolean</span><span style="color: #24292F">(boolean</span><span style="color: #CF222E">.</span><span style="color: #24292F">value));</span></span>
+<span class="line"><span style="color: #24292F">        }</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #953800">ast</span><span style="color: #CF222E">::</span><span style="color: #953800">Expression</span><span style="color: #CF222E">::</span><span style="color: #8250DF">NullLiteral</span><span style="color: #24292F">(_) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #CF222E">::</span><span style="color: #0550AE">NULL_TYPE</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">        </span><span style="color: #CF222E">...</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Thanks to this, a <code>check</code> command was added to Oxc CLI and type checking was added to <a href="https://boshen.github.io/oxc/playground">the playground</a>.</p>
+<blockquote>
+<p>The playground is currently work in progress as I only added support in an a hour, expect some crashes that will show up in the browser console</p>
+</blockquote>
+<p>As <a href="https://rustmagazine.org/issue-3/javascript-compiler/">Oxc has an incredibly fast</a> and <a href="https://github.com/web-infra-dev/oxc#parser-conformance">correct</a> parser it will be a great way to use Ezno's checker!</p>
+<blockquote>
+<p>This isn't the end of Ezno's own parser and CLI. It was incredibly useful building it, and it's 95% of the way there. It is great that the bindings exist with Oxc to offer a fast and reliable option to use Ezno's checker.</p>
+</blockquote>
+<h3 id="an-interpreter-based-checker" tabindex="-1">An interpreter-based checker</h3>
+<p>Ezno tackles type-checking as evaluator/interpreter. However, unlike a real JS interpreter <strong>rather than passing around values it passes around types</strong>. These are instead spaces that values live in.</p>
+<p>Evaluation</p>
+<img src="/media/ezno-screenshots/evaluator-points.gif" alt="Regular evaluation" class="invertible">
+<p><strong>Type-based</strong> evaluation</p>
+<img src="/media/ezno-screenshots/evaluator-types.gif" alt="Type-based evaluation" class="invertible">
+<p>Some big differences between what a value-based interpreter would be and Ezno's evaluator-based type checker:</p>
+<ul>
+<li>Control flow has to handle different cases. In standard evaluation branches are binary, they either run or they don't run. In Ezno's checker, it's non-deterministic. (unless it can find the branching condition to be <code>true</code>) It has to evaluate both branches and join the results together. Similarly, loops (and recursion) have undecidability to them and have to unify the results to reflect the possible amount of times the block can run.</li>
+<li>IO functions don't run. It doesn't make <code>fetch</code> requests or <code>Math.random()</code> at compile time, and it certainly doesn't ask the compiler's user to answer to <code>prompt</code>. But all other functions whether from the runtime or user code are evaluated in some kind. <strong>It does the evaluations (most of the time) based on the body of a function, rather than a return type annotation.</strong></li>
+</ul>
+<blockquote>
+<p>The other big difference between an interpreter is that it type checks annotations. While there is no rule that interpreter cannot do this, it doesn't hugely make sense</p>
+</blockquote>
+<p>This approach has benefits for languages with dynamic features. However, this approach still has benefits for stricter languages.</p>
+<blockquote>
+<p>I have a longer, more theoretical post on some additional points, which I will get around to finishing at some point 😀</p>
+</blockquote>
+<p>Less theory, let's see how it works. The next part <a href="https://gist.github.com/kaleidawave/5dcb9ec03deef1161ebf0c9d6e4b88d8">goes over some code that is used in the current demo</a>. You can try the above first to see how it is implementation works.</p>
+<h2 id="inside-the-checker-and-its-features" tabindex="-1">Inside the checker and its features</h2>
+<p>The checker is currently just under 9000 lines of code (and <code>oxc_type_synthesis</code> is around 2k). A lot of the code is densely abstracted to be more manageable to work under.</p>
+<p>There are a lot of features, so to keep this as a blog post rather than a book, I can't go into all the depth. I am happy to go into more detail and explain certain characteristics and parts of the code preferably in GitHub issues. There is no 'Ezno Discord' but you may be able to catch me in <a href="https://discord.gg/9uXCAwqQZW">Oxc Discord with others building JavaScript and TypeScript tooling in Rust</a>.</p>
+<p><strong>Note that a lot of this is a work in progress and things might have changed after the publishing of this post.</strong></p>
+<h3 id="contexts" tabindex="-1">Contexts</h3>
+<p><code>Context</code>s store <strong>local</strong> information.</p>
+<img src="/media/ezno-screenshots/context-values.png" alt="Context information" class="invertible">
+<p>This includes:</p>
+<ul>
+<li>Names to types</li>
+<li>Names to variables</li>
+<li>The current value of a variable</li>
+<li>The current properties on objects</li>
+</ul>
+<p>They also contain a reference to the parent. Which it can get properties from:</p>
+<img src="/media/ezno-screenshots/context-hierarchy.png" alt="Context hierarchy" class="invertible">
+<h4 id="what-kinds-of-contexts-are-there%3F" tabindex="-1">What kinds of contexts are there?</h4>
+<ul>
+<li>Root</li>
+<li>Module</li>
+<li>Functions</li>
+<li>If and else blocks</li>
+<li>For statements</li>
+</ul>
+<p>Every environment (other than root) has a field for the <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/environment.rs#L61"><code>Scope</code></a>. Scopes differentiate environments that are for a function body between if-else blocks (which we will see different behaviour for later).</p>
+<p>It can get slightly more complex as it (will) include</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">input</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">MyObject</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> input </span><span style="color: #FF7B72">&amp;&amp;</span><span style="color: #C9D1D9"> otherValue</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">//              ^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> (</span><span style="color: #953800">input</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">MyObject</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0550AE">null</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">return</span><span style="color: #24292F"> input </span><span style="color: #CF222E">&amp;&amp;</span><span style="color: #24292F"> otherValue</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">//              ^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Synthesizing the right-hand side of this logical expression (<code>otherValue</code>) is done in a new context. This is because it conditionally runs (because of short-circuiting with logical and), any effects here have to be separated and narrowing can because it is known that <code>input</code> has type <code>null</code> here.</p>
+<h3 id="the-different-contexts%2C-generalcontext-and-get_on_ctx!" tabindex="-1">The different contexts, <code>GeneralContext</code> and <code>get_on_ctx!</code></h3>
+<p>There are two different types of contexts <code>Root</code> and <code>Environment</code> (aliases for <code>Context&lt;Root&gt;</code> and <code>Context&lt;environment::Syntax&lt;'a&gt;&gt;</code>). Root is the top-level environment, it doesn't have events or a parent. Environments on the other hand represent the standard contexts found for written code. They record events (and other information) and have a parent. You can see the code for all contexts <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/mod.rs#L222">here</a>, and the code specific for environments (not root contexts) <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/environment.rs#L88">here</a>.</p>
+<p>This is structured using Rust generics and so can be a bit complex. To make it easier <code>GeneralContext</code> is a sum type of the two contexts. To get properties on it, you can use <code>get_on_ctx!</code>.</p>
+<blockquote>
+<p><a href="https://github.com/kaleidawave/ezno/blob/7fc78261e9aa1d9012ff7e8cc7d07488459bf045/checker/src/context/mod.rs#L61-L95">Not a huge fan of <code>macro_rules</code> macros, but this seems to be a useful pattern I haven't seen elsewhere!</a></p>
+</blockquote>
+<h3 id="looking-up-information-with-parents_iter" tabindex="-1">Looking up information with <code>parents_iter</code></h3>
+<p>In JS information can be accessed in am above context</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">x</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">three</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">//     ^</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">// What is the value of `x` here</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">x</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">three</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">return</span><span style="color: #24292F"> x </span><span style="color: #CF222E">+</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">//     ^</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">// What is the value of `x` here</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/context/mod.rs#L1387"><code>Context::parents_iter</code></a> offers a way to walk up the parent chain to look for information.</p>
+<h3 id="where-are-the-properties-of-types%3F" tabindex="-1">Where are the properties of types?</h3>
+<p>One way to have an object type would be to do</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">InterfaceType</span><span style="color: #C9D1D9"> { </span></span>
+<span class="line"><span style="color: #C9D1D9">	name</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">, </span></span>
+<span class="line"><span style="color: #C9D1D9">	properties</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HashMap</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9">&gt; </span></span>
+<span class="line"><span style="color: #8B949E">	//          ^^^^^^^^^^^^^^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #8B949E">	// Map properties to types</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">struct</span><span style="color: #24292F"> </span><span style="color: #953800">InterfaceType</span><span style="color: #24292F"> { </span></span>
+<span class="line"><span style="color: #24292F">	name</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">String</span><span style="color: #24292F">, </span></span>
+<span class="line"><span style="color: #24292F">	properties</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">HashMap</span><span style="color: #24292F">&lt;</span><span style="color: #953800">String</span><span style="color: #24292F">, </span><span style="color: #953800">TypeId</span><span style="color: #24292F">&gt; </span></span>
+<span class="line"><span style="color: #6E7781">	//          ^^^^^^^^^^^^^^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #6E7781">	// Map properties to types</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><a href="https://github.com/microsoft/TypeScript/blob/33eac2825ac548cf804e3d3abbc6a53b320a1de2/src/compiler/types.ts#L6326">This is the way <code>TSC</code> does it</a></p>
+<p>However, the problem is that the value of properties is not always a global fact. In the two scopes</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">x</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {};</span></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (value) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	x.a </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">// here x.a = 2</span></span>
+<span class="line"><span style="color: #C9D1D9">} </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	x.a </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">// here x.a = 3</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">x</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> {};</span></span>
+<span class="line"><span style="color: #CF222E">if</span><span style="color: #24292F"> (value) {</span></span>
+<span class="line"><span style="color: #24292F">	x.a </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">// here x.a = 2</span></span>
+<span class="line"><span style="color: #24292F">} </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	x.a </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">// here x.a = 3</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><code>x.a</code> has different values as shown in the comments.</p>
+<p>This is not true for all <em>facts</em>, in the two scopes calling the function <code>x</code> has the same behaviour.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">x</span><span style="color: #C9D1D9">() { </span><span style="color: #FF7B72">...</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (condition) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">x</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">} </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">x</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">x</span><span style="color: #24292F">() { </span><span style="color: #CF222E">...</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">if</span><span style="color: #24292F"> (condition) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">x</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">} </span><span style="color: #CF222E">else</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">x</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Calling <code>x</code> (the value not the reference) always yields the same as <code>x</code> (and that can differ).</p>
+<p>Similar logic is done for the value variables, which are stored in <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/mod.rs#L164"><code>variable_current_value</code></a>.</p>
+<p><a href="https://github.com/kaleidawave/ezno/blob/422a3591c9b577efd00843fba9036b3a90a678b7/checker/src/context/mod.rs#L177">So Ezno these are held under the context</a>. While not implemented, prototypes and type narrowing will also work this way, being scoped to contexts rather than global.</p>
+<p>This is done for all types for simplicity, including interfaces.</p>
+<blockquote>
+<p><em>The variable and property facts applies to many other dynamic and static languages, not just JavaScript.</em></p>
+</blockquote>
+<h3 id="scopes-and-dynamic-scopes" tabindex="-1">Scopes and dynamic scopes</h3>
+<p>As said before, every environment has a scope type. When looking for things between scopes, it needs to know whether the facts are constant between the scopes. For example</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (condition) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> y </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> x;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//      ^</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// x is always 2 here</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">if</span><span style="color: #24292F"> (condition) {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> y </span><span style="color: #CF222E">=</span><span style="color: #24292F"> x;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//      ^</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// x is always 2 here</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>However for</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">     </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> y </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> x;</span></span>
+<span class="line"><span style="color: #C9D1D9">     </span><span style="color: #8B949E">//      ^</span></span>
+<span class="line"><span style="color: #C9D1D9">     </span><span style="color: #8B949E">// x may not be 2 here if it is assigned a different value before a `func` function call</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">     </span><span style="color: #CF222E">let</span><span style="color: #24292F"> y </span><span style="color: #CF222E">=</span><span style="color: #24292F"> x;</span></span>
+<span class="line"><span style="color: #24292F">     </span><span style="color: #6E7781">//      ^</span></span>
+<span class="line"><span style="color: #24292F">     </span><span style="color: #6E7781">// x may not be 2 here if it is assigned a different value before a `func` function call</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>and</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">item</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">of</span><span style="color: #C9D1D9"> myArray) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> y </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> x;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//      ^</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// x can be different again, because of the following statement</span></span>
+<span class="line"><span style="color: #C9D1D9">    x</span><span style="color: #FF7B72">++</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">for</span><span style="color: #24292F"> (</span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">item</span><span style="color: #24292F"> </span><span style="color: #CF222E">of</span><span style="color: #24292F"> myArray) {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">let</span><span style="color: #24292F"> y </span><span style="color: #CF222E">=</span><span style="color: #24292F"> x;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//      ^</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// x can be different again, because of the following statement</span></span>
+<span class="line"><span style="color: #24292F">    x</span><span style="color: #CF222E">++</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The first example of <code>if</code> is a <em>static</em> scope. Whereas for the <code>function</code> and <code>for</code> scopes they are considered <em>dynamic</em> scopes and so the context logic does different behaviour in many cases when crossing these contexts.</p>
+<h3 id="the-main-global-structures%3A-checkingdata%2C-diagnosticscontainer%2C-typemappings-and-typestore" tabindex="-1">The main global structures: <code>CheckingData</code>, <code>DiagnosticsContainer</code>, <code>TypeMappings</code> and <code>TypeStore</code></h3>
+<ul>
+<li><code>CheckingData</code> holds most information for a project it holds <code>DiagnosticsContainer</code> and <code>TypeStore</code></li>
+<li><code>DiagnosticsContainer</code> is a container of <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/errors.rs">Diagnostics</a> that includes errors, warnings and general information.</li>
+<li><code>TypeStore</code> stores all the types
+<ul>
+<li>Currently, types are referenced using <code>pub struct TypeId(u16)</code> where the integer references an index into a <code>Vec&lt;Type&gt;</code></li>
+<li>This is a sort of arena. It means that types can safely reference themselves. While it does hold a lot of memory, types are needed between passes, so there isn't a lot to be dropped. It also means that it is easy to be serialized to a format that can be stored between runs to make checking times improved.</li>
+<li><strong>This is a work in progress, it will be improved to split types by their file/source and probably other ways.</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="type-and-typeid" tabindex="-1"><code>Type</code> and <code>TypeId</code></h3>
+<p>One thing is types are immutable, once they are registered the actual <code>Type</code> doesn't change! <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/types/mod.rs">There are lots of kinds of <code>Type</code>s</a></p>
+<p>The basics are:
+- Named types (interfaces)
+- Aliases
+- Or (union types), these mean that they (inclusively) either have the properties on the left or on the right
+- And (intersection types), these mean it satisfies the properties on the left and the right
+- <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/types/terms.rs">Constants/terms</a>
+- Functions
+- Objects
+- Root poly (parameters)
+- Constructors (usage of parameters)</p>
+<h4 id="categorising-types" tabindex="-1">Categorising types</h4>
+<p>There are many types that are considered restrictions/general spaces. <em>These cannot be variable or property current values!</em></p>
+<ul>
+<li>Interfaces</li>
+<li>Intersection and unions</li>
+<li>Functions from type annotation</li>
+</ul>
+<p>There are three types that are considered <em>constants</em> and so have a consistent total known behaviour</p>
+<ul>
+<li><code>Type::Constant</code> which represents <code>number</code>s, <code>string</code>s, and <code>boolean</code>s</li>
+<li>Functions defined in the source</li>
+<li>Immutable objects and objects where access does not cross a dynamic scope.</li>
+</ul>
+<p>The bridge between the two are poly-types</p>
+<h3 id="parameter-types-(poly-types)" tabindex="-1">Parameter types (poly-types)</h3>
+<p>Constants are great however, places where something can't be represented as a constant are known as poly-types. Function parameters are one example, also explicit generics.</p>
+<h4 id="parameters" tabindex="-1">Parameters</h4>
+<p>Alongside explicit function parameters (such as <code>x</code> in <code>function func(x) { ... }</code>) there are other places in JS where a function can be parameterized. For example, closed over variables and <code>this</code>. These are the most common poly-types.</p>
+<h4 id="constructors%2C-the-higher-poly-types" tabindex="-1">Constructors, the higher poly-types</h4>
+<p>Parameters are root poly-types. All that is known is the origin. However, we want to carry more information. This is where <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/types/mod.rs#L275">constructors come in</a>, they wrap <strong>any</strong> poly type with additional information about its usage.</p>
+<h4 id="closed-and-open-poly-types" tabindex="-1">Closed and open poly-types</h4>
+<p>The standard poly-type is closed. These are types such that a set of specializations can be formed.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> a </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">id</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">&gt;(</span><span style="color: #FFA657">t</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> { t, a }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">id</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"hi"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">a</span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #D2A8FF">id</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"hello"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> a </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">id</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #24292F">&gt;(</span><span style="color: #953800">t</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">T</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">return</span><span style="color: #24292F"> { t, a }</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8250DF">id</span><span style="color: #24292F">(</span><span style="color: #0A3069">"hi"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #24292F">a</span><span style="color: #CF222E">++</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #8250DF">id</span><span style="color: #24292F">(</span><span style="color: #0A3069">"hello"</span><span style="color: #24292F">);</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>After checking the above script, <code>a</code> in the function body is specialized as <code>1</code> and <code>2</code> and <code>T</code> is specialized as <code>"hi"</code> and <code>"hello"</code>. In other words, we know a set of values that poly type takes throughout the life of the script.</p>
+<h5 id="the-tracing-problem" tabindex="-1">The tracing problem</h5>
+<p>When evaluating <code>let p = document.body</code>, <code>document</code> can take on a range of values and so can <code>document.body</code>. So in this way they are similar to regular function parameters. In fact, if JS had a main function without global variables it might look like:</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">document</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">fetch</span><span style="color: #C9D1D9">, ...) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">// ...</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">main</span><span style="color: #24292F">(</span><span style="color: #953800">document</span><span style="color: #24292F">, </span><span style="color: #953800">fetch</span><span style="color: #24292F">, ...) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">// ...</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>So variables such as <code>document</code> are considered similar to parameters. These are known as open poly-types. The open refers to the fact that what they are specialized to is out of the range of the checker. After checking, closed poly-types have a finite set of types they are specialized as. On the other hand, open have an unknown set.</p>
+<blockquote>
+<p>This is still experimental and will probably be changed in some way at some point. Some open poly traces are completely useless, such as <code>Math</code>.</p>
+</blockquote>
+<h4 id="is-subtype" tabindex="-1">Is subtype</h4>
+<p>The <code>type_is_subtype</code> function compares types. It is used when checking an argument is valid against a parameter, or a value assigned to variable meets it's constraint. It returns the following result:</p>
+<pre><code class="language-rust"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">#[derive(</span><span style="color: #FFA657">Debug</span><span style="color: #C9D1D9">)]</span></span>
+<span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">enum</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">SubTypeResult</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FFA657">IsSubtype</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">IsNotSubType</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">NonEqualityReason</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">#[derive(</span><span style="color: #953800">Debug</span><span style="color: #24292F">)]</span></span>
+<span class="line"><span style="color: #CF222E">pub</span><span style="color: #24292F"> </span><span style="color: #CF222E">enum</span><span style="color: #24292F"> </span><span style="color: #953800">SubTypeResult</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #953800">IsSubtype</span><span style="color: #24292F">,</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">IsNotSubType</span><span style="color: #24292F">(</span><span style="color: #953800">NonEqualityReason</span><span style="color: #24292F">),</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The function checks whether the RHS has all the 'properties' of the LHS.</p>
+<h4 id="specialisation" tabindex="-1">Specialisation</h4>
+<p>In TypeScript (and Rust), call site generics can be inferred. This means that when calling a function with generic type parameters, the type parameters can be derived from the types of arguments if they were not already explicitly given</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">identity</span><span style="color: #C9D1D9">&lt;</span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">&gt;(</span><span style="color: #FFA657">a</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">T</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> a</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">x</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">identity</span><span style="color: #C9D1D9">(console)</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">identity</span><span style="color: #24292F">&lt;</span><span style="color: #953800">T</span><span style="color: #24292F">&gt;(</span><span style="color: #953800">a</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">T</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">return</span><span style="color: #24292F"> a</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">x</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #8250DF">identity</span><span style="color: #24292F">(console)</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>The other thing is that in Ezno, every function parameter (apart from functions behind a generic) is generic (cascade information). So these <em>auto generics</em> cannot be explicit set for parameters not explicitly generic.</p>
+<p>Ezno could resolve these types by scanning the argument list first. Instead during equality, while checking it <a href="https://github.com/kaleidawave/ezno/blob/7fc78261e9aa1d9012ff7e8cc7d07488459bf045/checker/src/types/subtyping.rs#L67">adds these values to a <code>SeedingContext</code></a>.</p>
+<h4 id="constraint-inference" tabindex="-1">Constraint inference</h4>
+<p><a href="https://github.com/kaleidawave/ezno/issues/35">This is something being worked out</a>. Most parameters have a fixed and known space they operate in. However, to enable full checking on sources without annotation, this restriction could be generated from its usage. See more in the issue.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">sinPlusOne</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">x</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Math</span><span style="color: #C9D1D9">.</span><span style="color: #79C0FF">sin</span><span style="color: #C9D1D9">(x) </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">//     ^^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// This call requires `x` to be a number. The poly </span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// constraint needs to be modified to reflect this</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #8250DF">sinPlusOne</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> (</span><span style="color: #953800">x</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0550AE">Math</span><span style="color: #24292F">.</span><span style="color: #0550AE">sin</span><span style="color: #24292F">(x) </span><span style="color: #CF222E">+</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">//     ^^^^^^^^^^^</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// This call requires `x` to be a number. The poly </span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// constraint needs to be modified to reflect this</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h3 id="constant-functions" tabindex="-1">Constant functions</h3>
+<p>Some functions have a constant identifier (as shown above in the return annotation). Functions with this try and evaluate a result using <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/behaviour/constant_functions.rs">custom Rust code</a>. The Rust code only works for constants and so if it can't compute a result it will fail and <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/types/calling.rs#L82-L150">resort back to specializing the return type of the function</a>.</p>
+<p>This is what enables the following error to be caught</p>
+<img src="/media/ezno-screenshots/computed-property.png" alt="Constant computed property" class="invertible">
+<h3 id="events-and-effects" tabindex="-1">Events and effects</h3>
+<p>Events track mutations and other actions the code does. There are <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/events/mod.rs#L43">many kinds of events that can happen</a>, the simple ones are assignments and function calls.</p>
+<p>Events are the general term for these. When added to a <a href="https://github.com/kaleidawave/ezno/blob/7fc78261e9aa1d9012ff7e8cc7d07488459bf045/checker/src/types/functions.rs#L13-L14"><code>FunctionType</code> these are referred to as (side) effects of a function</a>. You can see the events being pulled <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/mod.rs#L1027">here</a>.</p>
+<h4 id="throw-and-try-catch" tabindex="-1">Throw and try-catch</h4>
+<p><a href="/posts/ezno-23/#handling-errors">Following on from a previous post</a>, I managed to get try-catch statements to work and be type-safe 🎉</p>
+<img src="/media/ezno-screenshots/thrown-error.png" alt="Thrown error" class="invertible">
+<p>While most of the time <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a> is thrown, this covers every type. <strong>With dependent string types you also get the message of what types are thrown</strong>.</p>
+<p>The above is a bit more complicated because it is throwing a parameter type. The actual value is found through type specialisation (in the same way that <code>let x: 2 = (a =&gt; a)(2)</code> works). The types of errors thrown are found using <a href="https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/mod.rs#L1523">this function</a> (which again is work-in-progress).</p>
+<h4 id="more-benefits-of-the-events-system" tabindex="-1">More benefits of the events system</h4>
+<ul>
+<li>They reuse types so can be specialized like the above</li>
+<li>Catch a lot of side effect cases, which can give more information rather than resorting to unknown-ness</li>
+<li>Calling functions to track what functions are called, which allows tree shaking of associated functions (functions under objects)</li>
+<li><strong>They could be used as IR for generating more optimized output</strong></li>
+</ul>
+<h3 id="some-extras" tabindex="-1">Some extras</h3>
+<h4 id="hoisting-passes" tabindex="-1">Hoisting passes</h4>
+<p>Currently work in progress, but you can see how interfaces are checker before functions which is checked before any other structure in <a href="https://github.com/web-infra-dev/oxc/blob/b31819d7a1b6708121f25ae8f314abc40ad68cf3/crates/oxc_type_synthesis/src/statements_and_declarations.rs#L20">hoist_statements</a></p>
+<h4 id="printing-types" tabindex="-1">Printing types</h4>
+<p>Turning types into strings is done <a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/types/printing.rs">here</a>.</p>
+<p>This also has to handle some other things:</p>
+<ul>
+<li>Recording what types have been printed types to not stack overflow in the case of cyclic types</li>
+</ul>
+<h4 id="diagnostics%2C-registering-errors-and-warnings" tabindex="-1"><code>Diagnostic</code>s, registering errors and warnings</h4>
+<p><a href="https://github.com/kaleidawave/ezno/blob/main/checker/src/diagnostics.rs">diagnostics.rs</a> has a long list of errors and how to turn them into general <code>Diagnostic</code>s which can be printed to the CLI or presented in a LSP.</p>
+<h3 id="developing" tabindex="-1">Developing</h3>
+<p>If you are interested in contributing, read <a href="https://github.com/kaleidawave/ezno/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+<h2 id="what-is-next" tabindex="-1">What is next</h2>
+<p>You can read more standing issues on <a href="https://github.com/kaleidawave/ezno/issues">GitHub issues</a>.</p>
+<p>There is still more to do</p>
+<ul>
+<li>Ezno's own CLI, with the <a href="/posts/ezno-23/">CLI REPL</a></li>
+<li><a href="https://github.com/kaleidawave/ezno/issues/22">Finishing off the LSP</a> (language service provider) with an associated VS Code extension to get type-checking results and helpers inside an editor.</li>
+<li>Using the types in optimising compilers!</li>
+<li>Some more experimental features in terms of syntax and things 👀</li>
+<li>Finishing Ezno's own parser, it is 95% there, so it would be nice to round it off</li>
+</ul>
+<h3 id="however-i-am-now-taking-a-break" tabindex="-1">However I am now taking a break</h3>
+<p>Unfortunately, I have other priorities for the next two months, so I can't <a href="https://github.com/kaleidawave/ezno/pull/31">spearhead additions and fixes</a>. I will be around though to respond to certain things but development will be slower.</p>
+<p>Incredibly grateful for current <a href="https://github.com/sponsors/kaleidawave">sponsors</a>. Any contributions including <a href="https://github.com/sponsors/kaleidawave?frequency=one-time">one-time</a> are important for this project to keep going. For now, GitHub sponsors is looking like the easiest way to do this.</p>
+<p>Hopefully, I can keep this going as a chill experimental project without strings attached that I can keep improving part-time!</p>
+
+</div>
+
+<div class="discussions">
+    <script src="https://giscus.app/client.js" data-repo="kaleidawave/discussions" data-repo-id="R_kgDOIy08KA" data-category="Comments" data-category-id="DIC_kwDOIy08KM4CTpn8" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="">
+            </script>
+</div>
+
+<script defer="">
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+        </div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>
