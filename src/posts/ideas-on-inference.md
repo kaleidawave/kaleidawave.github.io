@@ -9,15 +9,15 @@ tags: posts
 
 In the third and final post of Ezno week, we will take a look at two kinds of type inference. One kind what I refer to as `forward` and the other as `backward`. One *implemented* and the other a *work-in-progress*.
 
-The words inference in a type-checker refers to creating (or finding) a type **for a parameter** (or variable in some cases). Often because the annotation is elided (fancy compiler speak for missing). Inference is a subset of a more general term of *type synthesis*.
+The word inference in a type-checker commonly refers to creating (or finding) a type **for a parameter** (or variable in some cases). Often because the annotation is elided (jargon for *omitted/missing*). The inference process is a subset the general state of *type synthesis*, generating types from syntax.
 
 ```typescript
-//                          ↓ no annotation here
+//                         ↓ no type annotation here
 const y = [1, 2, 3].map(item => item)
-//                          	 ↑ `item` *has* type `number` here
+//                          	 ↑ refences to `item` resolves to type `number` here
 ```
 
-### Forward inference: pushing an annotation forwards
+### Forward inference: pushing a type forwards
 
 The first kind that I refer to forward is in partially annotated (or realised) source text. We have a function parameter **without an annotation** but we can figure *a type* out through looking at the context of where the containing function is written in.
 
@@ -79,7 +79,7 @@ We do this passing in several places
 - Variable declarations pass their resolved annotation
 - Function arguments pass there respective parameter type
 - The resolved function return type annotation is stored in the environment and passed to the expression in `return` statements
-- `satisfies` passes its RHS annotation to the LHS. (so technically not forwards. Another to add to my gripes on the `satisfies` operator 😩)
+- `satisfies` passes its RHS annotation to the LHS. (so technically not forwards. Another to add to my gripes on the `satisfies` operator :weary:)
 - Class declarations with an `implements` clause (`extends` is contraversial)
 
 When we arrive at a function or method declaration **and** this type is a function, we pass the expected parameter types forward to `synthesise_function`. When synthesising parameters if we arrive at a parameter without an annotation, we can pick it from the expected parameter.

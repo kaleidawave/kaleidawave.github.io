@@ -479,6 +479,7 @@ type MyConditional = (A extends C ? X : Y) | (B extends C ? X : Y);
 > You can use the undistributed version by wrapping the two sides in unit tuples. `[A | B] extends [Type] ? X : Y`;
 
 ### Type hierarchy
+
 ![hierarchy of types](../../media/diagrams/types-hierarchy-diagram.png)
 
 <span style="color: #cceff1;">1 ∎</span> `any` contains everything below it. <span style="color: #bbbaeb;">2 ∎</span> here is where type classes (called traits in Rust which I think is a good name) exist. They are big unions of nominal types. <span style="color: #c2acd8;">3 ∎</span> is where smaller unions exist which are useful for representing data up of <span style="color: #d4a6dc;">4 ∎</span> nominal types. Boolean takes two to build its union. But `number` (which is normally a 64-bit floating point number has {% mathinline "2^{64}" %} members in the union). Exact object types could be considered here. <span style="color: #eda2dd;">5 ∎</span> is useful for tags and small amounts of types. <span style="color: #f3b4a0;">6 ∎</span> is dependent types. we know all the information about them and there is one entry. <span style="color: #fad3a4;"> 7 ∎</span> the `never` type. Can be considered as an intersection as anything on the row above
