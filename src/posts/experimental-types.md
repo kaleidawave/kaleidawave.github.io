@@ -7,11 +7,13 @@ image: /media/banners/experimental-types.png
 tags:
   - posts
 ---
+
 Over this summer, while working on increasing TypeScript compatibility in the checker and tackling more advanced type problems, I had an escapade with some experimental types! These types expand on what is currently representable in TypeScript. This blog post will introduce them, when they come about and things they catch.
 
 > For those who haven't heard of it before, the [Ezno](https://github.com/kaleidawave/ezno) type checker is a work-in-progress but fast and correct TypeScript type checker and compiler with additional experiments.
 
 ### The missing operation
+
 Set theory is based on three operations: unions, intersections and *one other*. We can build a union of a type with `|` and intersections with `&` but this third operation is less common and does not exist in the TypeScript type system.
 
 This means that the types of some expressions are hard to represent. We can see this here

@@ -6,12 +6,15 @@ date: 2023-01-18
 image: /media/banners/ezno-2023.png
 tags: posts
 ---
+
 It's been a minute since the previous announcement so I thought would give some updates and share some upcoming problems. This follows the initial announcement and includes some smaller things I [shared on Twitter](https://twitter.com/kaleidawave) since the announcement post.
 
 Never heard of Ezno? It is a parser, partial executor, optimizer and type checker for JavaScript! [Read the initial announcement](/posts/introducing-ezno).
 
 ## New changes
+
 ### Classes, getters and setters
+
 I added support for classes, getters and setters
 
 ![Handling of classes](../../media/ezno-screenshots/class-01.png){.invertible}
@@ -19,6 +22,7 @@ I added support for classes, getters and setters
 This required some changes to the definition of types and how they handle prototypes. I also added handling for the cases when a property is a getter or setter when doing property access and assignments. This addition also added support for getters and setters in object literals.
 
 #### Tree shaking methods
+
 When adding classes I extended the tree-shaking mechanism (present but not mentioned in the announcement post) to class methods. Because of object tracing and call detection, if a method on a class is never called then the code is never included in the output.
 
 ![Input](/media/ezno-screenshots/class-tree-shaking-01.png){.invertible}
@@ -29,11 +33,13 @@ This is one of the reasons for not following TypeScript's rules around `any`. If
 **The perhaps underrated benefit here it is not just class code being removed, it is all functions that might be referenced in a class method that can now be removed.**
 
 #### Custom element registration event
+
 ![Output](/media/ezno-screenshots/class-custom-elements.png){.invertible}
 
 Putting aside any of my opinions on custom elements. Calling [`CustomElementRegistry.define()`](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define) results in running an effect that adds a mapping to the [`HTMLElementTagNameMap`](https://github.com/microsoft/TypeScript/blob/9c9d4b029d71fc6b56598b0ff201c2a271c31c06/lib/lib.dom.d.ts#L17630) type and thus can get type safety in some more tricky scenarios.
 
 ### A REPL
+
 A REPL (read evaluate print loop) is an interactive code executor. Similar to [ts-node](https://www.npmjs.com/package/ts-node), the Ezno REPL wraps an existing REPL with a checker. This required a few changes and while still a long way from perfect the checker can do a little more incrementally.
 
 ![REPL in eval mode](/media/ezno-screenshots/repl-01.png){.invertible}
@@ -55,6 +61,7 @@ There are two interesting things I slipped into the first code snippet that ran 
 The second one is revealed if you try [running the code in TSC](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgCoE9kG9kAcoD2uAXMgM5hSgDmyAPsiAK4C2ARtMgL4CwAUPwQEQFZAA9SGZAF5seQiWQBmbgG5+g4aMyyAsnDAALAHS4CAdwAUY0woA0yAEwBKZAGpkADlVA).
 
 ---
+
 I was recently asked whether Ezno supported the recent TypeScript addition, the `satisfies` operator. The `satisfies` binary operator is a compile-time assertion that the left expression operand is typeable under the right type reference operand. It has almost identical behaviour to the `assertType` identity function trick that was shown in the original announcement.
 
 The existence of this piece of syntax seems to be handling a problem that occurs with variable declarations in TypeScript. With the statement `let x: A = b`, variable reference `x` is considered to have all the properties of type `A`. While that is fine and how every nominal type system works, it can cause problems when `A` is a larger type than the type of `b` and loses some properties.
@@ -85,6 +92,7 @@ if (x !== 2) {
 The problem I have with satisfies is that isn't a drop in replacement. There doesn't seem to be a way to retain the value information while constraining variable value for reassignment. That is something that is the default with Ezno's point-in-a-space system.
 
 ---
+
 I am glad that TypeScript is pursuing more into dependent/literal types checking. And I can see why variable declarations are checked that way in TSC. Ezno's implementation only works because of effect tracking, which allows it to identify variable mutations from functions. Effect tracking is tricky to do (as will be shown later), so I understand why TypeScript doesn't do it.
 
 So `satisfies` doesn't have any effect on checking in Ezno. Similarly things like `as const` don't help Ezno. They don't have any effect on the system as it is all inferred or treated computationally.
@@ -92,6 +100,7 @@ So `satisfies` doesn't have any effect on checking in Ezno. Similarly things lik
 Is there a limit to how much TypeScript can tighten up by adding additional syntax? Does Ezno's effect tracking make it more approachable for beginners?
 
 ### Binary context/definition files
+
 I added a binary serialized form of contexts just before the announcement went up but didn't have a lot of space to include it. These are an alternative form to `.d.ts` files and are more compact and include direct references to the identifiers used in Ezno.
 
 ![Hex dump of binary](/media/ezno-screenshots/binary-context-01.png){.invertible}
@@ -112,9 +121,11 @@ One of the benefits of being written in Rust {% icon "Rust" %} is that dealing w
 Still unsure how the distribution of these will work. Also currently it only supports root contexts, haven't figured source splitting and referencing for child contexts yet.
 
 ## Upcoming changes
+
 Here I some things I am going to start tackling over the next couple of months. They all relate to effects.
 
 ### Internal object effects
+
 One of the upcoming problems to solve is arrays and mutations.
 
 ```typescript
@@ -148,6 +159,7 @@ interface Array<T> {
 This shouldn't be impossible to add to declarations. There isn't a huge amount in the standard library and not a huge amount in DOM API. It isn't a hugely complex task for these to be added but is very beneficial.
 
 ### Asynchronous effects
+
 There are several different types of effects. One is modifying a variable (or property), this fixes several problems with [issues with control flow analysis in TypeScript](https://github.com/microsoft/TypeScript/issues/9998).
 
 So far synchronous situations are covered:
@@ -172,7 +184,9 @@ To support this, it shouldn't be too difficult:
 2. Running function effects at the end of synchronisation. Whether that is the end of the script or some `await` expressions.
 
 ### Handling errors
+
 In TS, functions that throw can be typed using a return type of `never`. However, there is no information in the type system to depict what type is thrown. In Ezno `throw` statements current queue special `throw` effects. There are two things left before this system becomes usable:
+
 - Expressions that always throw and are not in a catch-able structure should produce an error
 - In a try-catch statement, the checker needs to collect possible objects thrown to form a type of `err` in `catch (err)`. This makes catch branches TypeSafe™. Or alternatively, if no throw effects in the try block the checker should emit a warning.
 
@@ -191,6 +205,7 @@ function safeEval<T extends () => void>(t: T) {
 There needs to exist a `Thrown<T>` internal helper type that can extract what is thrown from a function.
 
 ## Is it open source? Where's the binary?
+
 [**UPDATE**, Ezno is now open-source](https://github.com/kaleidawave/ezno)
 
 Open source is more than switching a GitHub repo from private to public. IMO large public repositories should have some sort of stable roadmap or design that contributors can follow. Time needs to be put in to follow issues through. And currently, for the checker, I don't have any of that soo. I think it will be best if it is incrementally made public. The parser is nearly at a point I would consider publishable so hopefully there will be a release soon!
@@ -198,5 +213,6 @@ Open source is more than switching a GitHub repo from private to public. IMO lar
 In terms of the executable binary, I want to release it when it can check an actual useful program. Once the above issues with effects are solved then, it will open up more real-world demos. After then, it should be good to go!
 
 ### Other things coming up
+
 - I work on a few other [crates](https://crates.io/users/kaleidawave?sort=recent-updates). Some of those will be getting updates soon.
 - I have two posts coming out soon about Rust {% icon "Rust" %} and procedural macros.

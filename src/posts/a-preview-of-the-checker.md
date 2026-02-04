@@ -127,10 +127,6 @@ Less theory, let's see how it works. The next part [goes over some code that is 
 
 ## Inside the checker and its features
 
-The checker is currently just under 9000 lines of code (and `oxc_type_synthesis` is around 2k). A lot of the code is densely abstracted to be more manageable to work under.
-
-There are a lot of features, so to keep this as a blog post rather than a book, I can't go into all the depth. I am happy to go into more detail and explain certain characteristics and parts of the code preferably in GitHub issues. There is no 'Ezno Discord' but you may be able to catch me in [Oxc Discord with others building JavaScript and TypeScript tooling in Rust](https://discord.gg/9uXCAwqQZW).
-
 **Note that a lot of this is a work in progress and things might have changed after the publishing of this post.**
 
 ### Contexts

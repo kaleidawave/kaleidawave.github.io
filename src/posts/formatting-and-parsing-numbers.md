@@ -386,11 +386,3 @@ Hopefully this was an interesting post covering number representations and logic
 You can use the functions in your projects [through the crate on crates.io here](https://crates.io/crates/number-utilities) and [you can view more of the code in its (temporary) home here](https://github.com/kaleidawave/experiments/tree/number-utilities).
 
 More blog posts to come. I wrote down outlines for 25 blog posts last week then wrote this (#XXVI) instead lol
-
----
-
-I am currently looking for short-term/internship opportunities!
-
-- I have experience with: Rust, parsers/compilers, things that involve "types" and web (frontend/backend)
-- Current interests: Natural language processing, *internal tooling*, databases and *video*
-- Location anywhere: preferable Europe, no remote

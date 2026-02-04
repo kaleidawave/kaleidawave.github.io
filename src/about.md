@@ -3,17 +3,14 @@ layout: main_layout.njk
 title: About me
 ---
 
-Hey 👋 I am Ben and am currently 24! I am interested in language design, type theory and the compilers. I built this site to showcase and explain some of my projects!
-
-You can support the writing of these posts and other projects:
-
-<iframe src="https://github.com/sponsors/kaleidawave/button" title="Sponsor kaleidawave" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+Hey 👋 I am Ben and am currently 25! I am interested in language design, type theory and the compilers. I built this site to showcase and explain some of my projects!
 
 You can read a bit on [why I write and work on projects](/background) and also read [how this site is built](/architecture). 
 
 <p id="contact">
-	
+
 You can contact me on [Bluesky](https://bsky.app/profile/kaleidawave.bsky.social), [Twidder](https://twitter.com/kaleidawave) or via email `kaleidawave` at *Google mail*.
+
 </p>
 
 If you find any errors or improvements for this site please use the contacts above.

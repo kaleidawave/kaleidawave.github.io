@@ -46,7 +46,7 @@ A parser turns strings into a tree-like data structure representing the program.
 
 Previously I got a bit carried away with an over-engineered design that produced tokens in one thread and read them in a second. This had lots of problems with edge case syntax where [the lexer required information from the higher level parsing](https://github.com/kaleidawave/ezno/issues/199).
 
-In an on-going effort to take learnings to make the project simpler, I removed this system in terms of a more basic implementation wrapper [for a string reader](https://github.com/kaleidawave/ezno/blob/506be8be8b6f1de2423ecab6413b31e3cb0ce58c/parser/src/lexer.rs#L122). 
+In an on-going effort to take learnings to make the project simpler, I removed this system in terms of a more basic implementation wrapper [for a string reader](https://github.com/kaleidawave/ezno/blob/506be8be8b6f1de2423ecab6413b31e3cb0ce58c/parser/src/lexer.rs#L122).
 
 ...and often simplification leads to improved performance.
 
@@ -94,7 +94,7 @@ The events system is a unique part of the type checker and has major consequence
 
 While it has solved some of the hard problems I have wanted to solve with this checker, it is unfortuantly quite complex and current falls short to be effective in real world projects.
 
-Because the system does not currently work in many scenarios, it is holding back the other type checker features from being used. 
+Because the system does not currently work in many scenarios, it is holding back the other type checker features from being used.
 
 [So last year I started on moving the system behing a flag](https://github.com/kaleidawave/ezno/blob/15ef12e1a640d27e52cdf6314bcd4447c3023eab/src/cli.rs#L124-L126). With some more testing a opt in `--basic` flag would disable events on the project and the checker would use a simpler variable and object system that is more on par with TypeScript.
 
@@ -118,7 +118,7 @@ While the current tests only run parsing, the type checker could also be run on 
 
 ### An API for the type system
 
-I think the most developed part of this project is the subtyping and disjoint code. [You can see an example of how it is used here](https://github.com/kaleidawave/ezno/blob/15ef12e1a640d27e52cdf6314bcd4447c3023eab/checker/examples/calculate_subtypes.rs). 
+I think the most developed part of this project is the subtyping and disjoint code. [You can see an example of how it is used here](https://github.com/kaleidawave/ezno/blob/15ef12e1a640d27e52cdf6314bcd4447c3023eab/checker/examples/calculate_subtypes.rs).
 
 As that functionality is pretty much ready, it could be exposed to other project through an API.
 
