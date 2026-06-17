@@ -1,0 +1,1617 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="google-site-verification" content="pi8qBei6qHxHyGxm9Eh4WDhPwxU672uIJmfdIqcgIGs">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    
+    <!-- Cloudflare Web Analytics -->
+    <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;9a3f0b71c0ea4b3d99621e1b084c24cd&quot;}"></script>
+    <!-- End Cloudflare Web Analytics -->
+    
+
+    <title>Recording and replaying events</title>
+
+    <meta name="title" content="Recording and replaying events">
+    <meta property="og:title" content="Recording and replaying events">
+    <meta property="twitter:title" content="Recording and replaying events">
+
+    <meta name="description" content="and side-effects of the experiment">
+    <meta property="og:description" content="and side-effects of the experiment">
+    <meta property="twitter:description" content="and side-effects of the experiment">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaleidawave.blog/">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaleidawave.blog/">
+
+    
+    <meta property="twitter:image" content="https://kaleidawave.blog/media/banners/recording-and-replaying-events.png">
+    <meta property="og:image" content="https://kaleidawave.blog/media/banners/recording-and-replaying-events.png">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap" rel="stylesheet"><style data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Roboto+Serif&amp;family=Be+Vietnam+Pro:wght@600&amp;display=swap">/* vietnamese */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW86Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW87Rb0JcBaoUUU.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZJhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZthjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZNhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZxhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZBhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjp-Ek-_EeAmM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl618BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6R8BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl698BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl658BtxaV4jcFyRM.woff) format('woff');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotoserif/v17/R71RjywflP6FLr3gZx7K8UyuXDs9zVwDmXCb8lxYgmuii32UGoVldX6UgfjL4-3sMM_kB_qXSEXTJQCFLH5-_bcEliotl6B8BtxaV4jcFw.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+    <style>:root {
+    font-family: "SF Pro Display", "SF Pro Icons", "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+
+    --text-color: #1a1a1a;
+    --border: var(--text-color);
+    --background: #F2F0EB;
+    --muted-background: #f9f5f8;
+    --muted-background-opaque: #e4e0da80;
+    --accent: #bc3b3b;
+    --muted-accent: #993b33;
+    --code-highlight: #e2ccb7;
+}
+
+@media screen {
+    :root.dark {
+        --text-color: #dbdbdb;
+        --background: #0f0f10;
+        --muted-background: #1f1f23;
+        --muted-background-opaque: #1f1f2380;
+        --accent: #a8ff8e;
+        --muted-accent: #81b47c;
+        --code-highlight: #549463;
+    }
+}
+
+:root.dark .shiki-light {
+    display: none;
+}
+
+:root:not(.dark) .shiki-dark {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background, white);
+    color: var(--text-color, black);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--muted-background-opaque, white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+:root:not(.dark) header {
+    border-bottom: 2px solid var(--border);
+}
+
+header>div {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header video {
+    position: absolute;
+}
+
+header h1 {
+    font-weight: 100;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+header h1>a {
+    color: var(--text-color) !important;
+}
+
+header .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header img {
+    position: relative;
+    top: -4px;
+    height: 26px;
+    width: auto;
+}
+
+@media print {
+    header nav {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+header nav>ul {
+    padding-left: 0;
+    display: flex;
+    list-style: none;
+}
+
+header nav>ul>li {
+    margin-left: 10px;
+    text-transform: lowercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 600;
+    scroll-margin: 100px;
+}
+
+*::selection {
+    background: var(--muted-accent);
+    color: var(--background);
+}
+
+em {
+    position: relative;
+    left: -2px;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding-left: 20px;
+}
+
+hr {
+    width: 100%;
+    margin: 30px auto;
+    border: none;
+    border-top: 1px solid var(--text-color);
+}
+
+main {
+    margin: 20px 0 80px;
+}
+
+.width-box {
+    width: 95%;
+    margin: 0 auto;
+}
+
+svg.icon {
+    height: 10pt;
+    fill: var(--muted-accent);
+    position: relative;
+    top: 2px;
+}
+
+a {
+    color: var(--accent, white);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--muted-accent, white);
+}
+
+pre code {
+    white-space: break-spaces !important;
+    overflow-x: hidden;
+    tab-size: 4;
+}
+
+/* Shrink inline code a little bit */
+:is(div, p, a, li)>code {
+    font-size: 90%;
+}
+
+pre,
+code {
+    background-color: var(--muted-background) !important;
+    font-family: 'JetBrains Mono', 'Fira Code light', consolas, monospace;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--muted-background-opaque, white);
+    padding: 22px;
+}
+
+:root:not(.dark) footer {
+    border-top: 2px solid var(--border);
+}
+
+footer>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer h3 {
+    margin: 0;
+    font-weight: inherit;
+    font-size: 16px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+footer nav ul>li:not(:first-child) {
+    border-left: 2px solid var(--muted-accent);
+    padding-left: 6px;
+}
+
+footer>div>*:nth-child(2n) {
+    margin-left: auto;
+    font-size: 10pt;
+}
+
+@media screen and (max-width: 480px) {
+    header>div {
+        flex-direction: column;
+    }
+
+    body {
+        width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .posts>ul>li img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    @supports (backdrop-filter: blur(20px)) {
+        header {
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .width-box {
+        width: 100%;
+        max-width: min(80vw, 840px);
+    }
+}</style>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+</head>
+
+<body>
+    <header>
+        <div class="width-box">
+            <a class="icon-title" href="/">
+                <h1 class="header-title">Ben's Engineering Blog</h1>
+                <img draggable="true" src="/media/icon.png" width="256" height="256" alt="">
+                
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        
+        <div class="width-box">
+            <style>.post {
+    display: flex;
+    flex-direction: column;
+}
+
+.post>p,
+.post li,
+.post blockquote {
+    line-height: 1.6em;
+    margin: 6px 0;
+    font-weight: inherit;
+    font-family: "Inter", "Helvetica", sans-serif;
+}
+
+.post>*:is(h1, h2, h3, h4, h5) {
+    margin: 12pt 0;
+}
+
+.post img,
+.post video,
+.post pre:not(.shiki) {
+    margin: 20px 0;
+}
+
+.post pre.shiki {
+    margin: 0;
+}
+
+/* Dark mode by default */
+:root:not(.dark) .post img.invertible,
+:root:not(.dark) .post video.invertible {
+    filter: invert(1);
+}
+
+.post img {
+    border-radius: 10px;
+}
+
+.post svg.icon {
+    height: 1em;
+    fill: var(--text-color);
+}
+
+.post span.line.highlight {
+    font-weight: bold;
+    background-color: var(--code-highlight);
+    outline: 4px var(--code-highlight) solid;
+}
+
+.post .shiki-container {
+    padding: 20px;
+    line-height: 1.6em;
+}
+
+.post .math {
+    margin: auto;
+}
+
+.post .math>svg {
+    width: auto;
+    height: 200%;
+    margin: 10px;
+}
+
+.post .quote {
+    font-style: italic;
+}
+
+.post .quote::before {
+    content: '"';
+}
+
+.post .quote::after {
+    content: '"';
+}
+
+.post *[role="caption"] {
+    font-size: 14px;
+    margin: 6px 0 20px;
+    padding: 6px;
+    text-align: center;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.post time {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 11pt;
+    font-family: monospace;
+}
+
+.post .center {
+    text-align: center;
+    font-weight: inherit;
+    padding: 30px;
+}
+
+.post .note {
+    font-style: italic;
+    font-size: 12pt;
+    opacity: 0.8;
+}
+
+*:is(h1, h2, h3, h4, h5, h6)>code {
+    font-size: 0.8em;
+}
+
+*:is(h1, h2, h3, h4, h5, h6, p, li)>code {
+    padding: 2px 6px;
+}
+
+/* For footnotes */
+.post a[href^="#foot"] {
+    font-family: monospace;
+    position: relative;
+    top: -5px;
+    left: 2px;
+}
+
+.post #footnotes~* {
+    font-size: 14px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+video.small {
+    max-height: 300px !important;
+}
+
+.callout {
+    margin-top: 18px;
+    padding: 20px;
+    font-size: 15pt;
+    background-color: var(--muted-background);
+    border-radius: 16px;
+    border: 3px solid var(--muted-accent);
+}
+
+.post h1.title {
+    font-size: 40px;
+}
+
+.post h1 {
+    font-size: 32px;
+}
+
+.post h2 {
+    font-size: 28px;
+}
+
+.post h3 {
+    font-size: 24px;
+}
+
+.post h4 {
+    font-size: 20px;
+}
+
+.post h5 {
+    font-size: 16px;
+}
+
+.post a.media-container>img {
+    width: 100%;
+}
+
+.post table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 40px 0;
+    /* max-width: 100%;
+    overflow: scroll; */
+}
+
+.post table td,
+.post table th {
+    border: 2px solid var(--text-color);
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.post blockquote {
+    border-left: 4px solid var(--muted-accent);
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: var(--muted-background-opaque);
+}
+
+.post blockquote>p {
+    margin: 0;
+}
+
+.post .widget {
+    background: white;
+    border-radius: 6px;
+    padding: 50px;
+    margin: 40px 0;
+}
+
+.discussions {
+    margin: 80px 0px;
+}
+
+.parralel pre:not(.shiki) {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+    .center {
+        text-align: center;
+        font-weight: inherit;
+        padding: 10px 0px;
+    }
+
+    .post>p,
+    .post li {
+        font-size: 12pt;
+        line-height: 1.4em;
+    }
+
+    .post img,
+    .post pre,
+    .post table,
+    .post .widget,
+    .post video {
+        width: 100%;
+        height: auto;
+    }
+
+    .post pre {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .post>.parralel {
+        display: flex;
+        gap: 30px;
+    }
+
+    .post>.parralel>div {
+        flex-grow: 1;
+    }
+
+    .post img,
+    .post video,
+    .post pre:not(.shiki) {
+        align-self: center;
+        height: auto;
+    }
+
+    .post>img,
+    .post>video,
+    .post table,
+    .post .widget,
+    .post>a.media-container,
+    .post>.parralel,
+    .post>pre:not(.shiki) {
+        width: 105%;
+        align-self: center;
+    }
+}
+
+@media print {
+    .post video {
+        display: none;
+    }
+}</style>
+
+<div class="post">
+    <h1 class="title">Recording and replaying events</h1>
+    
+    <time datetime="2026-06-17">
+        Published on Wednesday 17<sup>th</sup> June 2026
+        
+    </time>
+    
+    <p>One of the biggest experiments in the Ezno type checker is the tracking of events inside functions.</p>
+<p>I first started experimenting with the idea in early 2022 and gave a very brief introduction in the <a href="/posts/introducing-ezno/#effects%2Fevents">announcement blog post</a>. Apart from a few brief mentions <a href="/posts/ezno-23/#internal-object-effects">here</a>, <a href="/posts/a-preview-of-the-checker/#events-and-effects">here</a> and <a href="https://github.com/kaleidawave/ezno/releases/tag/release%2Fezno-0.0.22">some hints elsewhere</a>, I have not totally introduced the feature.</p>
+<p>Between 2022 and 2024 the feature expanded scope, gained new uses and improved. However, it remains unfinished with incomplete functionality. Despite that I thought I would showcase what has been learnt and achieved so far.</p>
+<blockquote>
+<p>As said this is an <strong>experimental addition</strong>! Do not try it on your 50k LOC TypeScript codebases tomorrow.</p>
+</blockquote>
+<h3 id="what-is-a-type-checker-and-what-is-ezno%3F" tabindex="-1">What is a type-checker and what is Ezno?</h3>
+<p>While the term "type-checker" is quite narrow, actual exhibitors are capable of a wide range of interactions.</p>
+<p>The collection and analysis of types can be used for the following aspects</p>
+<ol>
+<li>🟥 Correctness</li>
+<li>🟨 Warnings <em>(or linting)</em></li>
+<li>🟦 Information</li>
+<li>🟧 Optimisations</li>
+</ol>
+<p>Where</p>
+<ul>
+<li>🟥 Correctness relates to problems where the semantics of values mean that the program is invalid</li>
+<li>🟨 Warnings are similar problems but are cases where the program still completes/runs, although probably not in the way expected</li>
+<li>🟦 Information relates to property autocompletion in a code editor or when the documentation for a library can tell you what a function returns (and more such as linking between types).</li>
+<li>🟧 Finally, types can help find places where less can be done leading to a more optimised program</li>
+</ul>
+<p><strong>My description for "Ezno" is: a correct and efficient TypeScript type-checker and compiler with additional experiments</strong>. Fundamentally it is a compiler with a notable type-checker module. While it follows the baseline of TypeScript, there are some places in both the type-checker and compiler where there are additional features.</p>
+<p>This post covers one such additional feature. Through a few small examples, we will see where and how events solve complex problems in a type-checker and provide benefit to each aspect mentioned above.</p>
+<blockquote>
+<p>To keep this blog post short, it will not cover the any of the implementation or the entirety of the features</p>
+</blockquote>
+<h2 id="variable-assignment" tabindex="-1">Variable assignment</h2>
+<h3 id="starting-simple..." tabindex="-1">Starting simple...</h3>
+<p>Jumping in at the shallow end, here is a simple example of code.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (score </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">eatCake</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">if</span><span style="color: #24292F"> (score </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">eatCake</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Here we have some code and we see that the equality operation will always be <code>false</code> as the singleton types <code>2</code> and <code>3</code> are disjoint.</p>
+<p><strong>It follows that <code>eatCake</code> will never be invoked</strong>, <em>a property that is not desirable for this program</em>.</p>
+<p>We want to catch and provide a compile-time diagnostic about this problem as part of the warning 🟨 aspect that our type-checker will implement.</p>
+<h3 id="a-fix%3F" tabindex="-1">A fix?</h3>
+<p>We want the reference to <code>score</code> to resolve to <code>2</code> in our condition. We could ignore the <code>score: number</code> annotation and instead have <code>score: 2</code>. But that would break the following assignment</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">/* although treat as 2 */</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">score </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">// Type 5 is not assignable to type 2</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #6E7781">/* although treat as 2 */</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">score </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">5</span><span style="color: #24292F"> </span><span style="color: #6E7781">// Type 5 is not assignable to type 2</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Eventually I arrived on the idea that a <strong>variable has two types: a read type and a write type</strong>.</p>
+<p>Our context table looks like the following at the <code>score = 5</code> line.</p>
+<table>
+<thead>
+<tr>
+<th>Variable name</th>
+<th>Write type (constraint)</th>
+<th>Read type (value)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>score</code></td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>When we assign to the variable (as an<a href="https://en.wikipedia.org/wiki/Value_(computer_science)#lrvalue"> l-value</a>), we lookup (and check) its type using the <em>constraint table</em>. However, when we reference it (as an <a href="https://en.wikipedia.org/wiki/Value_(computer_science)#lrvalue">r-value</a>), we answer with the type found in the <em>value table</em>.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">score </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9">; </span><span style="color: #8B949E">// 5 satisfies number :). we now set the value of x to 5</span></span>
+<span class="line"><span style="color: #C9D1D9">score satisfies </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">score </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">5</span><span style="color: #24292F">; </span><span style="color: #6E7781">// 5 satisfies number :). we now set the value of x to 5</span></span>
+<span class="line"><span style="color: #24292F">score satisfies </span><span style="color: #0550AE">5</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h3 id="but-sometimes-assignment-to-variables%2C-are-not-obvious..." tabindex="-1">But sometimes assignment to variables, are not obvious...</h3>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">increaseScore</span><span style="color: #C9D1D9">(); </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// score is 3 after `increaseScore` is called</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (score </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">eatCake</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">} </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">increaseScore</span><span style="color: #C9D1D9">() { </span></span>
+<span class="line"><span style="color: #C9D1D9">	score </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">; </span><span style="color: #8B949E">// &lt;--</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8250DF">increaseScore</span><span style="color: #24292F">(); </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// score is 3 after `increaseScore` is called</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">if</span><span style="color: #24292F"> (score </span><span style="color: #CF222E">===</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">eatCake</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">} </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">increaseScore</span><span style="color: #24292F">() { </span></span>
+<span class="line"><span style="color: #24292F">	score </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">; </span><span style="color: #6E7781">// &lt;--</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<h4 id="free-variable-assignments" tabindex="-1">Free variable assignments</h4>
+<p>In JavaScript a function can reference and assign to anything from a higher lexical environment. Here we see that after the <code>increaseScore</code> call our <code>score</code> value gets assigned to <code>3</code>.</p>
+<blockquote>
+<p>This sort of variable is called (and referred to in the checker) as a <a href="https://en.wikipedia.org/wiki/Free_variables_and_bound_variables">free variable</a>.</p>
+</blockquote>
+<p>Unfortunately our table reacts to assignment-like expressions and not function invocations. This mutation is <em>sort of</em> hidden in the source. The value in the top scope changes <em>semantically</em> rather than syntactically. There are no type annotations or such that describe that <code>score</code> is updated.</p>
+<h4 id="what-next%3F" tabindex="-1">What next?</h4>
+<p>While we could scrap the whole variable two-value idea... we should not get defeatist this early and lose the benefits of the more accurate types.</p>
+<h3 id="enter-events" tabindex="-1">Enter events</h3>
+<p>When inside a function, if we see a statement <code>score = 3</code>, not only do we check the <em>new</em> value is a <code>number</code>, but we also append an <strong>event</strong> that states that <code>3</code> is assigned to <code>score</code> to the <em>contexts sequence of events</em>.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">increaseScore</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	score </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">/*</span></span>
+<span class="line"><span style="color: #8B949E">		find score variable (*it is in above scope*)</span></span>
+<span class="line"><span style="color: #8B949E">		(literal) type `3` passes `number` check</span></span>
+<span class="line"><span style="color: #8B949E">		(score value is 3 throughout rest of scope of function)</span></span>
+<span class="line"><span style="color: #8B949E">		score is in **above scope**, </span></span>
+<span class="line"><span style="color: #8B949E">			so we add an event that score has changed</span></span>
+<span class="line"><span style="color: #8B949E">	*/</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">increaseScore</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">	score </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">3</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">/*</span></span>
+<span class="line"><span style="color: #6E7781">		find score variable (*it is in above scope*)</span></span>
+<span class="line"><span style="color: #6E7781">		(literal) type `3` passes `number` check</span></span>
+<span class="line"><span style="color: #6E7781">		(score value is 3 throughout rest of scope of function)</span></span>
+<span class="line"><span style="color: #6E7781">		score is in **above scope**, </span></span>
+<span class="line"><span style="color: #6E7781">			so we add an event that score has changed</span></span>
+<span class="line"><span style="color: #6E7781">	*/</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>When we get to the end of the function and are <em>forming</em> the type for the function, <a href="https://github.com/kaleidawave/ezno/blob/8a763a0a1e92317b4822a9ea1cfaaf150b036f12/checker/src/features/functions.rs#L982">we add these <strong>events</strong> onto the function type</a>.</p>
+<pre><code><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #c9d1d9">increaseScopre: *{</span></span>
+<span class="line"><span style="color: #c9d1d9">	parameters: []</span></span>
+<span class="line"><span style="color: #c9d1d9">	returns: void,</span></span>
+<span class="line"><span style="color: #c9d1d9">	events: [</span></span>
+<span class="line"><span style="color: #c9d1d9">		*assigns 3 to score*</span></span>
+<span class="line"><span style="color: #c9d1d9">	]</span></span>
+<span class="line"><span style="color: #c9d1d9">}*</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292f">increaseScopre: *{</span></span>
+<span class="line"><span style="color: #24292f">	parameters: []</span></span>
+<span class="line"><span style="color: #24292f">	returns: void,</span></span>
+<span class="line"><span style="color: #24292f">	events: [</span></span>
+<span class="line"><span style="color: #24292f">		*assigns 3 to score*</span></span>
+<span class="line"><span style="color: #24292f">	]</span></span>
+<span class="line"><span style="color: #24292f">}*</span></span>
+<span class="line"><span style="color: #24292f"></span></span></code></pre></div></code></pre>
+<h4 id="applying-events" tabindex="-1">Applying events</h4>
+<p>Now we have events stored on a type. When we type-check a function call, as well as checking the arguments on parameters, we also <strong>specialise</strong> and <strong>apply</strong> the events on the function type into the current context.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> score</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// increaseScore: () =&gt; void + [* score = 3 *]</span></span>
+<span class="line"><span style="color: #8B949E">// score is 2</span></span>
+<span class="line"><span style="color: #D2A8FF">increaseScore</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #8B949E">// score is 3</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> score</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">; </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// increaseScore: () =&gt; void + [* score = 3 *]</span></span>
+<span class="line"><span style="color: #6E7781">// score is 2</span></span>
+<span class="line"><span style="color: #8250DF">increaseScore</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #6E7781">// score is 3</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Because we apply the mutations of functions, we update our value column with accurate values for variables.</p>
+<p>Here these <em>narrower</em> values improve the disjoint warnings 🟨 <a href="https://kaleidawave.github.io/ezno/playground/?id=2sif4a">we get around mutable variables</a>.</p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=9692ww" class="media-container"><img src="../../media/ezno-screenshots/apply-update-then-equality.png" alt=""></a>
+<blockquote>
+<p>We wanted more accurate types and adding another column to our variable context table got us there but we needed to know assignments inside functions to see it through.</p>
+<p>So events entered the scene. We added a additional recording step to assignment checking in functions and we got there without requiring changes annotations or structural assignment etc</p>
+</blockquote>
+<h3 id="more-on-referencing" tabindex="-1">More on referencing</h3>
+<p>A lie in the table was that there is a complete row. The first pass in the checker sets the <code>constraint</code> so we have a full constraint list <strong>but nothing in value column</strong>.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #8B949E">// *here*</span></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> y</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"yes"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> z</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">boolean</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">false</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #6E7781">// *here*</span></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> y</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"yes"</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> z</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">boolean</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">false</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Constraint</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td><code>number</code></td>
+<td><em>none</em></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td><code>string</code></td>
+<td><em>none</em></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td><code>boolean</code></td>
+<td><em>none</em></td>
+</tr>
+</tbody>
+</table>
+<p>It is only after each statement that <code>value</code> is set.</p>
+<h4 id="catching-temporal-dead-zone-(tdz)" tabindex="-1">Catching temporal-dead-zone (TDZ)</h4>
+<p>This behaviour is allows us to catch the following problem</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> y</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"yes"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// Here we refence `z` before it has a value</span></span>
+<span class="line"><span style="color: #C9D1D9">z </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> z</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">boolean</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">false</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> y</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"yes"</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Here we refence `z` before it has a value</span></span>
+<span class="line"><span style="color: #24292F">z </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">true</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> z</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">boolean</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">false</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Constraint</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td><code>string</code></td>
+<td><code>"yes"</code></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td><code>boolean</code></td>
+<td><em>none</em></td>
+</tr>
+</tbody>
+</table>
+<p>When we come to write to the reference <code>z</code> on the RHS of the declaration expression. We find it has no value and thus we raise a "write before declaration of variable" error (TDZ).</p>
+<p>TypeScript catches this case, but cannot do it across functions. Ezno can as it has an events system for the table.</p>
+<pre><code class="language-javascript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">updateX</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// updateX: void + [* x = 10 *]</span></span>
+<span class="line"><span style="color: #D2A8FF">updateX</span><span style="color: #C9D1D9">(); </span><span style="color: #8B949E">// error! cannot reference variable `x` yet</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">updateX</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">	x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">10</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// updateX: void + [* x = 10 *]</span></span>
+<span class="line"><span style="color: #8250DF">updateX</span><span style="color: #24292F">(); </span><span style="color: #6E7781">// error! cannot reference variable `x` yet</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Because invoke an assignment event invoke the assignment logic, we catch the error</p>
+<blockquote>
+<p>See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz">MDN</a> for more on TDZ, and how it affects <code>let</code>, <code>const</code> and <code>class</code> declarations</p>
+</blockquote>
+<p>Further, alongside write events, we also have read events.</p>
+<pre><code class="language-javascript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">returnX</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> x</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// returnX: void + [* read x *]</span></span>
+<span class="line"><span style="color: #D2A8FF">returnX</span><span style="color: #C9D1D9">(); </span><span style="color: #8B949E">// error! cannot reference variable `x` yet</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">returnX</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">return</span><span style="color: #24292F"> x</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// returnX: void + [* read x *]</span></span>
+<span class="line"><span style="color: #8250DF">returnX</span><span style="color: #24292F">(); </span><span style="color: #6E7781">// error! cannot reference variable `x` yet</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0550AE">2</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>This allows us to catch both read and write before initialisation errors.</p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=9plslk" class="media-container"><img src="../../media/ezno-screenshots/tdz-across-functions.png" alt=""></a>
+<blockquote>
+<p>The write case does not work at-the-moment <s><a href="https://github.com/kaleidawave/ezno/issues/239">but an easy fix that is a good first issue for anybody interested in contributing</a></s>. After only a few hours of the issue being posted <a href="https://github.com/kaleidawave/ezno/pull/241">we have a bite</a> and with a slight alteration we have a fix, that will land in the next release 🎉</p>
+</blockquote>
+<p>So after working on features for warnings 🟨 we have now a case where events improve correctness 🟥!</p>
+<blockquote>
+<p>Using the double table to catch TDZ was not planned. During development I found a crash from an <a href="https://doc.rust-lang.org/stable/std/option/enum.Option.html#method.unwrap"><code>.unwrap</code></a> . When I tested it on some code I found it to crash because the value was not assigned yet (and so not in the table). So, not only did I fix the <em>crash</em> I was able to add a diagnostic for an error that TSC cannot find!</p>
+<p><strong>Events bring the type-checker closer to how the runtime works, so it is non-unexpected to get something non-unexpected here</strong>.</p>
+</blockquote>
+<blockquote>
+<p>For <code>var</code> statements they have the <code>Some(*undefined*)</code> value initially whereas <code>let</code> and <code>const</code> have no value until their statement is visited.</p>
+</blockquote>
+<h2 id="properties" tabindex="-1">Properties</h2>
+<h3 id="property-reads-and-writes" tabindex="-1">Property reads and writes</h3>
+<p>Alongside reads and writes to variables, the checker also records reads and writes to properties on objects.</p>
+<pre><code class="language-javascript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">data</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { x: </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">getFive</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">x</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> }) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    obj.x </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">/* </span></span>
+<span class="line"><span style="color: #8B949E">	getFive: *{</span></span>
+<span class="line"><span style="color: #8B949E">		generics: [*T*] // T is inferred</span></span>
+<span class="line"><span style="color: #8B949E">		parameters: [obj: *T*],</span></span>
+<span class="line"><span style="color: #8B949E">		returns `5`,</span></span>
+<span class="line"><span style="color: #8B949E">		events: [</span></span>
+<span class="line"><span style="color: #8B949E">			*T*.x read</span></span>
+<span class="line"><span style="color: #8B949E">			*T*.x write</span></span>
+<span class="line"><span style="color: #8B949E">		]</span></span>
+<span class="line"><span style="color: #8B949E">	}*</span></span>
+<span class="line"><span style="color: #8B949E">*/</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">data</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { x: </span><span style="color: #0550AE">0</span><span style="color: #24292F"> };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">getFive</span><span style="color: #24292F">(</span><span style="color: #953800">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">x</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> }) {</span></span>
+<span class="line"><span style="color: #24292F">    obj.x </span><span style="color: #CF222E">+=</span><span style="color: #24292F"> </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">return</span><span style="color: #24292F"> </span><span style="color: #0550AE">5</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">/* </span></span>
+<span class="line"><span style="color: #6E7781">	getFive: *{</span></span>
+<span class="line"><span style="color: #6E7781">		generics: [*T*] // T is inferred</span></span>
+<span class="line"><span style="color: #6E7781">		parameters: [obj: *T*],</span></span>
+<span class="line"><span style="color: #6E7781">		returns `5`,</span></span>
+<span class="line"><span style="color: #6E7781">		events: [</span></span>
+<span class="line"><span style="color: #6E7781">			*T*.x read</span></span>
+<span class="line"><span style="color: #6E7781">			*T*.x write</span></span>
+<span class="line"><span style="color: #6E7781">		]</span></span>
+<span class="line"><span style="color: #6E7781">	}*</span></span>
+<span class="line"><span style="color: #6E7781">*/</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>This means we catch the same sort of disjoint errors presented in the first example</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #C9D1D9">data.x satisfies </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #D2A8FF">getFive</span><span style="color: #C9D1D9">(data) satisfies </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">data.x satisfies </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #24292F">data.x satisfies </span><span style="color: #0550AE">0</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #8250DF">getFive</span><span style="color: #24292F">(data) satisfies </span><span style="color: #0550AE">5</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">data.x satisfies </span><span style="color: #0550AE">1</span><span style="color: #24292F">;</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>This was originally shown in the <a href="/posts/introducing-ezno/#effects%2Fevents">2022 demonstration</a></p>
+</blockquote>
+<h4 id="objects-also-have-two-columns" tabindex="-1">Objects also have two columns</h4>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">object</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { prop: </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">object</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> } </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { prop: </span><span style="color: #0550AE">5</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Each <a href="/posts/introducing-ezno/#objects">object has a unique type</a>, we will reference this type as <code>*obj*</code>. Similar to variables, there <em>are</em> tables on context, one for the <em>constraint</em> and one for the <em>value</em> of an object.</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>constraint</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*obj*</code></td>
+<td><code>{ prop: number }</code></td>
+<td><code>["prop", 5]</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The constraint column may not exist. While constraint is a <code>Type</code>, the value is a list of key-value property pairs.</p>
+</blockquote>
+<h4 id="object-constraints" tabindex="-1">Object constraints</h4>
+<p>When we subtype an object we bring its constraints.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">object</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { prop: </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">alias</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> object</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">object</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> } </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { prop: </span><span style="color: #0550AE">5</span><span style="color: #24292F"> }</span></span>
+<span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">alias</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> } </span><span style="color: #CF222E">=</span><span style="color: #24292F"> object</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>constraint</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*obj*</code></td>
+<td><code>{ prop: number | string } &amp; { prop: number }</code></td>
+<td><code>["prop", 5]</code></td>
+</tr>
+</tbody>
+</table>
+<p>So running <code>object.prop = "hiya"</code> after raises an error.</p>
+<blockquote>
+<p>Unfortunately this example does not currently work, but the idea is there. And this only happens sometimes when the object is still <em>live</em> / reference-able.</p>
+</blockquote>
+<h3 id="catching-variance-errors" tabindex="-1">Catching variance errors</h3>
+<p>A problem arises with structurally typed languages that allow assignments through functions</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { prop: </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">assign</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> }) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	param.prop </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"Hiya"</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// Problem below!</span></span>
+<span class="line"><span style="color: #D2A8FF">assign</span><span style="color: #C9D1D9">(obj);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79C0FF">Math</span><span style="color: #C9D1D9">.</span><span style="color: #79C0FF">sin</span><span style="color: #C9D1D9">(obj.prop)</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> } </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { prop: </span><span style="color: #0550AE">5</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">assign</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> }) {</span></span>
+<span class="line"><span style="color: #24292F">	param.prop </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"Hiya"</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Problem below!</span></span>
+<span class="line"><span style="color: #8250DF">assign</span><span style="color: #24292F">(obj);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #0550AE">Math</span><span style="color: #24292F">.</span><span style="color: #0550AE">sin</span><span style="color: #24292F">(obj.prop)</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Here everything is valid in terms of structural typing, <code>{ prop: 5 }</code> is a subtype of <code>{ prop: number | string }</code>.</p>
+<p>The problem is that this widening after the assignment in the function is not picked up. This can affect usages after, where the compiler thinks that the object still keeps its original contract (<code>{ prop: 5 }</code>, rather that <code>prop</code> now being the string <code>"Hiya"</code>)</p>
+<p>With events: when executing the assignment we check the constraint of the object (in the table) and so we can emit an error <a href="https://kaleidawave.github.io/ezno/playground/?id=2hwcn6">if this assignment breaks the contract</a>.</p>
+<h3 id="comparing-type-checkers" tabindex="-1">Comparing type checkers</h3>
+<p>While, I do not like comparisons here is an interesting example to contemplate approaches to this issue.</p>
+<pre><code class="language-ts"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">read</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> }) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(param.prop)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> }) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	param.prop </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"hi"</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// ---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">prop</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { prop: </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9"> };</span></span>
+<span class="line"><span style="color: #D2A8FF">read</span><span style="color: #C9D1D9">(obj)</span></span>
+<span class="line"><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(obj)</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">read</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> }) {</span></span>
+<span class="line"><span style="color: #24292F">	console.</span><span style="color: #8250DF">log</span><span style="color: #24292F">(param.prop)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">write</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> </span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> }) {</span></span>
+<span class="line"><span style="color: #24292F">	param.prop </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"hi"</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// ---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">prop</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F"> } </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { prop: </span><span style="color: #0550AE">5</span><span style="color: #24292F"> };</span></span>
+<span class="line"><span style="color: #8250DF">read</span><span style="color: #24292F">(obj)</span></span>
+<span class="line"><span style="color: #8250DF">write</span><span style="color: #24292F">(obj)</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p><a href="https://www.typescriptlang.org/play/?#code/GYVwdgxgLglg9mABAJwKYEMAmAKADu5dAWwC5EBvRXZOXMsEIgI1WUQB9EBnKZGMAOaIAvgEoKAKACQEBFzgAbVADoFcAXgLFl1WqInCJE0JFgJEAdz5RUmwqQpUadRA2asO3XvyFjJU-HsdZ0QAXkQAIgALGAiDI1kwHkQ4JgArMkpdFzcWNmEwx2yyAFYRAG4JNCxsVLT9KxgbWvTRIA">TypeScript does shows no issues</a>, <a href="https://flow.org/try/#1N4Igxg9gdgZglgcxALlAIwIZoKYBsD6uEEAztvhgE6UYCe+JADpdhgCYowa5kA0I2KAFcAtiRQAXSkOz9sADwxgJ+NPTbYuQ3BMnTZA+Y2yU4IwRO4A6SFBIrGVDGM7c+h46fNRLuKxJIGWh8MeT0ZfhYlCStpHzNsFBAMIQkIEQwJODAQfiEyfBE4eWw2fDgofDBMsAALfAA3KjgsXGxxZC4eAw0G-GhcWn9aY3wWZldu-g1mbGqJUoBaCRHEzrcDEgBrbAk62kXhXFxJ923d-cPRHEpTgyEoMDaqZdW7vKgoOfaSKgOKpqmDA+d4gB5fMA-P6LCCMLLQbiLOoYCqgh6-GDYRYIXYLSgkRZkCR4jpddwPfJLZjpOBkO4AX34kA0SRgD2UcGgAAIomwABSOGgiZBc4Bc6mMEXCEQ3LkAHy59lMUAQXPpAEpRQAdShaqBavbQEgQNpWIgIAVOERWCXqnV6+n2-W62Ds+FQLkAd1MC0tQpFYolUuuJnliqkFVVGu1LoNgucNsosK5AF4uVqQLU4BmnY7Yy7bPYuRA0AArAPipOSrnS2X01OiyuwkUAVjVAG4nby+SXS3aXd64L7e+rciAGiYSJyoEkGgAGKwAJhbAE4rABGED0oA">Flow is strict in both cases</a> (including the now ended Hegel <a href="https://hegel.js.org/try#GYVwdgxgLglg9mABAJwKYEMAmAKADu5dAWwC5EBvRXZOXMsEIgI1WUQB9EBnKZGMAOaIAvgEoKAKACQEBFzgAbVADoFcAXgLFl1WqInCJE0JFgJEAdz5RUmwqQpUadRA2asO3XvyFjJU-HsdZ0QAXkQAIgALGAiDI1kwHkQ4JgArMkpdFzcWNmEwx2yyAFYRAG4JNCxsVLT9KxgbWvTRIA">also suffers from this issue</a>).</p>
+<p><a href="https://kaleidawave.github.io/ezno/playground/?id=2hwcne">Ezno follows closer to what could happen at runtime</a>.</p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=9692x4" class="media-container"><img src="../../media/ezno-screenshots/variance-assignment.png" alt="alt text"></a>
+<blockquote>
+<p>Flow can pass the <code>read</code> call but requires <code>prop</code> to be marked <code>readonly</code></p>
+</blockquote>
+<blockquote>
+<p>This example shows how Ezno can keep "compatibility" with TSC, while adding additional functionality but not overly different like Hegel or Flow.</p>
+</blockquote>
+<blockquote>
+<p>This general issue of structural type checking was brought to my attention <a href="https://github.com/kaleidawave/ezno/issues/18">via this issue</a>. If you have ideas please leave an issue</p>
+</blockquote>
+<blockquote>
+<p>The error emitted to the CLI includes positional information, thanks to <a href="https://github.com/kaleidawave/ezno/pull/69">this contribution</a></p>
+</blockquote>
+<h3 id="more-effects-on-property-assignments" tabindex="-1">More effects on property assignments</h3>
+<p>Alongside the variance problem. The events system will catch assigning to <code>readonly</code> properties through functions <a href="https://kaleidawave.github.io/ezno/playground/?id=31vjey">will at some point be caught by this</a>. The <code>RegExp</code> object <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex#avoiding_side_effects">being <em>used</em></a> is something this event application can handle.</p>
+<p>Currently the <code>delete</code> operator works in some cases.</p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=95mlu0" class="media-container"><img src="../../media/ezno-screenshots/delete-effect.png" alt=""></a>
+<blockquote>
+<p><code>delete</code> is important because it is how <code>Array.prototype.pop</code> cleans up the original value</p>
+</blockquote>
+<blockquote>
+<p>Additionally, this is how properties are attached to newly generated objects (but without the checking via the <code>initialisation</code> option)</p>
+</blockquote>
+<h4 id="more-inference-less-annotation" tabindex="-1">More inference less annotation</h4>
+<p>With our object constraint and value separation, we get the following to pass the type-checker without needing <code>as const</code> or <code>satisfies</code> annotations.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">object</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> { kind: </span><span style="color: #A5D6FF">"person"</span><span style="color: #C9D1D9">, name: </span><span style="color: #A5D6FF">"Ben"</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">printPerson</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">person</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">kind</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"person"</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">name</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> }) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(person.name);</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">printPerson</span><span style="color: #C9D1D9">(object)</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">object</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> { kind: </span><span style="color: #0A3069">"person"</span><span style="color: #24292F">, name: </span><span style="color: #0A3069">"Ben"</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">printPerson</span><span style="color: #24292F">(</span><span style="color: #953800">person</span><span style="color: #CF222E">:</span><span style="color: #24292F"> { </span><span style="color: #953800">kind</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0A3069">"person"</span><span style="color: #24292F">, </span><span style="color: #953800">name</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> }) {</span></span>
+<span class="line"><span style="color: #24292F">	console.</span><span style="color: #8250DF">log</span><span style="color: #24292F">(person.name);</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8250DF">printPerson</span><span style="color: #24292F">(object)</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<a href="" class="media-container"><img src="../../media/ezno-screenshots/object-strictness.png" alt=""></a>
+<p>Effectively we get the reference usage benefits of <code>as const</code> but still allow object mutations.</p>
+<blockquote>
+<p>This is feature is based on the same motivation for <a href="/posts/ideas-on-inference/">inferred constraints</a> that I would also like to complete one-day.</p>
+</blockquote>
+<h2 id="exceptions" tabindex="-1">Exceptions</h2>
+<p>Moving on from data and assignments, events can also track other aspects of functions.</p>
+<h3 id="throwing" tabindex="-1"><code>throw</code>ing</h3>
+<p>In JavaScript we can <em>raise</em> exceptions with the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw"><code>throw</code></a> statement. Raising an exception causes the current execution to break and go through the call-stack / function boundaries.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">throw</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Error</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Thingy"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">try</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">} </span><span style="color: #FF7B72">catch</span><span style="color: #C9D1D9"> (e) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> s</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> e;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">() {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">throw</span><span style="color: #24292F"> </span><span style="color: #CF222E">new</span><span style="color: #24292F"> </span><span style="color: #0550AE">Error</span><span style="color: #24292F">(</span><span style="color: #0A3069">"Thingy"</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">try</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">func</span><span style="color: #24292F">()</span></span>
+<span class="line"><span style="color: #24292F">} </span><span style="color: #CF222E">catch</span><span style="color: #24292F"> (e) {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">let</span><span style="color: #24292F"> s</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> e;</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Here with just standard return types we do not know what the function may <code>throw</code>. We can only know so much that the function <code>func</code> will raise an exception (or loop) through its return being the <code>never</code> type. The <code>never</code> type only represents the does not include any information about the error.</p>
+<p>A function can throw any value on every call, never or under some condition.</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch#exceptions">For example, <code>fetch</code> can <code>throw</code> several kinds of exceptions</a> and this exception occurs conditionally (on factors exterior to the program).</p>
+</blockquote>
+<h3 id="throw-as-an-event" tabindex="-1"><code>throw</code> as an event</h3>
+<p>Alongside the three presented data events, we add a new event for when a function <code>throw</code>s a value.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Event</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">ReadVariable</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">id</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">VariableId</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">WriteToVariable</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">id</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">VariableId</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">WriteProperty</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">on</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">property</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #8B949E">// New!</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Throw</span><span style="color: #C9D1D9"> { </span><span style="color: #FFA657">value</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TypeId</span><span style="color: #C9D1D9"> }</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">type</span><span style="color: #24292F"> </span><span style="color: #953800">Event</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #953800">ReadVariable</span><span style="color: #24292F"> { </span><span style="color: #953800">id</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">VariableId</span><span style="color: #24292F"> }</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #953800">WriteToVariable</span><span style="color: #24292F"> { </span><span style="color: #953800">id</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">VariableId</span><span style="color: #24292F">, </span><span style="color: #953800">value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #24292F"> }</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #953800">WriteProperty</span><span style="color: #24292F"> { </span><span style="color: #953800">on</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #24292F">, </span><span style="color: #953800">property</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">, </span><span style="color: #953800">value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #24292F"> }</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #6E7781">// New!</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">|</span><span style="color: #24292F"> </span><span style="color: #953800">Throw</span><span style="color: #24292F"> { </span><span style="color: #953800">value</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">TypeId</span><span style="color: #24292F"> }</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>Similar to the data events, when we see <code>throw</code> statement in a function, we calculate the <em>thrown</em> type, create an event that contains the type and append the event to the events in the context.</p>
+<blockquote>
+<p>You can see a rough example <a href="https://kaleidawave.blog/ezno/playground/?id=2iitqi">here using the <code>debug_effects</code> helper</a></p>
+</blockquote>
+<p>When applying the <code>throw</code> event, we modify the <em>current state</em> of the context.</p>
+<blockquote>
+<p>Alongside events we also have the context state. This catches regular statements after <code>break</code> etc.</p>
+</blockquote>
+<h4 id="catching-the-thrown-type" tabindex="-1"><code>catch</code>ing the <code>throw</code>n type</h4>
+<p>When we are in a <code>try</code> statement we collect these thrown values inside. With this information, we can either</p>
+<ol>
+<li>Check the type annotation or</li>
+<li>Infer what the value for the variable inside the <code>catch</code></li>
+</ol>
+<a href="https://kaleidawave.blog/ezno/playground/?id=bniy2o" class="media-container"><img src="../../media/ezno-screenshots/throw-value-check.png" alt=""></a>
+<blockquote>
+<p>Thanks to <a href="https://github.com/kaleidawave/ezno/pull/131">#131</a> <a href="https://github.com/kaleidawave/ezno/blob/main/checker/specification/specification.md#catch-annotation">an error</a> works for <code>catch (e: string)</code></p>
+</blockquote>
+<p>There isn't a huge justification for these. You should be throwing an <code>Error</code> or something that extends an <code>Error</code>. The correctness 🟥 case is incredibly rare.</p>
+<h3 id="compiler-time-assertions" tabindex="-1">Compiler time assertions</h3>
+<p>When throwing an error in a conditional block, we can raise a warning 🟨.</p>
+<p>It effectively acts as a compile-time assertion</p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=b3jrb4" class="media-container"><img src="../../media/ezno-screenshots/throw-condition-type-01.png" alt=""></a>
+<blockquote>
+<p><a href="https://kaleidawave.github.io/ezno/playground/?id=32i0i2">This enables giving compiler warnings for type guards without any annotations (the old way!)</a>.</p>
+</blockquote>
+<p>Because this error is based of JavaScript expressions (and Ezno compile time logic around operators). You can get a bit wild and parameter-to-parameter constraints is especially <a href="https://kaleidawave.github.io/ezno/playground/?id=8vn08w">easy to do things at compile time</a></p>
+<a href="https://kaleidawave.blog/ezno/playground/?id=9q89oo" class="media-container"><img src="../../media/ezno-screenshots/throw-condition-type-02.png" alt=""></a>
+<blockquote>
+<p>Some of these things you can do with <a href="/posts/experimental-types/">advanced intrinsic types, <code>Not</code>, <code>LessThan</code> and others</a>. But this allows not learning or adopting that system as well as things like the above equality where intrinsic types could be difficult to use.</p>
+</blockquote>
+<h3 id="improving-information" tabindex="-1">Improving information</h3>
+<p>Because information 🟦 of <code>throws</code> is recorded in events and these events are tied to functions. We can find <strong>known</strong> exceptions (ignoring call-backs for now) and this can be presented in the LSP or in generated documentation.</p>
+<h2 id="eventually%3A-optimisations" tabindex="-1">Eventually: Optimisations</h2>
+<h3 id="calling-unknown-functions" tabindex="-1">Calling unknown functions</h3>
+<p>Up until now we have only focused on known functions, where we know <strong>exactly</strong> what the function is and what its events are.</p>
+<p>However in many cases the events of a function are unknown. These can come from call-backs.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">interface</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">X</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">method1</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">void</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">method2</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">number</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">void</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">X</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	obj.</span><span style="color: #D2A8FF">method1</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Hello world"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">interface</span><span style="color: #24292F"> </span><span style="color: #953800">X</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">method1</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F">)</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">void</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">method2</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">number</span><span style="color: #24292F">)</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">void</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">X</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	obj.</span><span style="color: #8250DF">method1</span><span style="color: #24292F">(</span><span style="color: #0A3069">"Hello world"</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>Skipping over the unknown aspects on context modification for now. While some are in place, there are other that need finishing.</p>
+</blockquote>
+<h3 id="an-event-for-unknown-events" tabindex="-1">An event for unknown events</h3>
+<p>We can't perform any event application inside <code>func</code> during the <code>.method1</code> call because its events are unknown.</p>
+<p>However, we still want the events to flow through when we have the following</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> x</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"hi"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">({ </span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">method1</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">param</span><span style="color: #C9D1D9">) { x </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> param }, </span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #D2A8FF">method2</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">_</span><span style="color: #C9D1D9">) {  } </span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">let</span><span style="color: #24292F"> x</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #0550AE">string</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">"hi"</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #8250DF">func</span><span style="color: #24292F">({ </span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">method1</span><span style="color: #24292F">(</span><span style="color: #953800">param</span><span style="color: #24292F">) { x </span><span style="color: #CF222E">=</span><span style="color: #24292F"> param }, </span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #8250DF">method2</span><span style="color: #24292F">(</span><span style="color: #953800">_</span><span style="color: #24292F">) {  } </span></span>
+<span class="line"><span style="color: #24292F">});</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>So back in the <code>func</code> function. We have this <em>meta event</em>: <code>CallsFunction { on: TypeId, arguments: Argument[] }</code>.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">obj</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">X</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	obj.</span><span style="color: #D2A8FF">method1</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Hello world"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #8B949E">/* </span></span>
+<span class="line"><span style="color: #8B949E">	func: *{ </span></span>
+<span class="line"><span style="color: #8B949E">		events: [</span></span>
+<span class="line"><span style="color: #8B949E">			*gets method1*,</span></span>
+<span class="line"><span style="color: #8B949E">			*calls method1 with "Hello world"*</span></span>
+<span class="line"><span style="color: #8B949E">		] </span></span>
+<span class="line"><span style="color: #8B949E">	}*</span></span>
+<span class="line"><span style="color: #8B949E">*/</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">func</span><span style="color: #24292F">(</span><span style="color: #953800">obj</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">X</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">	obj.</span><span style="color: #8250DF">method1</span><span style="color: #24292F">(</span><span style="color: #0A3069">"Hello world"</span><span style="color: #24292F">)</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"><span style="color: #6E7781">/* </span></span>
+<span class="line"><span style="color: #6E7781">	func: *{ </span></span>
+<span class="line"><span style="color: #6E7781">		events: [</span></span>
+<span class="line"><span style="color: #6E7781">			*gets method1*,</span></span>
+<span class="line"><span style="color: #6E7781">			*calls method1 with "Hello world"*</span></span>
+<span class="line"><span style="color: #6E7781">		] </span></span>
+<span class="line"><span style="color: #6E7781">	}*</span></span>
+<span class="line"><span style="color: #6E7781">*/</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<p>During event application we attempt to figure out a <em>known</em> function with events and if that has events we invoke this in the same context. <a href="https://kaleidawave.github.io/ezno/playground/?id=9fm70g">This is how we can still do all the same events logic across call-backs</a>.</p>
+<h3 id="on-functions-and-tree-shaking" tabindex="-1">On functions and tree-shaking</h3>
+<p>Each function is the AST has an associated identifier (based of what file and what byte it starts in the source).</p>
+<p>In the checker: when a known function is <em>called</em> we can add this identifier to a known set.</p>
+<p>At the end of the program, we can walk the AST and if the function associated identifier is not in the set, we delete it.</p>
+<p>This is how many tree shaking algorithms work. But in the type checker we have a better definition of <em>called</em> because of the fact unknowns flow through.</p>
+<hr>
+<p>Here we can see we can remove code from the final build JavaScript output. This is example of an 🟧 optimisation, reducing the amount of JavaScript sent down the wire.</p>
+<img src="../../media/ezno-screenshots/tree-shaking-02.png" alt="">
+<blockquote>
+<p><a href="https://github.com/kaleidawave/ezno/blob/8a763a0a1e92317b4822a9ea1cfaaf150b036f12/src/build.rs#L186">Currently there is only one tested example</a>. This additionally uses the <code>Proxy</code> special object!</p>
+</blockquote>
+<blockquote>
+<p>Note we only add functions to this <em>called</em> set when they are called from the main applier and not inside functions.</p>
+</blockquote>
+<blockquote>
+<p>We keep function as <code>null</code> as to not break <code>Object.keys</code>. Although further optimisations would be available in the future</p>
+</blockquote>
+<h3 id="method-tree-shaking-affects-non-method-tree-shaking" tabindex="-1">Method tree-shaking affects non-method tree-shaking</h3>
+<p>While this feature allows us to remote methods (object and class) and anonymous functions, it allows better non-method tree-shaking as well. In the above example <code>get_b</code> is also removed because its dependent method <code>b</code> can be removed.</p>
+<h3 id="conditional-tree-shaking" tabindex="-1">Conditional tree shaking</h3>
+<p>Consider a library you use that has optional logic. Through this partial-application based on types we can remove that stuff.</p>
+<p>While methods and other call-backs aren't normally big functions. The bigger picture is the code they pull in. If you can't know whether a method is called you also have to pull in all the functions that it uses.</p>
+<pre><code class="language-typescript"><div class="shiki-container"><pre class="shiki shiki-dark" style="background-color: #0d1117"><code><span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">doSomething</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">option</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">bool</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">callback</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">void</span><span style="color: #C9D1D9">) { </span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (option) </span><span style="color: #D2A8FF">callback</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">doSomething</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">false</span><span style="color: #C9D1D9">, () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> { myBigLibrary.</span><span style="color: #D2A8FF">doComplexThing</span><span style="color: #C9D1D9">() });</span></span>
+<span class="line"></span></code></pre><pre class="shiki shiki-light" style="background-color: #ffffff"><code><span class="line"><span style="color: #CF222E">function</span><span style="color: #24292F"> </span><span style="color: #8250DF">doSomething</span><span style="color: #24292F">(</span><span style="color: #953800">option</span><span style="color: #CF222E">:</span><span style="color: #24292F"> </span><span style="color: #953800">bool</span><span style="color: #24292F">, </span><span style="color: #8250DF">callback</span><span style="color: #CF222E">:</span><span style="color: #24292F"> () </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> </span><span style="color: #0550AE">void</span><span style="color: #24292F">) { </span></span>
+<span class="line"><span style="color: #24292F">	</span><span style="color: #CF222E">if</span><span style="color: #24292F"> (option) </span><span style="color: #8250DF">callback</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8250DF">doSomething</span><span style="color: #24292F">(</span><span style="color: #0550AE">false</span><span style="color: #24292F">, () </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> { myBigLibrary.</span><span style="color: #8250DF">doComplexThing</span><span style="color: #24292F">() });</span></span>
+<span class="line"></span></code></pre></div></code></pre>
+<blockquote>
+<p>This has better knowledge so can make safer assumptions and remove more compared to current tree shaking algorithms</p>
+</blockquote>
+<h2 id="in-conclusion" tabindex="-1">In conclusion</h2>
+<p>Certain operations in functions are recorded as events</p>
+<img src="../../media/diagrams/events-elementary.png" alt="events-in-certain-table">
+<p>These events are then applied in a context giving the following benefits</p>
+<ul>
+<li>Exact variable values</li>
+<li>TDZ across functions</li>
+<li>Object assignment variance</li>
+<li>The requirement for <code>satisfies</code> and <code>as const</code></li>
+<li>Known when and what is <code>throw</code>n</li>
+<li>Adding compile time assertions catches</li>
+<li>Method tree shaking</li>
+<li>Constant configuration tree shaking</li>
+</ul>
+<p>Because this is a core change we see benefits in warnings 🟨, errors 🟥, information 🟦 and optimisations 🟧.</p>
+<p>Without compromising on</p>
+<ul>
+<li>Requiring changes to type-annotations or source code. The additionally benefit source without annotations</li>
+<li>The structural type-checking behaviour of TypeScript</li>
+<li><a href="/posts/specification-speed-schedule/">Performance</a></li>
+</ul>
+<p>Including some additions that are not included in this post</p>
+<ul>
+<li><code>Object.keys</code>, <code>Object.values</code> and <code>Object.entries</code></li>
+<li><code>Array.prototype.push</code>, <code>Array.prototype.pop</code> and <code>Array.prototype.map</code></li>
+<li><code>Proxy</code> objects</li>
+<li>Closures</li>
+<li>Classes</li>
+<li>Getters and setters</li>
+<li>Module side effects</li>
+</ul>
+<h3 id="the-past-and-future" tabindex="-1">The past and future</h3>
+<p>The downsides are that the event system is more work to implement, still work-in-progress and not one-to-one with TypeScript, which may provoke a negativity due to unfamiliarity with the system.</p>
+<p>While there has not been considerable work since 2024, I still think the idea has legs. There are still more to explore around the idea. The compiler being written from the ground up and not being <em>foundational</em> makes this a perfect setting to explore these ideas.</p>
+<p>Aside from fixing some of the nonworking examples in this post there is still more to implement</p>
+<ul>
+<li>Effects of mutation on narrowing</li>
+<li>Generators and <code>async</code></li>
+<li>Debugging events for the user and other compilers</li>
+<li>Lifted IR for potential future use</li>
+<li>Recursion (direct and mutual)</li>
+<li>More conditional evaluation</li>
+<li>Unknown events</li>
+</ul>
+<p>They were fun to work on at the time, it was a nice side effect to find new opportunities for catching errors ahead of time, which were not initially anticipated. But it is not unexpected that if your type-checker looks more like the JavaScript model then you incidentally solve other problems. While TDZ and such are JavaScript problems, this work also could apply to other languages both structurally typed and others. I am not sure what the name of the architecture it has arrived at, an interpreter where unknowns are types?</p>
+<p>There are other ideas and features to share from this project. Which may or not be coming soon. There will need to be a bunch of changes to the setup before the next release.</p>
+<p>Join my <a href="https://discord.gg/6TJpnhrk">compiler-oriented technology-agnostic Discord</a> if you want to discuss details further.</p>
+<p>If you want to support the continuation of the project and experiments you can get in touch. If you are hiring in-person roles (short term and in person preferred) then also get in touch. While this was originally given as a talk I still have a few (less technical) talks to give. Contact information is available on my <a href="/about/">about page</a>.</p>
+
+</div>
+
+<div class="discussions">
+    <script src="https://giscus.app/client.js" data-repo="kaleidawave/discussions" data-repo-id="R_kgDOIy08KA" data-category="Comments" data-category-id="DIC_kwDOIy08KM4CTpn8" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async="">
+            </script>
+</div>
+
+<script defer="">
+    for (const video of document.querySelectorAll("video")) {
+        video.addEventListener("mouseover", (ev) => {
+            ev.target.play();
+        })
+    }
+</script>
+
+        </div>
+        
+    </main>
+    <footer>
+        <div class="width-box">
+            <form>
+                <label for="toggle-theme">Light Mode</label>
+                <input type="checkbox" name="toggle-theme" id="toggle-theme">
+            </form>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://bsky.app/profile/kaleidawave.bsky.social">Bluesky <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/kaleidawave">Twitter <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/kaleidawave">GitHub <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></a>
+                    </li>
+                    <li>
+                        Built with <a href="https://www.11ty.dev/"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.398 12V0h17.204v24H3.398zm13.17 6.07a1.07 1.07 0 00.373-.107c.432-.213.68-.672.877-1.626.076-.372 1.195-6.168 1.209-6.263.026-.186-.008-.382-.084-.476a.325.325 0 00-.087-.064l-.06-.031h-.291c-.253 0-.298 0-.348.02-.113.039-.207.156-.255.316-.011.038-.168.881-.348 1.873l-.328 1.802-.046-.21c-.56-2.547-.764-3.452-.794-3.532a.383.383 0 00-.103-.16c-.105-.107-.117-.11-.567-.11-.411 0-.422 0-.5.074-.086.079-.122.216-.111.42.006.115.045.27.688 2.784.663 2.587.751 2.943.787 3.177.046.3-.05.713-.208.893-.032.037-.037.039-.084.032-.028 0-.12-.027-.204-.051-.268-.078-.362-.072-.462.028-.096.096-.137.248-.138.51 0 .256.028.34.159.473.131.133.324.208.595.23.164.012.22.012.33-.001zm-1.896-1.712a.31.31 0 00.16-.192c.02-.058.022-.098.022-.356 0-.255-.003-.299-.021-.354-.04-.121-.136-.196-.278-.217-.041-.01-.2-.01-.355-.01-.365-.001-.378-.01-.446-.184-.068-.18-.096-.326-.113-.602a85.799 85.799 0 01-.012-1.94v-1.765h.35c.454 0 .507-.01.602-.113a.465.465 0 00.102-.24 3.273 3.273 0 000-.534c-.026-.16-.099-.271-.211-.322-.057-.025-.065-.026-.45-.03h-.392l-.003-1.22c-.003-1.09-.005-1.227-.021-1.278a.378.378 0 00-.201-.247c-.052-.024-.072-.025-.32-.029-.27 0-.356 0-.429.038-.087.042-.148.133-.185.278-.014.054-.032.346-.076 1.262l-.06 1.194s-.08 0-.18.01c-.206.01-.263.022-.327.086-.092.092-.12.19-.127.455-.01.334.02.487.115.588.075.081.134.1.345.106l.173.01v1.785c0 1.7.006 2.019.034 2.274.041.37.13.709.241.928.194.38.544.617.988.668h1.005l.07-.04zm-7.447 0c.098-.053.16-.154.2-.332.016-.077.018-.401.018-4.518 0-4.184-.001-4.44-.02-4.51-.05-.194-.19-.29-.378-.26-.035.01-.344.084-.686.175-.343.09-.684.18-.758.198-.17.043-.214.062-.281.126-.105.098-.122.185-.122.606 0 .416.016.5.12.604.094.095.189.1.456.03.103-.026.193-.048.2-.048.01 0 .014.784.017 3.763.003 3.436.005 3.77.021 3.84.048.202.113.296.236.34.034.013.133.016.487.014.435 0 .445 0 .49-.027zm3.203 0c.092-.046.152-.135.197-.29l.024-.084.003-4.435c.002-3.194 0-4.456-.01-4.509-.033-.2-.145-.308-.322-.308-.066 0-.198.03-.857.204-.56.147-.799.214-.849.239a.34.34 0 00-.17.184c-.024.06-.024.071-.024.479 0 .415 0 .417.026.483a.362.362 0 00.083.12c.1.1.172.105.456.034a5.46 5.46 0 01.208-.05c.008 0 .012 1.202.014 3.791l.003 3.79.026.086a.48.48 0 00.135.23c.078.062.085.063.57.06.414 0 .447 0 .487-.024z"></path></svg> Eleventy</a> and
+                        <a href="/architecture">others</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.getItem("theme") === null) {
+    changeScheme();
+} else {
+    updateThemeClass();
+}
+
+function changeScheme(darkTheme = null) {
+    if (darkTheme === null) {
+        if ("matchMedia" in window) {
+            darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } else {
+            darkTheme = false;
+        }
+    }
+    localStorage.setItem("theme", darkTheme ? "dark" : "light");
+    updateThemeClass();
+}
+
+function updateThemeClass(value = null) {
+    if (value === null) {
+        value = localStorage.getItem("theme") === "dark";
+    }
+    if (value) {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+}
+
+{
+    const themeSwitch = document.querySelector("#toggle-theme");
+    themeSwitch.checked = localStorage.getItem("theme") !== "dark";
+    themeSwitch.addEventListener("change", (ev) => {
+        const darkTheme = !ev.target.checked;
+        changeScheme(darkTheme);
+    });
+}
+
+// Clicking on headers stores their reference
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches(".post > *:is(h2, h3, h4, h5)")) {
+        const id = ev.target.getAttribute("id");
+        if (id !== null) {
+            location.href = '#' + id;
+        }
+    }
+});
+
+const titleBar = document.querySelector("header .icon-title")
+
+titleBar.querySelector("img").addEventListener("dragend", () => {
+    const r = document.createElement("video");
+    const s = document.createElement("source");
+    s.src = "/media/boom.webm";
+    r.append(s);
+    r.controls = false;
+    titleBar.appendChild(r);
+    r.addEventListener("ended", () => {
+        titleBar.querySelector(".header-title").innerText = "Bengineering";
+        r.style.display = "none";
+    });
+    r.play();
+
+})
+
+// TODO temp hack for highlighted rows in code blocks
+for (const element of document.querySelectorAll("[data-highlight]")) {
+    const indexes = element.getAttribute("data-highlight").split(",").map(a => parseInt(a));
+    for (const pres of element.children[0].children) {
+        // TODO adjacent indices don't style well, could do something here
+        for (const index of indexes) {
+            const line = pres.children[0].children[index];
+            const firstChild = line.children[0];
+            const newContent = firstChild.textContent.trimLeft();
+            const indent = firstChild.textContent.length - newContent.length;
+            firstChild.childNodes[0].data = newContent;
+            line.style.marginLeft = indent + 'ch';
+            line.classList.add("highlight");
+        }
+    }
+}
+
+    </script>
+
+
+</body></html>
