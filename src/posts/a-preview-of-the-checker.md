@@ -64,6 +64,8 @@ lexing -> parsing -> type synthesis & checking -> output
 
 Ezno's current approach type synthesis & checking is a bit different from others, so here is some more insight.
 
+<!--
+
 ### Synthesis: a bridge between the system and the language
 
 The main `ezno-checker` system contains high-level memory of the program (it's sort of its heap), it stores all the information about values and structures (encoded as types) and what functions and blocks do (encoded as events). This is all currently done in the [ezno-checker crate](https://github.com/kaleidawave/ezno/tree/main/checker).
@@ -99,6 +101,8 @@ Thanks to this, a `check` command was added to Oxc CLI and type checking was add
 As [Oxc has an incredibly fast](https://rustmagazine.org/issue-3/javascript-compiler/) and [correct](https://github.com/web-infra-dev/oxc#parser-conformance) parser it will be a great way to use Ezno's checker!
 
 > This isn't the end of Ezno's own parser and CLI. It was incredibly useful building it, and it's 95% of the way there. It is great that the bindings exist with Oxc to offer a fast and reliable option to use Ezno's checker.
+
+-->
 
 ### An interpreter-based checker
 
@@ -167,6 +171,7 @@ function (input: MyObject | null) {
 
 Synthesizing the right-hand side of this logical expression (`otherValue`) is done in a new context. This is because it conditionally runs (because of short-circuiting with logical and), any effects here have to be separated and narrowing can because it is known that `input` has type `null` here.
 
+<!--
 ### The different contexts, `GeneralContext` and `get_on_ctx!`
 
 There are two different types of contexts `Root` and `Environment` (aliases for `Context<Root>` and `Context<environment::Syntax<'a>>`). Root is the top-level environment, it doesn't have events or a parent. Environments on the other hand represent the standard contexts found for written code. They record events (and other information) and have a parent. You can see the code for all contexts [here](https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/mod.rs#L222), and the code specific for environments (not root contexts) [here](https://github.com/kaleidawave/ezno/blob/a4361ab08b5235f7b7a2d7c06586d779ed08e3b1/checker/src/context/environment.rs#L88).
@@ -174,6 +179,8 @@ There are two different types of contexts `Root` and `Environment` (aliases for 
 This is structured using Rust generics and so can be a bit complex. To make it easier `GeneralContext` is a sum type of the two contexts. To get properties on it, you can use `get_on_ctx!`.
 
 > [Not a huge fan of `macro_rules` macros, but this seems to be a useful pattern I haven't seen elsewhere!](https://github.com/kaleidawave/ezno/blob/7fc78261e9aa1d9012ff7e8cc7d07488459bf045/checker/src/context/mod.rs#L61-L95)
+
+-->
 
 ### Looking up information with `parents_iter`
 

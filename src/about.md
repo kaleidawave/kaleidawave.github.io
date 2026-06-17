@@ -5,7 +5,7 @@ title: About me
 
 Hey 👋 I am Ben and am currently 25! I am interested in language design, type theory and the compilers. I built this site to showcase and explain some of my projects!
 
-You can read a bit on [why I write and work on projects](/background) and also read [how this site is built](/architecture). 
+<!-- You can read a bit on [why I write and work on projects](/background) and also read [how this site is built](/architecture).  -->
 
 <p id="contact">
 
@@ -15,7 +15,7 @@ You can contact me on [Bluesky](https://bsky.app/profile/kaleidawave.bsky.social
 
 If you find any errors or improvements for this site please use the contacts above.
 
-[This site supports RSS](https://kaleidawave.github.io/feed.xml)
+[This site supports RSS](https://kaleidawave.blog/feed.xml)
 
 ---
 

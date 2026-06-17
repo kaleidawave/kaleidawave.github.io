@@ -49,6 +49,7 @@
 
 .post .shiki-container {
     padding: 20px;
+    line-height: 1.6em;
 }
 
 .post .math {

@@ -32,16 +32,16 @@ text: true
     <meta property="twitter:description" content="{{description}}">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kaleidawave.github.io/">
+    <meta property="og:url" content="https://kaleidawave.blog/">
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://kaleidawave.github.io/">
+    <meta property="twitter:url" content="https://kaleidawave.blog/">
 
     {% if image === null %}
-    <meta property="twitter:image" content="https://kaleidawave.github.io/media/banner.jpg">
-    <meta property="og:image" content="https://kaleidawave.github.io/media/banner.jpg">
+    <meta property="twitter:image" content="https://kaleidawave.blog/media/banner.jpg">
+    <meta property="og:image" content="https://kaleidawave.blog/media/banner.jpg">
     {% elif image.startsWith("/") %}
-    <meta property="twitter:image" content="https://kaleidawave.github.io{{image}}">
-    <meta property="og:image" content="https://kaleidawave.github.io{{image}}">
+    <meta property="twitter:image" content="https://kaleidawave.blog{{image}}">
+    <meta property="og:image" content="https://kaleidawave.blog{{image}}">
     {% else %}
     <meta property="twitter:image" content="{{image}}">
     <meta property="og:image" content="{{image}}">

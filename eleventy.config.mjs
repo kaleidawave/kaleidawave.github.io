@@ -220,14 +220,25 @@ export default function (eleventyConfig) {
                     if (src == "/media/icon.png") {
                         return;
                     }
-                    const location = path.resolve(this.page.inputPath, "..", "..", src.replace("/", path.sep).slice(1));
+                    let location;
+                    if (src.startsWith("/")) {
+                        location = path.resolve(
+                            "." + src.replace("/", path.sep)
+                        );
+                    } else {
+                        location = path.resolve(
+                            ".",
+                            path.dirname(this.page.inputPath),
+                            src.replace("/", path.sep)
+                        );
+                    }
                     try {
                         const { height, width } = mediaSizeCache.get(src) ?? imageSize(location);
                         mediaSizeCache.set(src, { height, width })
                         img.attr("height", height);
                         img.attr("width", width);
                     } catch (error) {
-                        console.error("Could not resolve image (thus no image dimension calculations)", this.page.inputPath, src, location)
+                        console.error("Could not resolve image (thus no image dimension calculations)", this.page.inputPath, src, location, process.cwd())
                     }
                 });
             }

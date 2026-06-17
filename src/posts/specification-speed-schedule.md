@@ -184,4 +184,4 @@ There are three other ideas I want to work on for version `0.1.0`. All going wel
 
 You can star and watch [the repository](https://github.com/kaleidawave/ezno) for that announcement and [sponsor](https://github.com/sponsors/kaleidawave) to help it fall this side of the new year!
 
-For more updates you can follow this as [blog as RSS](https://kaleidawave.github.io/feed.xml) and follow me on [X](https://x.com/kaleidawave) and [BlueSky](https://bsky.app/profile/kaleidawave.bsky.social). 
+For more updates you can follow this as [blog as RSS](https://kaleidawave.blog/feed.xml) and follow me on [X](https://x.com/kaleidawave) and [BlueSky](https://bsky.app/profile/kaleidawave.bsky.social). 
